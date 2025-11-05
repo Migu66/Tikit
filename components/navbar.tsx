@@ -1,0 +1,35 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { LanguageSelector } from '@/components/ui/language-selector';
+
+export function Navbar() {
+  const t = useTranslations('common');
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-purple-700 transition-all">
+              Tikit
+            </div>
+          </Link>
+
+          {/* Botones de la derecha */}
+          <div className="flex items-center gap-3">
+            {/* Selector de idioma */}
+            <LanguageSelector />
+            
+            {/* Botón de inicio de sesión */}
+            <button className="px-4 py-2 rounded-full bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95 cursor-pointer">
+              {t('login')}
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}

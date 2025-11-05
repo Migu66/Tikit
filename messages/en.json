@@ -1,0 +1,74 @@
+{
+  "common": {
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "language": "Language"
+  },
+  "home": {
+    "hero": {
+      "title": "Manage your tickets with intelligence",
+      "subtitle": "Digitize, analyze and organize your expenses automatically with AI",
+      "description": "The simplest way to keep your personal finances under control. Advanced OCR technology, smart classification and real-time analysis.",
+      "cta": "Get started"
+    },
+    "features": {
+      "title": "Everything you need",
+      "subtitle": "Smart tools to manage your expenses",
+      "ocr": {
+        "title": "Automatic OCR",
+        "description": "Extract information from your tickets instantly with advanced optical recognition technology"
+      },
+      "classification": {
+        "title": "Smart Classification",
+        "description": "AI automatically organizes your expenses by categories for better tracking"
+      },
+      "dashboard": {
+        "title": "Interactive Dashboard",
+        "description": "Visualize your expenses with elegant charts and get personalized insights"
+      },
+      "multilang": {
+        "title": "Multi-language",
+        "description": "Available in Spanish and English with support for more languages coming soon"
+      }
+    },
+    "showcase": {
+      "title": "Visualize your expenses intelligently",
+      "subtitle": "Interactive dashboard with real-time charts",
+      "description": "Analyze trends, identify spending patterns and make better financial decisions with our intuitive control panel.",
+      "feature1": "Interactive charts",
+      "feature2": "Trend analysis",
+      "feature3": "Exportable reports"
+    },
+    "cta": {
+      "title": "Ready to take control of your expenses?",
+      "subtitle": "Join thousands of users who are already optimizing their finances",
+      "button": "Create free account"
+    }
+  },
+  "footer": {
+    "description": "Manage your shopping receipts with intelligence. Automatic analysis, smart classification and real-time statistics.",
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "security": "Security",
+      "roadmap": "Roadmap"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy",
+      "disclaimer": "Legal Disclaimer"
+    },
+    "rights": "All rights reserved.",
+    "madeWith": "Made with ❤️ by the Tikit team"
+  }
+}

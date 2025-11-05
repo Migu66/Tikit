@@ -1,0 +1,74 @@
+{
+  "common": {
+    "login": "Iniciar Sesión",
+    "logout": "Cerrar Sesión",
+    "language": "Idioma"
+  },
+  "home": {
+    "hero": {
+      "title": "Gestiona tus tickets con inteligencia",
+      "subtitle": "Digitaliza, analiza y organiza tus gastos de forma automática con IA",
+      "description": "La forma más sencilla de mantener tus finanzas personales bajo control. Tecnología OCR avanzada, clasificación inteligente y análisis en tiempo real.",
+      "cta": "Comenzar ahora"
+    },
+    "features": {
+      "title": "Todo lo que necesitas",
+      "subtitle": "Herramientas inteligentes para gestionar tus gastos",
+      "ocr": {
+        "title": "OCR Automático",
+        "description": "Extrae información de tus tickets al instante con tecnología de reconocimiento óptico avanzada"
+      },
+      "classification": {
+        "title": "Clasificación Inteligente",
+        "description": "La IA organiza automáticamente tus gastos por categorías para un mejor seguimiento"
+      },
+      "dashboard": {
+        "title": "Dashboard Interactivo",
+        "description": "Visualiza tus gastos con gráficos elegantes y obtén insights personalizados"
+      },
+      "multilang": {
+        "title": "Multi-idioma",
+        "description": "Disponible en español e inglés con soporte para más idiomas próximamente"
+      }
+    },
+    "showcase": {
+      "title": "Visualiza tus gastos de forma inteligente",
+      "subtitle": "Dashboard interactivo con gráficos en tiempo real",
+      "description": "Analiza tendencias, identifica patrones de gasto y toma mejores decisiones financieras con nuestro panel de control intuitivo.",
+      "feature1": "Gráficos interactivos",
+      "feature2": "Análisis de tendencias",
+      "feature3": "Reportes exportables"
+    },
+    "cta": {
+      "title": "¿Listo para tomar el control de tus gastos?",
+      "subtitle": "Únete a miles de usuarios que ya están optimizando sus finanzas",
+      "button": "Crear cuenta gratis"
+    }
+  },
+  "footer": {
+    "description": "Gestiona tus tickets de compra con inteligencia. Análisis automático, clasificación inteligente y estadísticas en tiempo real.",
+    "product": {
+      "title": "Producto",
+      "features": "Características",
+      "pricing": "Precios",
+      "security": "Seguridad",
+      "roadmap": "Roadmap"
+    },
+    "company": {
+      "title": "Empresa",
+      "about": "Acerca de",
+      "blog": "Blog",
+      "careers": "Carreras",
+      "contact": "Contacto"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacidad",
+      "terms": "Términos de Servicio",
+      "cookies": "Política de Cookies",
+      "disclaimer": "Aviso Legal"
+    },
+    "rights": "Todos los derechos reservados.",
+    "madeWith": "Hecho con ❤️ por el equipo de Tikit"
+  }
+}
