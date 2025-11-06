@@ -1,8 +1,45 @@
 {
   "common": {
     "login": "Sign In",
+    "register": "Sign Up",
     "logout": "Sign Out",
     "language": "Language"
+  },
+  "auth": {
+    "register": {
+      "title": "Create account",
+      "subtitle": "Start managing your tickets intelligently",
+      "email": "Email address",
+      "emailPlaceholder": "you@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "name": "Full name",
+      "namePlaceholder": "John Doe",
+      "button": "Create account",
+      "buttonLoading": "Creating account...",
+      "or": "Or continue with",
+      "googleButton": "Continue with Google",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "terms": "By signing up you agree to our",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email address",
+        "passwordRequired": "Password is required",
+        "passwordMin": "Password must be at least 8 characters",
+        "passwordMatch": "Passwords do not match",
+        "nameRequired": "Name is required",
+        "nameMin": "Name must be at least 2 characters",
+        "emailExists": "This email is already registered",
+        "serverError": "Error creating account. Please try again."
+      },
+      "success": "Account created successfully. Redirecting..."
+    }
   },
   "home": {
     "hero": {

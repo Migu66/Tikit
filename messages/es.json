@@ -1,8 +1,45 @@
 {
   "common": {
     "login": "Iniciar Sesión",
+    "register": "Registrarse",
     "logout": "Cerrar Sesión",
     "language": "Idioma"
+  },
+  "auth": {
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Comienza a gestionar tus tickets de forma inteligente",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Repite tu contraseña",
+      "name": "Nombre completo",
+      "namePlaceholder": "Juan Pérez",
+      "button": "Crear cuenta",
+      "buttonLoading": "Creando cuenta...",
+      "or": "O continuar con",
+      "googleButton": "Continuar con Google",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Inicia sesión",
+      "terms": "Al registrarte aceptas nuestros",
+      "termsLink": "Términos de Servicio",
+      "and": "y",
+      "privacyLink": "Política de Privacidad",
+      "errors": {
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "passwordRequired": "La contraseña es obligatoria",
+        "passwordMin": "La contraseña debe tener al menos 8 caracteres",
+        "passwordMatch": "Las contraseñas no coinciden",
+        "nameRequired": "El nombre es obligatorio",
+        "nameMin": "El nombre debe tener al menos 2 caracteres",
+        "emailExists": "Este correo electrónico ya está registrado",
+        "serverError": "Error al crear la cuenta. Intenta de nuevo."
+      },
+      "success": "Cuenta creada exitosamente. Redirigiendo..."
+    }
   },
   "home": {
     "hero": {

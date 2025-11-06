@@ -30,12 +30,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const innerRef = ref || buttonRef;
 
     // Configuración de estilos según la variante
+    // Solo aplicar variantStyles si el className no contiene clases de background o gradient
+    const hasCustomBackground = props.className?.includes('bg-') || props.className?.includes('linear-to');
     const variantStyles = {
       primary:
         'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl',
       secondary:
-        'bg-gray-200 hover:bg-gray-300 text-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white',
-      ghost: 'bg-transparent hover:bg-gray-100 text-gray-900 dark:hover:bg-gray-800 dark:text-white',
+        'bg-gray-200 hover:bg-gray-300 text-gray-900',
+      ghost: 'bg-transparent hover:bg-gray-100 text-gray-900',
       danger: 'bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-xl',
     };
 
@@ -119,14 +121,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
-        className={`
-          relative rounded-lg font-semibold transition-all duration-300 ease-out
-          disabled:opacity-50 disabled:cursor-not-allowed
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-          dark:focus:ring-offset-gray-900
-          ${variantStyles[variant]}
-          ${sizeStyles[size]}
-        `}
+        className={`relative font-semibold transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-lg ${!hasCustomBackground ? variantStyles[variant] : ''} ${sizeStyles[size]} ${props.className || ''}`}
         {...props}
       >
         <div className="flex items-center justify-center gap-2">

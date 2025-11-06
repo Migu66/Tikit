@@ -8,18 +8,34 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:start": "docker-compose up -d",
+    "db:stop": "docker-compose down",
+    "db:restart": "docker-compose restart",
+    "db:logs": "docker-compose logs -f postgres",
+    "db:studio": "prisma studio",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@prisma/client": "^6.19.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
     "gsap": "^3.13.0",
     "lucide-react": "^0.552.0",
     "next": "^16.0.1",
+    "next-auth": "^5.0.0-beta.30",
     "next-intl": "^4.4.0",
+    "prisma": "^6.19.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.16",

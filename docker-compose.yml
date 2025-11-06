@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tikit-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tikit_user
+      POSTGRES_PASSWORD: tikit_password
+      POSTGRES_DB: tikit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tikit_user -d tikit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
