@@ -4,7 +4,9 @@
     "register": "Registrarse",
     "logout": "Cerrar Sesión",
     "dashboard": "Ir al Dashboard",
-    "language": "Idioma"
+    "language": "Idioma",
+    "profile": "Ver perfil",
+    "signOut": "Cerrar sesión"
   },
   "auth": {
     "register": {

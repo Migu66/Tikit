@@ -75,7 +75,7 @@ export function LanguageSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors cursor-pointer"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-700  hover:bg-gray-600 transition-colors cursor-pointer"
         aria-label="Select language"
         title={currentLocale.name}
       >

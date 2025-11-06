@@ -4,7 +4,9 @@
     "register": "Sign Up",
     "logout": "Sign Out",
     "dashboard": "Go to Dashboard",
-    "language": "Language"
+    "language": "Language",
+    "profile": "View profile",
+    "signOut": "Sign out"
   },
   "auth": {
     "register": {
