@@ -29,13 +29,13 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className="min-h-screen bg-white text-gray-900 transition-colors duration-300">
-        <NextIntlClientProvider messages={messages}>
-          <Navbar />
-          <main>{children}</main>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <div lang={locale} suppressHydrationWarning>
+      <NextIntlClientProvider messages={messages}>
+        <Navbar />
+        <main className="min-h-screen bg-white text-gray-900 transition-colors duration-300">
+          {children}
+        </main>
+      </NextIntlClientProvider>
+    </div>
   );
 }

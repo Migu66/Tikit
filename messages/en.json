@@ -3,6 +3,7 @@
     "login": "Sign In",
     "register": "Sign Up",
     "logout": "Sign Out",
+    "dashboard": "Go to Dashboard",
     "language": "Language"
   },
   "auth": {
@@ -39,6 +40,23 @@
         "serverError": "Error creating account. Please try again."
       },
       "success": "Account created successfully. Redirecting..."
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Access your account",
+      "email": "Email address",
+      "emailPlaceholder": "you@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Your password",
+      "button": "Sign in",
+      "buttonLoading": "Signing in...",
+      "googleButton": "Continue with Google",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Sign up",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "serverError": "Error signing in. Please try again."
+      }
     }
   },
   "home": {
@@ -107,5 +125,15 @@
     },
     "rights": "All rights reserved.",
     "madeWith": "Made with ❤️ by the Tikit team"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "logout": "Sign out",
+    "totalSpent": "Total spent",
+    "ticketsCount": "Tickets",
+    "thisMonth": "This month",
+    "getStarted": "Get started",
+    "uploadFirstTicket": "Upload your first ticket to start analyzing your expenses",
+    "uploadTicket": "Upload ticket"
   }
 }

@@ -3,7 +3,8 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { signIn } from 'next-auth/react';
+import { useLocale } from 'next-intl';
+import { useSession, signIn } from 'next-auth/react';
 import { Input, Divider } from '@/components/ui';
 import { registerSchema, type RegisterInput } from '@/lib/validations/auth';
 import Link from 'next/link';
@@ -13,6 +14,15 @@ export default function RegisterPage() {
   const t = useTranslations('auth.register');
   const tErrors = useTranslations('auth.register.errors');
   const router = useRouter();
+  const locale = useLocale();
+  const { data: session, status } = useSession();
+
+  // Si ya tiene sesión, redirige al dashboard
+  React.useEffect(() => {
+    if (status === 'authenticated') {
+      router.push(`/${locale}/dashboard`);
+    }
+  }, [status, locale, router]);
 
   const [formData, setFormData] = React.useState<RegisterInput>({
     name: '',
@@ -156,23 +166,15 @@ export default function RegisterPage() {
       if (!response.ok) {
         // Handle server error
         setServerError(data.error || 'auth.register.errors.serverError');
+        setIsLoading(false);
         return;
       }
 
-      // Auto sign in after successful registration
-      const signInResult = await signIn('credentials', {
-        email: validatedData.email,
-        password: validatedData.password,
-        redirect: false,
-      });
-
-      if (signInResult?.error) {
-        setServerError('auth.register.errors.serverError');
-        return;
-      }
-
-      // Redirect to dashboard
-      router.push('/dashboard');
+      // Registration successful - redirect to login
+      console.log('Registration successful, redirecting to login');
+      setTimeout(() => {
+        router.push(`/${locale}/login`);
+      }, 1000);
     } catch (error: any) {
       if (error.errors) {
         // Zod validation errors
@@ -186,7 +188,6 @@ export default function RegisterPage() {
       } else {
         setServerError('auth.register.errors.serverError');
       }
-    } finally {
       setIsLoading(false);
     }
   };
@@ -194,12 +195,21 @@ export default function RegisterPage() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/dashboard' });
+      await signIn('google', { callbackUrl: `/${locale}/dashboard` });
     } catch (error) {
       setServerError('auth.register.errors.serverError');
       setIsLoading(false);
     }
   };
+
+  // Mostrar loader mientras verifica sesión
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-12">

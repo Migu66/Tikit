@@ -6,18 +6,11 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: 'jwt',
-  },
-  pages: {
-    signIn: '/login',
-    newUser: '/register',
-  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
     CredentialsProvider({
       name: 'credentials',
@@ -36,8 +29,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         });
 
-        if (!user || !user.password) {
-          throw new Error('Invalid credentials');
+        if (!user) {
+          throw new Error('No user found with this email');
+        }
+
+        if (!user.password) {
+          throw new Error('This account was created with OAuth. Please use Google sign in');
         }
 
         const isPasswordValid = await bcrypt.compare(
@@ -46,7 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
 
         if (!isPasswordValid) {
-          throw new Error('Invalid credentials');
+          throw new Error('Password is incorrect');
         }
 
         return {
@@ -58,18 +55,43 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/es/login',
+    newUser: '/es/register',
+    error: '/es/auth/error',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
+  },
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60,
+  },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
+      if (session.user && token) {
+        session.user.id = token.sub || '';
       }
       return session;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
+    async signIn({ user, account }) {
+      return true;
+    },
   },
+  events: {
+    async signIn({ user, account }) {
+      console.log('User signed in:', { userId: user?.id, email: user?.email, provider: account?.provider });
+    },
+  },
+  debug: process.env.NODE_ENV === 'development',
 });
+
+export type { Session } from 'next-auth';

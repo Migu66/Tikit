@@ -3,6 +3,7 @@
     "login": "Iniciar Sesión",
     "register": "Registrarse",
     "logout": "Cerrar Sesión",
+    "dashboard": "Ir al Dashboard",
     "language": "Idioma"
   },
   "auth": {
@@ -39,6 +40,23 @@
         "serverError": "Error al crear la cuenta. Intenta de nuevo."
       },
       "success": "Cuenta creada exitosamente. Redirigiendo..."
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Accede a tu cuenta",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Tu contraseña",
+      "button": "Iniciar sesión",
+      "buttonLoading": "Iniciando sesión...",
+      "googleButton": "Continuar con Google",
+      "noAccount": "¿No tienes cuenta?",
+      "registerLink": "Regístrate",
+      "errors": {
+        "invalidCredentials": "Correo o contraseña incorrectos",
+        "serverError": "Error al iniciar sesión. Intenta de nuevo."
+      }
     }
   },
   "home": {
@@ -107,5 +125,15 @@
     },
     "rights": "Todos los derechos reservados.",
     "madeWith": "Hecho con ❤️ por el equipo de Tikit"
+  },
+  "dashboard": {
+    "welcome": "Bienvenido",
+    "logout": "Cerrar sesión",
+    "totalSpent": "Gasto total",
+    "ticketsCount": "Tickets",
+    "thisMonth": "Este mes",
+    "getStarted": "Comienza ahora",
+    "uploadFirstTicket": "Sube tu primer ticket para comenzar a analizar tus gastos",
+    "uploadTicket": "Subir ticket"
   }
 }
