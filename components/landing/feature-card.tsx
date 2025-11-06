@@ -29,10 +29,9 @@ export function FeatureCard({ icon, title, description, index = 0 }: FeatureCard
         ease: 'power3.out',
         scrollTrigger: {
           trigger: cardRef.current,
-          start: 'top 85%',
+          start: 'top 75%',
           toggleActions: 'play none none reverse',
-        },
-        delay: index * 0.1,
+        }
       });
     });
 

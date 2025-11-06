@@ -24,7 +24,7 @@ export function Footer() {
             {/* Social Links */}
             <div className="flex gap-4 pt-4">
               <a
-                href="https://github.com"
+                href="https://github.com/Migu66/Tikit"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -33,7 +33,7 @@ export function Footer() {
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/miguel-gonz%C3%A1lez-pascual-9a62b6292/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -42,7 +42,7 @@ export function Footer() {
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="mailto:contact@tikit.com"
+                href="mailto:miguelgp789@gmail.com"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Email"
               >

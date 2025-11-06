@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // Componentes de banderas en SVG
 const SpainFlag = () => (
-  <svg viewBox="0 0 36 36" className="w-6 h-6">
+  <svg viewBox="0 0 36 36" className="w-6 h-6 rounded-sm">
     <path fill="#C60A1D" d="M0 27c0 2.209 1.791 4 4 4h28c2.209 0 4-1.791 4-4v-4H0v4z"/>
     <path fill="#FFC400" d="M0 13h36v10H0z"/>
     <path fill="#C60A1D" d="M32 5H4C1.791 5 0 6.791 0 9v4h36V9c0-2.209-1.791-4-4-4z"/>
@@ -83,7 +83,7 @@ export function LanguageSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-20 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+        <div className="absolute right-0 mt-2 w-20 rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50">
           <div className="py-1">
             {locales.map((loc) => {
               const FlagComponent = loc.FlagComponent;
@@ -91,7 +91,7 @@ export function LanguageSelector() {
                 <button
                   key={loc.code}
                   onClick={() => handleLanguageChange(loc.code)}
-                  className={`w-full px-3 py-2 hover:bg-gray-100 flex items-center justify-center transition-colors cursor-pointer ${
+                  className={`w-full px-3 py-2 hover:bg-gray-100 flex items-center justify-center rounded-sm transition-colors cursor-pointer ${
                     locale === loc.code ? 'bg-gray-100' : ''
                   }`}
                   title={loc.name}

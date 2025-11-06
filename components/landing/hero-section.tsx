@@ -52,7 +52,7 @@ export function HeroSection({
           '-=0.3'
         )
         .from(
-          buttonsRef.current?.children || [],
+          buttonsRef.current,
           {
             y: 20,
             opacity: 0,

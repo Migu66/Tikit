@@ -33,7 +33,7 @@ export function ShowcaseSection({ title, subtitle, description, features }: Show
         ease: 'power3.out',
         scrollTrigger: {
           trigger: contentRef.current,
-          start: 'top 80%',
+          start: 'top 70%',
           toggleActions: 'play none none reverse',
         },
       });
@@ -46,7 +46,7 @@ export function ShowcaseSection({ title, subtitle, description, features }: Show
         ease: 'power3.out',
         scrollTrigger: {
           trigger: mockupRef.current,
-          start: 'top 80%',
+          start: 'top 70%',
           toggleActions: 'play none none reverse',
         },
       });
@@ -62,7 +62,7 @@ export function ShowcaseSection({ title, subtitle, description, features }: Show
           ease: 'power2.out',
           scrollTrigger: {
             trigger: contentRef.current,
-            start: 'top 75%',
+            start: 'top 65%',
             toggleActions: 'play none none reverse',
           },
         });
