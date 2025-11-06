@@ -98,9 +98,16 @@
     },
     "cta": {
       "title": "Ready to take control of your expenses?",
-      "subtitle": "Join thousands of users who are already optimizing their finances",
-      "button": "Create free account"
+      "subtitle": "Start your free trial today",
+      "description": "Join thousands of users who are already optimizing their finances",
+      "button": "Sign up free"
     }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "Sorry, the page you're looking for doesn't exist or has been moved. Go back to the home page or try again.",
+    "homePage": "Go to home",
+    "goBack": "Go back"
   },
   "footer": {
     "description": "Manage your shopping receipts with intelligence. Automatic analysis, smart classification and real-time statistics.",

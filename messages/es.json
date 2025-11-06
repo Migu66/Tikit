@@ -98,9 +98,16 @@
     },
     "cta": {
       "title": "¿Listo para tomar el control de tus gastos?",
-      "subtitle": "Únete a miles de usuarios que ya están optimizando sus finanzas",
-      "button": "Crear cuenta gratis"
+      "subtitle": "Comienza tu prueba gratuita hoy",
+      "description": "Únete a miles de usuarios que ya están optimizando sus finanzas",
+      "button": "Regístrate gratis"
     }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "Lo sentimos, la página que buscas no existe o ha sido movida. Vuelve a la página principal o intenta nuevamente.",
+    "homePage": "Ir a inicio",
+    "goBack": "Volver atrás"
   },
   "footer": {
     "description": "Gestiona tus tickets de compra con inteligencia. Análisis automático, clasificación inteligente y estadísticas en tiempo real.",
