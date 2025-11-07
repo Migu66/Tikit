@@ -144,5 +144,19 @@
     "getStarted": "Comienza ahora",
     "uploadFirstTicket": "Sube tu primer ticket para comenzar a analizar tus gastos",
     "uploadTicket": "Subir ticket"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "subtitle": "Gestiona tu información personal",
+    "fullName": "Nombre Completo",
+    "email": "Correo Electrónico",
+    "userId": "ID de Usuario",
+    "notSet": "No configurado",
+    "editProfile": "Editar Perfil",
+    "namePlaceholder": "Tu nombre completo",
+    "emailPlaceholder": "tu@email.com",
+    "emailCannotBeChanged": "El correo no puede modificarse en cuentas de Google",
+    "cancel": "Cancelar",
+    "save": "Guardar"
   }
 }

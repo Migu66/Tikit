@@ -73,12 +73,45 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       if (session.user && token) {
         session.user.id = token.sub || '';
+        session.user.name = token.name as string | null;
+        session.user.email = token.email as string;
+        session.user.image = token.picture as string | null;
+        session.user.provider = token.provider as string;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, trigger, session }) {
       if (user) {
         token.sub = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.picture = user.image;
+      }
+      if (account) {
+        token.provider = account.provider;
+      }
+      
+      // Manejar actualización de sesión
+      if (trigger === 'update' && session) {
+        token.name = session.name ?? token.name;
+        token.email = session.email ?? token.email;
+        token.picture = session.image ?? token.picture;
+      }
+      
+      // Persistir el provider en el token incluso si no hay account
+      // Solo hacer esta búsqueda en el primer login (cuando hay user)
+      if (!token.provider && user) {
+        try {
+          const userWithAccounts = await prisma.user.findUnique({
+            where: { id: user.id },
+            include: { accounts: true },
+          });
+          if (userWithAccounts && userWithAccounts.accounts.length > 0) {
+            token.provider = userWithAccounts.accounts[0].provider;
+          }
+        } catch (error) {
+          console.error('Error fetching user accounts:', error);
+        }
       }
       return token;
     },

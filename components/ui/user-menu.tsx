@@ -8,14 +8,22 @@ import { signOut } from 'next-auth/react';
 
 interface UserMenuProps {
   userImage?: string | null;
+  userName?: string | null;
 }
 
-export function UserMenu({ userImage }: UserMenuProps) {
+export function UserMenu({ userImage, userName }: UserMenuProps) {
   const t = useTranslations('common');
   const locale = useLocale();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Obtener iniciales del nombre para el avatar genérico
+  const getInitials = (name?: string | null) => {
+    if (!name) return name;
+    const parts = name.split(' ');
+    return parts.map(p => p[0]).join('').toUpperCase().slice(0, 2);
+  };
 
   // Cerrar el menú cuando se hace clic fuera
   useEffect(() => {
@@ -34,7 +42,7 @@ export function UserMenu({ userImage }: UserMenuProps) {
   }, [isOpen]);
 
   const handleProfile = () => {
-    router.push(`/${locale}/dashboard`);
+    router.push(`/${locale}/profile`);
     setIsOpen(false);
   };
 
@@ -50,12 +58,16 @@ export function UserMenu({ userImage }: UserMenuProps) {
         onClick={() => setIsOpen(!isOpen)}
         className="rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
       >
-        {userImage && (
+        {userImage ? (
           <img
             src={userImage}
             alt="Profile"
             className="w-11 h-11 rounded-full"
           />
+        ) : (
+          <div className="w-11 h-11 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+            {getInitials(userName)}
+          </div>
         )}
       </button>
 

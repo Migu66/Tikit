@@ -144,5 +144,19 @@
     "getStarted": "Get started",
     "uploadFirstTicket": "Upload your first ticket to start analyzing your expenses",
     "uploadTicket": "Upload ticket"
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Manage your personal information",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "userId": "User ID",
+    "notSet": "Not set",
+    "editProfile": "Edit Profile",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "you@email.com",
+    "emailCannotBeChanged": "Email cannot be changed for Google accounts",
+    "cancel": "Cancel",
+    "save": "Save"
   }
 }

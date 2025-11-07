@@ -37,7 +37,7 @@ export function Navbar() {
             <LanguageSelector />
             
             {session ? (
-              <UserMenu userImage={session.user?.image} />
+              <UserMenu userImage={session.user?.image} userName={session.user?.name} />
             ) : (
               <>
                 {/* Botón de inicio de sesión */}
