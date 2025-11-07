@@ -156,6 +156,11 @@
     "namePlaceholder": "Tu nombre completo",
     "emailPlaceholder": "tu@email.com",
     "emailCannotBeChanged": "El correo no puede modificarse en cuentas de Google",
+    "profileImage": "Foto de Perfil",
+    "selectImage": "Seleccionar imagen",
+    "changeImage": "Cambiar imagen",
+    "cancelSelection": "Cancelar selección",
+    "imagePreview": "Vista previa de perfil",
     "cancel": "Cancelar",
     "save": "Guardar"
   }

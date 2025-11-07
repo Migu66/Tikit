@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 const updateProfileSchema = z.object({
   name: z.string().min(2).max(100).optional(),
   email: z.string().email().optional(),
+  image: z.string().url().optional(),
 });
 
 export async function PUT(request: Request) {
@@ -51,7 +52,7 @@ export async function PUT(request: Request) {
     }
 
     // Preparar datos para actualizar
-    const updateData: { name?: string; email?: string } = {};
+    const updateData: { name?: string; email?: string; image?: string } = {};
     
     if (data.name !== undefined && data.name !== '') {
       updateData.name = data.name;
@@ -59,6 +60,22 @@ export async function PUT(request: Request) {
     
     if (data.email !== undefined && data.email !== '' && !hasGoogleAccount) {
       updateData.email = data.email;
+      
+      // Verificar si el nuevo email ya está en uso por otro usuario
+      const existingUser = await prisma.user.findUnique({
+        where: { email: data.email },
+      });
+      
+      if (existingUser && existingUser.id !== session.user.id) {
+        return NextResponse.json(
+          { error: 'Este correo electrónico ya está siendo utilizado por otro usuario' },
+          { status: 409 }
+        );
+      }
+    }
+
+    if (data.image !== undefined && data.image !== '') {
+      updateData.image = data.image;
     }
 
     // Verificar que hay algo que actualizar
@@ -88,6 +105,7 @@ export async function PUT(request: Request) {
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error('Error de validación:', error.issues);
       return NextResponse.json(
         { error: 'Datos inválidos', details: error.issues },
         { status: 400 }
@@ -95,8 +113,9 @@ export async function PUT(request: Request) {
     }
     
     console.error('Error al actualizar perfil:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Error al actualizar perfil';
     return NextResponse.json(
-      { error: 'Error al actualizar perfil' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

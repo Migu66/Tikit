@@ -35,7 +35,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
     setIsEditingOpen(false);
   };
 
-  const handleSaveProfile = async (updatedData: { name?: string; email?: string }) => {
+  const handleSaveProfile = async (updatedData: { name?: string; email?: string; image?: string }) => {
     setIsLoading(true);
     try {
       const response = await fetch('/api/profile', {
@@ -47,10 +47,21 @@ export function ProfileContent({ user }: ProfileContentProps) {
       });
 
       const result = await response.json();
+      console.log('Respuesta del servidor:', result, 'Status:', response.status);
 
       if (!response.ok) {
         console.error('Error del servidor:', result);
-        throw new Error(result.error || 'Error al actualizar el perfil');
+        
+        // Error específico para email duplicado
+        if (response.status === 409) {
+          const errorMessage = result?.error || 'Este correo electrónico ya está siendo utilizado';
+          const error = new Error(errorMessage);
+          (error as any).fieldError = { email: errorMessage };
+          throw error;
+        }
+        
+        const errorMessage = result?.error || 'Error al actualizar el perfil';
+        throw new Error(errorMessage);
       }
 
       // Actualizar el estado local con los datos nuevos
@@ -66,8 +77,13 @@ export function ProfileContent({ user }: ProfileContentProps) {
       }
     } catch (error) {
       console.error('Error al guardar perfil:', error);
-      alert(error instanceof Error ? error.message : 'Error al actualizar el perfil');
-      throw error; // Re-lanzar el error para que el modal lo maneje
+      
+      // Propagar el error con la información del campo para que el modal lo maneje
+      if (error instanceof Error) {
+        throw error;
+      }
+      
+      throw new Error('Error al actualizar el perfil');
     } finally {
       setIsLoading(false);
     }
