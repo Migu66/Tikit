@@ -263,11 +263,11 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
             {/* Image Preview and Upload Area */}
             <div className="flex flex-col gap-3">
               {imagePreview && (
-                <div className="relative w-full h-40 rounded-lg overflow-hidden bg-slate-100 flex items-center justify-center">
+                <div className="relative w-full rounded-lg overflow-hidden bg-slate-100 flex items-center justify-center p-4">
                   <img
                     src={imagePreview}
                     alt={t('imagePreview')}
-                    className="w-full h-full object-cover"
+                    className="max-w-full max-h-64 object-contain"
                   />
                   {selectedImage && (
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
