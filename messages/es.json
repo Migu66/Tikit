@@ -187,6 +187,28 @@
         "cannotChangeOAuth": "No puedes cambiar la contraseña de una cuenta OAuth (Google)",
         "serverError": "Error al cambiar la contraseña. Intenta de nuevo"
       }
+    },
+    "deleteAccount": {
+      "title": "Eliminar Cuenta",
+      "subtitle": "Esta acción es permanente y no se puede deshacer. Se eliminarán todos tus datos.",
+      "deleteButton": "Eliminar mi cuenta",
+      "modalTitle": "¿Estás seguro?",
+      "modalWarning": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
+      "passwordLabel": "Confirma tu contraseña",
+      "passwordPlaceholder": "Tu contraseña actual",
+      "confirmationLabel": "Escribe ELIMINAR para confirmar",
+      "confirmationPlaceholder": "ELIMINAR",
+      "confirmationHint": "Escribe la palabra ELIMINAR (en mayúsculas) o DELETE para confirmar",
+      "cancelButton": "Cancelar",
+      "confirmButton": "Eliminar cuenta",
+      "deleting": "Eliminando...",
+      "permanentWarning": "Esta acción es irreversible. Una vez eliminada, no podrás recuperar tu cuenta.",
+      "errors": {
+        "passwordRequired": "La contraseña es obligatoria",
+        "invalidConfirmation": "Debes escribir ELIMINAR o DELETE para confirmar",
+        "incorrectPassword": "La contraseña es incorrecta",
+        "serverError": "Error al eliminar la cuenta. Intenta de nuevo"
+      }
     }
   }
 }

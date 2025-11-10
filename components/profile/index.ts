@@ -4,3 +4,5 @@ export { ProfileInfo } from './profile-info';
 export { EditProfileModal } from './edit-profile-modal';
 export { ChangePasswordCard } from './change-password-card';
 export { ChangePasswordModal } from './change-password-modal';
+export { DeleteAccountCard } from './delete-account-card';
+export { DeleteAccountModal } from './delete-account-modal';

@@ -187,6 +187,28 @@
         "cannotChangeOAuth": "Cannot change password for OAuth accounts (Google)",
         "serverError": "Error changing password. Please try again"
       }
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "subtitle": "This action is permanent and cannot be undone. All your data will be deleted.",
+      "deleteButton": "Delete my account",
+      "modalTitle": "Are you sure?",
+      "modalWarning": "This action will permanently delete your account and all associated data. This action cannot be undone.",
+      "passwordLabel": "Confirm your password",
+      "passwordPlaceholder": "Your current password",
+      "confirmationLabel": "Type DELETE to confirm",
+      "confirmationPlaceholder": "DELETE",
+      "confirmationHint": "Type the word DELETE (in uppercase) or ELIMINAR to confirm",
+      "cancelButton": "Cancel",
+      "confirmButton": "Delete account",
+      "deleting": "Deleting...",
+      "permanentWarning": "This action is irreversible. Once deleted, you cannot recover your account.",
+      "errors": {
+        "passwordRequired": "Password is required",
+        "invalidConfirmation": "You must type DELETE or ELIMINAR to confirm",
+        "incorrectPassword": "Password is incorrect",
+        "serverError": "Error deleting account. Please try again"
+      }
     }
   }
 }

@@ -8,6 +8,7 @@ import { ProfileImage } from './profile-image';
 import { ProfileInfo } from './profile-info';
 import { EditProfileModal } from './edit-profile-modal';
 import { ChangePasswordCard } from './change-password-card';
+import { DeleteAccountCard } from './delete-account-card';
 
 interface User {
   id?: string;
@@ -134,6 +135,9 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
         {/* Change Password Card */}
         <ChangePasswordCard />
+
+        {/* Delete Account Card */}
+        <DeleteAccountCard />
       </div>
 
       {/* Edit Modal */}
