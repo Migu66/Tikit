@@ -162,6 +162,31 @@
     "cancelSelection": "Cancelar selección",
     "imagePreview": "Vista previa de perfil",
     "cancel": "Cancelar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "changePassword": {
+      "title": "Cambiar Contraseña",
+      "subtitle": "Actualiza tu contraseña de acceso",
+      "changeButton": "Cambiar Contraseña",
+      "currentPassword": "Contraseña Actual",
+      "currentPasswordPlaceholder": "Tu contraseña actual",
+      "newPassword": "Nueva Contraseña",
+      "newPasswordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPassword": "Confirmar Nueva Contraseña",
+      "confirmPasswordPlaceholder": "Repite la nueva contraseña",
+      "saveButton": "Actualizar Contraseña",
+      "cancelButton": "Cancelar",
+      "saving": "Guardando...",
+      "success": "Contraseña actualizada correctamente",
+      "errors": {
+        "currentPasswordRequired": "La contraseña actual es obligatoria",
+        "newPasswordRequired": "La nueva contraseña es obligatoria",
+        "passwordMin": "La contraseña debe tener al menos 8 caracteres",
+        "confirmPasswordRequired": "Confirma la nueva contraseña",
+        "passwordMatch": "Las contraseñas no coinciden",
+        "incorrectPassword": "La contraseña actual es incorrecta",
+        "cannotChangeOAuth": "No puedes cambiar la contraseña de una cuenta OAuth (Google)",
+        "serverError": "Error al cambiar la contraseña. Intenta de nuevo"
+      }
+    }
   }
 }

@@ -162,6 +162,31 @@
     "cancelSelection": "Cancel selection",
     "imagePreview": "Profile picture preview",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "changePassword": {
+      "title": "Change Password",
+      "subtitle": "Update your login password",
+      "changeButton": "Change Password",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Your current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Minimum 8 characters",
+      "confirmPassword": "Confirm New Password",
+      "confirmPasswordPlaceholder": "Repeat the new password",
+      "saveButton": "Update Password",
+      "cancelButton": "Cancel",
+      "saving": "Saving...",
+      "success": "Password updated successfully",
+      "errors": {
+        "currentPasswordRequired": "Current password is required",
+        "newPasswordRequired": "New password is required",
+        "passwordMin": "Password must be at least 8 characters",
+        "confirmPasswordRequired": "Confirm the new password",
+        "passwordMatch": "Passwords do not match",
+        "incorrectPassword": "Current password is incorrect",
+        "cannotChangeOAuth": "Cannot change password for OAuth accounts (Google)",
+        "serverError": "Error changing password. Please try again"
+      }
+    }
   }
 }

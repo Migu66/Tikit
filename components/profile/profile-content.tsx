@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { ProfileImage } from './profile-image';
 import { ProfileInfo } from './profile-info';
 import { EditProfileModal } from './edit-profile-modal';
+import { ChangePasswordCard } from './change-password-card';
 
 interface User {
   id?: string;
@@ -95,7 +96,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
   return (
     <>
-      <div className="max-w-5xl mx-auto ">
+      <div className="max-w-5xl mx-auto space-y-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900">{t('title')}</h1>
@@ -130,6 +131,9 @@ export function ProfileContent({ user }: ProfileContentProps) {
             </div>
           </div>
         </div>
+
+        {/* Change Password Card */}
+        <ChangePasswordCard />
       </div>
 
       {/* Edit Modal */}
