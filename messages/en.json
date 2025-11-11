@@ -143,7 +143,31 @@
     "thisMonth": "This month",
     "getStarted": "Get started",
     "uploadFirstTicket": "Upload your first ticket to start analyzing your expenses",
-    "uploadTicket": "Upload ticket"
+    "uploadTicket": "Upload ticket",
+    "sidebar": {
+      "home": "Home",
+      "tickets": "My tickets",
+      "stats": "Statistics",
+      "recommendations": "AI Recommendations"
+    },
+    "home": {
+      "title": "Home",
+      "subtitle": "Upload your purchase tickets",
+      "uploadButton": "Upload ticket"
+    },
+    "tickets": {
+      "title": "My tickets",
+      "subtitle": "Manage all your tickets",
+      "empty": "You don't have any tickets yet"
+    },
+    "stats": {
+      "title": "Statistics",
+      "subtitle": "Analyze your expenses"
+    },
+    "ai": {
+      "title": "AI Recommendations",
+      "subtitle": "Personalized insights about your spending"
+    }
   },
   "profile": {
     "title": "My Profile",

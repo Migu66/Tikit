@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { X, Eye, EyeOff, Loader2 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -146,12 +145,12 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
           )}
 
           {/* Current Password */}
-          <div>
-            <label htmlFor="currentPassword" className="block text-sm font-semibold text-slate-700 mb-2">
+          <div className="space-y-2">
+            <label htmlFor="currentPassword" className="block text-sm font-semibold text-slate-700">
               {t('currentPassword')}
             </label>
             <div className="relative">
-              <Input
+              <input
                 id="currentPassword"
                 type={showCurrentPassword ? 'text' : 'password'}
                 value={currentPassword}
@@ -160,34 +159,41 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
                   setErrors((prev) => ({ ...prev, currentPassword: undefined }));
                 }}
                 placeholder={t('currentPasswordPlaceholder')}
-                className={errors.currentPassword ? 'border-red-500 pr-10' : 'pr-10'}
                 disabled={isLoading}
+                className={`w-full h-11 px-3 pr-12 py-2 text-sm border rounded-lg bg-white shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                  errors.currentPassword 
+                    ? 'border-red-500 focus:ring-red-500' 
+                    : 'border-gray-300 focus:ring-blue-500'
+                }`}
               />
-              <button
-                type="button"
-                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                className="absolute left-92 bottom-5 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                tabIndex={-1}
-              >
-                {showCurrentPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
-              </button>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                  tabIndex={-1}
+                  aria-label={showCurrentPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                >
+                  {showCurrentPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
             </div>
             {errors.currentPassword && (
-              <p className="mt-1.5 text-sm text-red-600">{errors.currentPassword}</p>
+              <p className="text-sm text-red-600">{errors.currentPassword}</p>
             )}
           </div>
 
           {/* New Password */}
-          <div>
-            <label htmlFor="newPassword" className="block text-sm font-semibold text-slate-700 mb-2">
+          <div className="space-y-2">
+            <label htmlFor="newPassword" className="block text-sm font-semibold text-slate-700">
               {t('newPassword')}
             </label>
             <div className="relative">
-              <Input
+              <input
                 id="newPassword"
                 type={showNewPassword ? 'text' : 'password'}
                 value={newPassword}
@@ -196,34 +202,41 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
                   setErrors((prev) => ({ ...prev, newPassword: undefined }));
                 }}
                 placeholder={t('newPasswordPlaceholder')}
-                className={errors.newPassword ? 'border-red-500 pr-10' : 'pr-10'}
                 disabled={isLoading}
+                className={`w-full h-11 px-3 pr-12 py-2 text-sm border rounded-lg bg-white shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                  errors.newPassword 
+                    ? 'border-red-500 focus:ring-red-500' 
+                    : 'border-gray-300 focus:ring-blue-500'
+                }`}
               />
-              <button
-                type="button"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute left-92 bottom-5 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                tabIndex={-1}
-              >
-                {showNewPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
-              </button>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                  tabIndex={-1}
+                  aria-label={showNewPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                >
+                  {showNewPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
             </div>
             {errors.newPassword && (
-              <p className="mt-1.5 text-sm text-red-600">{errors.newPassword}</p>
+              <p className="text-sm text-red-600">{errors.newPassword}</p>
             )}
           </div>
 
           {/* Confirm Password */}
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700 mb-2">
+          <div className="space-y-2">
+            <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700">
               {t('confirmPassword')}
             </label>
             <div className="relative">
-              <Input
+              <input
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
@@ -232,24 +245,31 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
                   setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
                 }}
                 placeholder={t('confirmPasswordPlaceholder')}
-                className={errors.confirmPassword ? 'border-red-500 pr-10' : 'pr-10'}
                 disabled={isLoading}
+                className={`w-full h-11 px-3 pr-12 py-2 text-sm border rounded-lg bg-white shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                  errors.confirmPassword 
+                    ? 'border-red-500 focus:ring-red-500' 
+                    : 'border-gray-300 focus:ring-blue-500'
+                }`}
               />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute left-92 bottom-5 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                tabIndex={-1}
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
-              </button>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                  tabIndex={-1}
+                  aria-label={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
             </div>
             {errors.confirmPassword && (
-              <p className="mt-1.5 text-sm text-red-600">{errors.confirmPassword}</p>
+              <p className="text-sm text-red-600">{errors.confirmPassword}</p>
             )}
           </div>
 

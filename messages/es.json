@@ -143,7 +143,31 @@
     "thisMonth": "Este mes",
     "getStarted": "Comienza ahora",
     "uploadFirstTicket": "Sube tu primer ticket para comenzar a analizar tus gastos",
-    "uploadTicket": "Subir ticket"
+    "uploadTicket": "Subir ticket",
+    "sidebar": {
+      "home": "Home",
+      "tickets": "Mis tickets",
+      "stats": "Estadísticas",
+      "recommendations": "Recomendaciones con IA"
+    },
+    "home": {
+      "title": "Home",
+      "subtitle": "Sube tus tickets de compra",
+      "uploadButton": "Subir ticket"
+    },
+    "tickets": {
+      "title": "Mis tickets",
+      "subtitle": "Gestiona todos tus tickets",
+      "empty": "No tienes tickets todavía"
+    },
+    "stats": {
+      "title": "Estadísticas",
+      "subtitle": "Analiza tus gastos"
+    },
+    "ai": {
+      "title": "Recomendaciones con IA",
+      "subtitle": "Insights personalizados sobre tus gastos"
+    }
   },
   "profile": {
     "title": "Mi Perfil",
