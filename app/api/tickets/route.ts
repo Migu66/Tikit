@@ -292,3 +292,54 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    // Verificar autenticación
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'No autorizado' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { ticketId } = body;
+
+    if (!ticketId) {
+      return NextResponse.json(
+        { error: 'ID del ticket es requerido' },
+        { status: 400 }
+      );
+    }
+
+    // Verificar que el ticket pertenece al usuario
+    const existingTicket = await prisma.ticket.findUnique({
+      where: { id: ticketId },
+    });
+
+    if (!existingTicket || existingTicket.userId !== session.user.id) {
+      return NextResponse.json(
+        { error: 'Ticket no encontrado o no autorizado' },
+        { status: 404 }
+      );
+    }
+
+    // Eliminar ticket (Prisma eliminará automáticamente los productos relacionados por la cascada)
+    await prisma.ticket.delete({
+      where: { id: ticketId },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Ticket eliminado correctamente',
+    });
+  } catch (error) {
+    console.error('[Ticket] Error al eliminar ticket:', error);
+    return NextResponse.json(
+      { error: 'Error interno del servidor' },
+      { status: 500 }
+    );
+  }
+}

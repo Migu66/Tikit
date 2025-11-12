@@ -209,6 +209,14 @@
         "invalidType": "Invalid file type. Use JPEG, PNG, WebP or PDF",
         "fileTooLarge": "File is too large. Maximum 10MB",
         "uploadFailed": "Error uploading ticket. Please try again"
+      },
+      "delete": {
+        "title": "Delete ticket?",
+        "description": "You are about to delete the ticket from:",
+        "warning": "This action cannot be undone. The ticket and all its associated products will be permanently deleted.",
+        "cancel": "Cancel",
+        "confirm": "Delete",
+        "deleting": "Deleting..."
       }
     },
     "stats": {

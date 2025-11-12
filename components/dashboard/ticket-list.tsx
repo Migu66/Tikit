@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { TicketViewModal } from './ticket-view-modal';
 import { TicketConfirmModal } from './ticket-confirm-modal';
+import { TicketDeleteModal } from './ticket-delete-modal';
 
 interface Ticket {
   id: string;
@@ -36,7 +37,9 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchTickets = async () => {
     try {
@@ -140,6 +143,43 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
     }
   };
 
+  const handleDeleteTicket = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteTicket = async () => {
+    if (!selectedTicket) return;
+
+    try {
+      setIsDeleting(true);
+
+      const response = await fetch('/api/tickets', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ticketId: selectedTicket.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el ticket');
+      }
+
+      // Recargar tickets
+      await fetchTickets();
+      setIsDeleteModalOpen(false);
+      setSelectedTicket(null);
+    } catch (err) {
+      console.error('Error al eliminar ticket:', err);
+      alert('Error al eliminar el ticket. Inténtalo de nuevo.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -187,7 +227,7 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
           key={ticket.id}
           className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
         >
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-start">
             {/* Imagen del ticket */}
             <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border border-gray-200">
               <Image
@@ -282,6 +322,27 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
                 </button>
               </div>
             </div>
+
+            {/* Botón de eliminar (X) */}
+            <button
+              onClick={() => handleDeleteTicket(ticket)}
+              className="shrink-0 p-1.5 text-gray-400 bg-red-50 hover:text-red-600 hover:bg-red-100 rounded-lg transition-colors self-start cursor-pointer"
+              title="Eliminar ticket"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       ))}
@@ -318,6 +379,18 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
           setSelectedTicket(null);
         }}
         isProcessing={isUpdating}
+      />
+
+      {/* Modal de confirmación de eliminación */}
+      <TicketDeleteModal
+        isOpen={isDeleteModalOpen}
+        ticketStoreName={selectedTicket?.storeName || ''}
+        onConfirm={confirmDeleteTicket}
+        onCancel={() => {
+          setIsDeleteModalOpen(false);
+          setSelectedTicket(null);
+        }}
+        isDeleting={isDeleting}
       />
     </div>
   );
