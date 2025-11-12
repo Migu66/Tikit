@@ -170,7 +170,12 @@
         "cancel": "Cancelar"
       },
       "list": {
-        "title": "Tus tickets"
+        "title": "Tus tickets",
+        "view": "Ver detalles",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "expandImage": "Ampliar imagen",
+        "closeImage": "Haz clic fuera de la imagen para cerrar"
       },
       "uploading": {
         "processing": "Procesando...",

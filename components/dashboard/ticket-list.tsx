@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { TicketViewModal } from './ticket-view-modal';
+import { TicketConfirmModal } from './ticket-confirm-modal';
 
 interface Ticket {
   id: string;
@@ -31,6 +33,10 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const fetchTickets = async () => {
     try {
@@ -84,6 +90,54 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
     };
 
     return colors[category || 'otros'] || colors.otros;
+  };
+
+  const handleViewTicket = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    setIsViewModalOpen(true);
+  };
+
+  const handleEditTicket = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateTicket = async (editedData: any) => {
+    if (!selectedTicket) return;
+
+    try {
+      setIsUpdating(true);
+
+      const response = await fetch('/api/tickets', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ticketId: selectedTicket.id,
+          storeName: editedData.storeName,
+          totalAmount: editedData.totalAmount,
+          tax: editedData.tax,
+          category: editedData.category,
+          purchaseDate: editedData.purchaseDate,
+          products: editedData.products,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al actualizar el ticket');
+      }
+
+      // Recargar tickets
+      await fetchTickets();
+      setIsEditModalOpen(false);
+      setSelectedTicket(null);
+    } catch (err) {
+      console.error('Error al actualizar ticket:', err);
+      alert('Error al actualizar el ticket. Inténtalo de nuevo.');
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   if (loading) {
@@ -204,10 +258,67 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
                   )}
                 </div>
               )}
+
+              {/* Botones de acción */}
+              <div className="mt-4 flex gap-2">
+                <button
+                  onClick={() => handleViewTicket(ticket)}
+                  className="flex-1 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                >
+                  <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  {t('list.view')}
+                </button>
+                <button
+                  onClick={() => handleEditTicket(ticket)}
+                  className="flex-1 px-4 py-2 text-sm font-medium text-green-600 bg-green-50 hover:bg-green-100 rounded-lg transition-colors"
+                >
+                  <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  {t('list.edit')}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       ))}
+
+      {/* Modal de visualización */}
+      <TicketViewModal
+        isOpen={isViewModalOpen}
+        ticket={selectedTicket}
+        onClose={() => {
+          setIsViewModalOpen(false);
+          setSelectedTicket(null);
+        }}
+      />
+
+      {/* Modal de edición */}
+      <TicketConfirmModal
+        isOpen={isEditModalOpen}
+        ticketData={selectedTicket ? {
+          storeName: selectedTicket.storeName,
+          totalAmount: selectedTicket.totalAmount,
+          tax: selectedTicket.tax,
+          purchaseDate: selectedTicket.purchaseDate,
+          category: selectedTicket.category,
+          products: selectedTicket.products.map(p => ({
+            name: p.name,
+            quantity: p.quantity,
+            unitPrice: p.unitPrice,
+            totalPrice: p.totalPrice,
+          })),
+        } : null}
+        onConfirm={handleUpdateTicket}
+        onCancel={() => {
+          setIsEditModalOpen(false);
+          setSelectedTicket(null);
+        }}
+        isProcessing={isUpdating}
+      />
     </div>
   );
 }

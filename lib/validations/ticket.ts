@@ -16,7 +16,7 @@ export const ticketProductSchema = z.object({
 export const ticketDataSchema = z.object({
   storeName: z.string().min(1, 'El nombre del establecimiento es requerido'),
   totalAmount: z.number().positive('El total debe ser mayor que cero'),
-  tax: z.number().nonnegative().optional(),
+  tax: z.number().nonnegative().nullable().optional(),
   purchaseDate: z.date(),
   products: z.array(ticketProductSchema).min(1, 'Debe haber al menos un producto'),
   category: z.enum([

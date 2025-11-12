@@ -205,3 +205,90 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export async function PUT(request: NextRequest) {
+  try {
+    // Verificar autenticación
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'No autorizado' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { ticketId, storeName, totalAmount, tax, category, purchaseDate, products } = body;
+
+    if (!ticketId) {
+      return NextResponse.json(
+        { error: 'ID del ticket es requerido' },
+        { status: 400 }
+      );
+    }
+
+    // Verificar que el ticket pertenece al usuario
+    const existingTicket = await prisma.ticket.findUnique({
+      where: { id: ticketId },
+    });
+
+    if (!existingTicket || existingTicket.userId !== session.user.id) {
+      return NextResponse.json(
+        { error: 'Ticket no encontrado o no autorizado' },
+        { status: 404 }
+      );
+    }
+
+    // Actualizar ticket y productos en una transacción
+    const updatedTicket = await prisma.$transaction(async (tx) => {
+      // Eliminar productos antiguos
+      await tx.ticketItem.deleteMany({
+        where: { ticketId },
+      });
+
+      // Actualizar ticket
+      const ticket = await tx.ticket.update({
+        where: { id: ticketId },
+        data: {
+          storeName,
+          totalAmount,
+          tax: tax || null,
+          category: category || null,
+          purchaseDate: new Date(purchaseDate),
+        },
+      });
+
+      // Crear nuevos productos
+      if (products && products.length > 0) {
+        await tx.ticketItem.createMany({
+          data: products.map((p: any) => ({
+            ticketId,
+            name: p.name,
+            quantity: p.quantity,
+            unitPrice: p.unitPrice,
+            totalPrice: p.totalPrice,
+          })),
+        });
+      }
+
+      // Obtener ticket actualizado con productos
+      return await tx.ticket.findUnique({
+        where: { id: ticketId },
+        include: {
+          products: true,
+        },
+      });
+    });
+
+    return NextResponse.json({
+      success: true,
+      ticket: updatedTicket,
+    });
+  } catch (error) {
+    console.error('[Ticket] Error al actualizar ticket:', error);
+    return NextResponse.json(
+      { error: 'Error interno del servidor' },
+      { status: 500 }
+    );
+  }
+}

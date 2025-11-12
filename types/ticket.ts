@@ -12,7 +12,7 @@ export interface TicketProduct {
 export interface TicketData {
   storeName: string;
   totalAmount: number;
-  tax?: number;
+  tax?: number | null;
   purchaseDate: Date;
   products: TicketProduct[];
   category?: string;
