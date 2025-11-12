@@ -53,7 +53,11 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
       }
 
       const data = await response.json();
-      setTickets(data.tickets || []);
+      // Ordenar tickets por fecha de creación (más reciente primero)
+      const sortedTickets = (data.tickets || []).sort((a: Ticket, b: Ticket) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      });
+      setTickets(sortedTickets);
     } catch (err) {
       console.error('Error al cargar tickets:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
