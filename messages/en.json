@@ -158,7 +158,53 @@
     "tickets": {
       "title": "My tickets",
       "subtitle": "Manage all your tickets",
-      "empty": "You don't have any tickets yet"
+      "empty": "You don't have any tickets yet",
+      "emptyDescription": "Upload your first ticket to start analyzing your expenses",
+      "upload": {
+        "title": "Upload new ticket",
+        "dragDrop": "Drag your ticket here",
+        "or": "or",
+        "selectFile": "Select file",
+        "supportedFormats": "Supported formats: JPEG, PNG, WebP, PDF (max. 10MB)",
+        "process": "Process ticket",
+        "cancel": "Cancel"
+      },
+      "list": {
+        "title": "Your tickets"
+      },
+      "uploading": {
+        "processing": "Processing...",
+        "ocr": "Extracting text from ticket...",
+        "saving": "Saving ticket..."
+      },
+      "confirm": {
+        "title": "Confirm ticket data",
+        "subtitle": "Review and edit the extracted data before saving",
+        "storeName": "Store name",
+        "storeNamePlaceholder": "E.g: Walmart, Target...",
+        "category": "Category",
+        "purchaseDate": "Purchase date",
+        "tax": "Tax",
+        "products": "Products",
+        "addProduct": "Add product",
+        "productName": "Product name",
+        "quantity": "Qty.",
+        "unitPrice": "Unit price",
+        "totalPrice": "Total",
+        "removeProduct": "Remove product",
+        "noProducts": "No products. Add at least one.",
+        "totalAmount": "Total amount",
+        "productsTotal": "Products total",
+        "totalMismatch": "Total doesn't match the sum of products",
+        "cancel": "Cancel",
+        "confirm": "Confirm and save",
+        "saving": "Saving..."
+      },
+      "errors": {
+        "invalidType": "Invalid file type. Use JPEG, PNG, WebP or PDF",
+        "fileTooLarge": "File is too large. Maximum 10MB",
+        "uploadFailed": "Error uploading ticket. Please try again"
+      }
     },
     "stats": {
       "title": "Statistics",
@@ -234,5 +280,14 @@
         "serverError": "Error deleting account. Please try again"
       }
     }
+  },
+  "categories": {
+    "alimentacion": "Food",
+    "ocio": "Entertainment",
+    "transporte": "Transport",
+    "salud": "Health",
+    "hogar": "Home",
+    "otros": "Other"
   }
 }
+

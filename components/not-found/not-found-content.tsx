@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import Link from 'next/link';
-import Button from '@/components/ui/button';
 
 interface NotFoundContentProps {
   title?: string;
@@ -142,9 +141,9 @@ export default function NotFoundContent({
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Link href="/">
-            <Button className="w-full sm:w-auto px-8 py-3 bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <button className="w-full sm:w-auto px-8 py-3 bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
               {buttonText}
-            </Button>
+            </button>
           </Link>
           <button
             onClick={() => router.back()}

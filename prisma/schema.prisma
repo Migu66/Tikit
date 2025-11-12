@@ -73,6 +73,7 @@ model Ticket {
     category     String?
     purchaseDate DateTime
     imageUrl     String
+    ocrText      String?  @db.Text // Texto extraído por OCR
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
 

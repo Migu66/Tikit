@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { signIn, useSession } from 'next-auth/react';
 import { useLocale } from 'next-intl';
@@ -10,13 +10,12 @@ import { loginSchema, type LoginInput } from '@/lib/validations/auth';
 import Link from 'next/link';
 import { gsap } from 'gsap';
 
-export default function LoginPage() {
+function LoginForm() {
   const t = useTranslations('auth.login');
   const tErrors = useTranslations('auth.login.errors');
   const router = useRouter();
   const locale = useLocale();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || `/${locale}/dashboard`;
+  const callbackUrl = `/${locale}/dashboard`;
   const { data: session, status } = useSession();
 
   // Si ya tiene sesión, redirige al dashboard
@@ -330,5 +329,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
+      <LoginForm />
+    </React.Suspense>
   );
 }

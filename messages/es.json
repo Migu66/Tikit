@@ -158,7 +158,53 @@
     "tickets": {
       "title": "Mis tickets",
       "subtitle": "Gestiona todos tus tickets",
-      "empty": "No tienes tickets todavía"
+      "empty": "No tienes tickets todavía",
+      "emptyDescription": "Sube tu primer ticket para comenzar a analizar tus gastos",
+      "upload": {
+        "title": "Subir nuevo ticket",
+        "dragDrop": "Arrastra tu ticket aquí",
+        "or": "o",
+        "selectFile": "Seleccionar archivo",
+        "supportedFormats": "Formatos soportados: JPEG, PNG, WebP, PDF (máx. 10MB)",
+        "process": "Procesar ticket",
+        "cancel": "Cancelar"
+      },
+      "list": {
+        "title": "Tus tickets"
+      },
+      "uploading": {
+        "processing": "Procesando...",
+        "ocr": "Extrayendo texto del ticket...",
+        "saving": "Guardando ticket..."
+      },
+      "confirm": {
+        "title": "Confirmar datos del ticket",
+        "subtitle": "Revisa y edita los datos extraídos antes de guardar",
+        "storeName": "Nombre del comercio",
+        "storeNamePlaceholder": "Ej: Mercadona, Carrefour...",
+        "category": "Categoría",
+        "purchaseDate": "Fecha de compra",
+        "tax": "IVA",
+        "products": "Productos",
+        "addProduct": "Añadir producto",
+        "productName": "Nombre del producto",
+        "quantity": "Cant.",
+        "unitPrice": "Precio unit.",
+        "totalPrice": "Total",
+        "removeProduct": "Eliminar producto",
+        "noProducts": "No hay productos. Añade al menos uno.",
+        "totalAmount": "Importe total",
+        "productsTotal": "Total de productos",
+        "totalMismatch": "El total no coincide con la suma de productos",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar y guardar",
+        "saving": "Guardando..."
+      },
+      "errors": {
+        "invalidType": "Tipo de archivo no válido. Usa JPEG, PNG, WebP o PDF",
+        "fileTooLarge": "El archivo es demasiado grande. Máximo 10MB",
+        "uploadFailed": "Error al subir el ticket. Inténtalo de nuevo"
+      }
     },
     "stats": {
       "title": "Estadísticas",
@@ -234,5 +280,13 @@
         "serverError": "Error al eliminar la cuenta. Intenta de nuevo"
       }
     }
+  },
+  "categories": {
+    "alimentacion": "Alimentación",
+    "ocio": "Ocio",
+    "transporte": "Transporte",
+    "salud": "Salud",
+    "hogar": "Hogar",
+    "otros": "Otros"
   }
 }

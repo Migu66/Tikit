@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { useSession, signOut } from 'next-auth/react';
 import { AlertTriangle, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import Button from '@/components/ui/button';
 
 interface DeleteAccountModalProps {
   isOpen: boolean;
