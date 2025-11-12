@@ -275,7 +275,7 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="mt-4"
+          className="w-full sm:w-auto px-6 py-3 mt-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow-md cursor-pointer"
         >
           {t('upload.selectFile')}
         </button>
@@ -331,7 +331,7 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
             <button
               onClick={handleUpload}
               disabled={uploading}
-              className="flex-1"
+              className="flex-4 px-4 py-2.5 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
             >
               {uploading ? t('uploading.processing') : t('upload.process')}
             </button>
@@ -339,6 +339,7 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
             <button
               onClick={handleCancel}
               disabled={uploading}
+			  className='flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
             >
               {t('upload.cancel')}
             </button>

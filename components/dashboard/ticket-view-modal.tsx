@@ -174,7 +174,7 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
         <div className="px-6 py-4 border-t border-gray-200 flex justify-end bg-gray-50">
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors cursor-pointer"
           >
             Cerrar
           </button>

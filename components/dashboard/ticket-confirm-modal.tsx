@@ -187,7 +187,7 @@ export function TicketConfirmModal({
               <h3 className="text-lg font-semibold text-gray-900">{t('products')}</h3>
               <button
                 onClick={handleAddProduct}
-                className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer"
               >
                 + {t('addProduct')}
               </button>
@@ -211,7 +211,7 @@ export function TicketConfirmModal({
                     />
                   </div>
 
-                  <div className="col-span-4 md:col-span-2">
+                  <div className="col-span-3 md:col-span-2">
                     <Input
                       type="number"
                       step="1"
@@ -225,7 +225,7 @@ export function TicketConfirmModal({
                     />
                   </div>
 
-                  <div className="col-span-4 md:col-span-2">
+                  <div className="col-span-3 md:col-span-2">
                     <Input
                       type="number"
                       step="0.01"
@@ -247,10 +247,10 @@ export function TicketConfirmModal({
                     </div>
                   </div>
 
-                  <div className="col-span-1 md:col-span-2 flex items-center justify-center">
+                  <div className="col-span-3 md:col-span-2 flex items-center justify-center">
                     <button
                       onClick={() => handleRemoveProduct(index)}
-                      className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded transition-colors"
+                      className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded transition-colors cursor-pointer"
                       title={t('removeProduct')}
                     >
                       <svg
@@ -314,14 +314,14 @@ export function TicketConfirmModal({
           <button
             onClick={onCancel}
             disabled={isProcessing}
-            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {t('cancel')}
           </button>
           <button
             onClick={handleConfirm}
             disabled={isProcessing}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             {isProcessing ? t('saving') : t('confirm')}
           </button>
