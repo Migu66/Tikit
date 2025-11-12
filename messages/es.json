@@ -244,6 +244,9 @@
     "changeImage": "Cambiar imagen",
     "cancelSelection": "Cancelar selección",
     "imagePreview": "Vista previa de perfil",
+    "cropImage": "Recortar imagen",
+    "cropInstructions": "Arrastra para ajustar el área que deseas usar como foto de perfil",
+    "confirm": "Confirmar",
     "cancel": "Cancelar",
     "save": "Guardar",
     "changePassword": {

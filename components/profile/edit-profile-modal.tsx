@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { X, Loader2, Upload } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { ImageCropModal } from './image-crop-modal';
 import { z } from 'zod';
 
 interface User {
@@ -43,6 +44,8 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
   const [imagePreview, setImagePreview] = useState<string | null>(user.image || null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
+  const [showCropModal, setShowCropModal] = useState(false);
+  const [tempImageSrc, setTempImageSrc] = useState<string>('');
 
   // Actualizar formulario cuando cambie el usuario
   useEffect(() => {
@@ -53,6 +56,8 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
     setErrors({});
     setImagePreview(user.image || null);
     setSelectedImage(null);
+    setShowCropModal(false);
+    setTempImageSrc('');
   }, [user, isOpen]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,19 +92,50 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
       return;
     }
 
-    setSelectedImage(file);
+    // Limpiar errores
     setErrors((prev) => {
       const newErrors = { ...prev };
       delete newErrors.image;
       return newErrors;
     });
 
-    // Crear preview
+    // Crear preview temporal para el crop
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setTempImageSrc(reader.result as string);
+      setShowCropModal(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropComplete = (croppedBlob: Blob) => {
+    // Convertir el blob a File
+    const croppedFile = new File([croppedBlob], 'profile-image.jpg', {
+      type: 'image/jpeg',
+      lastModified: Date.now(),
+    });
+
+    setSelectedImage(croppedFile);
+
+    // Crear preview de la imagen recortada
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result as string);
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(croppedBlob);
+
+    // Cerrar modal de crop
+    setShowCropModal(false);
+    setTempImageSrc('');
+  };
+
+  const handleCancelCrop = () => {
+    setShowCropModal(false);
+    setTempImageSrc('');
+    // Limpiar el input file
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const uploadImage = async (): Promise<string | null> => {
@@ -220,8 +256,18 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
   const isSubmitting = isLoading || localLoading || imageLoading;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-fade-in max-h-[90vh] overflow-y-auto">
+    <>
+      {/* Image Crop Modal */}
+      <ImageCropModal
+        isOpen={showCropModal}
+        onClose={handleCancelCrop}
+        imageSrc={tempImageSrc}
+        onCropComplete={handleCropComplete}
+      />
+
+      {/* Main Edit Profile Modal */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-fade-in max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white">
           <h2 className="text-xl font-bold text-slate-900">{t('editProfile')}</h2>
@@ -376,5 +422,6 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
         </form>
       </div>
     </div>
+    </>
   );
 }
