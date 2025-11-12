@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef, ChangeEvent, DragEvent } from 'react';
+import { useState, useRef, ChangeEvent, DragEvent, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { TicketConfirmModal } from './ticket-confirm-modal';
 
@@ -45,6 +46,7 @@ interface TicketUploadProps {
 
 export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
   const t = useTranslations('dashboard.tickets');
+  const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -56,6 +58,26 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const autoOpenProcessedRef = useRef(false);
+
+  // Abrir automáticamente el selector de archivos si viene con autoOpen=true
+  useEffect(() => {
+    const autoOpen = searchParams.get('autoOpen');
+    if (autoOpen === 'true' && !autoOpenProcessedRef.current && fileInputRef.current) {
+      // Marcar como procesado para evitar que se ejecute múltiples veces
+      autoOpenProcessedRef.current = true;
+      
+      // Limpiar el parámetro de la URL inmediatamente
+      const url = new URL(window.location.href);
+      url.searchParams.delete('autoOpen');
+      window.history.replaceState({}, '', url.toString());
+      
+      // Pequeño delay para asegurar que el componente está completamente montado
+      setTimeout(() => {
+        fileInputRef.current?.click();
+      }, 100);
+    }
+  }, [searchParams]);
 
   const handleFileSelect = (selectedFile: File) => {
     setError(null);

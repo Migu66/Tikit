@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -93,11 +94,12 @@ export default function DashboardPage() {
             {t('uploadFirstTicket')}
           </p>
           
-          <button
-            className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow-md cursor-pointer"
+          <Link
+            href={`/${locale}/dashboard/tickets?autoOpen=true`}
+            className="inline-block w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow-md cursor-pointer text-center"
           >
             {t('uploadTicket')}
-          </button>
+          </Link>
           
           <div className="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left">
             <div>
