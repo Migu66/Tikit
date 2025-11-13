@@ -10,5 +10,7 @@ export { TrendsChart } from './trends-chart';
 export { TopStoresChart } from './top-stores-chart';
 export { StatsSkeleton } from './stats-skeleton';
 export { StatsPeriodFilter } from './stats-period-filter';
+export { RecommendationCard } from './recommendation-card';
+export { RecommendationsList } from './recommendations-list';
 export type { PeriodFilter, PeriodType } from './stats-period-filter';
 

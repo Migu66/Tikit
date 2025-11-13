@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { updateRecommendations } from '@/lib/services/recommendations';
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,6 +74,11 @@ export async function POST(request: NextRequest) {
     });
 
     console.log('[Ticket Confirm] Ticket guardado exitosamente:', ticket.id);
+
+    // Regenerar recomendaciones de IA en background
+    updateRecommendations(session.user.id).catch((error) => {
+      console.error('[Ticket Confirm] Error al actualizar recomendaciones:', error);
+    });
 
     return NextResponse.json({
       success: true,

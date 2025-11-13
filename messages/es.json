@@ -295,7 +295,16 @@
     },
     "ai": {
       "title": "Recomendaciones con IA",
-      "subtitle": "Insights personalizados sobre tus gastos"
+      "subtitle": "Insights personalizados sobre tus gastos",
+      "recommendations": "Tus Recomendaciones",
+      "recommendationsSubtitle": "Análisis personalizado basado en tus patrones de gasto",
+      "loading": "Cargando recomendaciones...",
+      "error": "Error al cargar las recomendaciones",
+      "retry": "Reintentar",
+      "noRecommendations": "No hay recomendaciones disponibles",
+      "noData": "Sube más tickets para recibir recomendaciones personalizadas",
+      "regenerate": "Actualizar",
+      "regenerating": "Actualizando..."
     }
   },
   "profile": {

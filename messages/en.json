@@ -295,7 +295,16 @@
     },
     "ai": {
       "title": "AI Recommendations",
-      "subtitle": "Personalized insights about your spending"
+      "subtitle": "Personalized insights about your spending",
+      "recommendations": "Your Recommendations",
+      "recommendationsSubtitle": "Personalized analysis based on your spending patterns",
+      "loading": "Loading recommendations...",
+      "error": "Error loading recommendations",
+      "retry": "Retry",
+      "noRecommendations": "No recommendations available",
+      "noData": "Upload more tickets to receive personalized recommendations",
+      "regenerate": "Refresh",
+      "regenerating": "Refreshing..."
     }
   },
   "profile": {

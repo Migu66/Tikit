@@ -11,6 +11,7 @@ import { extractTicketDataFromImage } from '@/lib/services/gemini-vision';
 import { classifyTicket } from '@/lib/services/ai';
 import { uploadToCloudinary } from '@/lib/services/cloudinary';
 import { ticketDataSchema } from '@/lib/validations/ticket';
+import { updateRecommendations } from '@/lib/services/recommendations';
 
 export async function POST(request: NextRequest) {
   try {
@@ -280,6 +281,11 @@ export async function PUT(request: NextRequest) {
       });
     });
 
+    // Regenerar recomendaciones de IA en background
+    updateRecommendations(session.user.id).catch((error) => {
+      console.error('[Ticket] Error al actualizar recomendaciones:', error);
+    });
+
     return NextResponse.json({
       success: true,
       ticket: updatedTicket,
@@ -329,6 +335,11 @@ export async function DELETE(request: NextRequest) {
     // Eliminar ticket (Prisma eliminará automáticamente los productos relacionados por la cascada)
     await prisma.ticket.delete({
       where: { id: ticketId },
+    });
+
+    // Regenerar recomendaciones de IA en background
+    updateRecommendations(session.user.id).catch((error) => {
+      console.error('[Ticket] Error al actualizar recomendaciones:', error);
     });
 
     return NextResponse.json({
