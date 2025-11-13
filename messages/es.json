@@ -224,7 +224,74 @@
     },
     "stats": {
       "title": "Estadísticas",
-      "subtitle": "Analiza tus gastos"
+      "subtitle": "Analiza tus gastos",
+      "filters": {
+        "title": "Filtrar por período",
+        "period": {
+          "label": "Período",
+          "allTime": "Todo el tiempo",
+          "currentMonth": "Mes actual",
+          "currentYear": "Año actual",
+          "custom": "Personalizado"
+        },
+        "year": {
+          "label": "Año",
+          "placeholder": "Seleccionar año"
+        },
+        "month": {
+          "label": "Mes",
+          "placeholder": "Seleccionar mes",
+          "january": "Enero",
+          "february": "Febrero",
+          "march": "Marzo",
+          "april": "Abril",
+          "may": "Mayo",
+          "june": "Junio",
+          "july": "Julio",
+          "august": "Agosto",
+          "september": "Septiembre",
+          "october": "Octubre",
+          "november": "Noviembre",
+          "december": "Diciembre"
+        },
+        "apply": "Aplicar filtros",
+        "reset": "Restablecer"
+      },
+      "overview": {
+        "title": "Resumen del Mes",
+        "totalSpent": "Gasto Total",
+        "ticketsCount": "Tickets Registrados",
+        "averageTicket": "Gasto Promedio",
+        "monthComparison": "vs. mes anterior"
+      },
+      "byCategory": {
+        "title": "Gastos por Categoría",
+        "subtitle": "Distribución de tus gastos",
+        "noData": "No hay datos de categorías aún",
+        "category": "Categoría",
+        "amount": "Monto",
+        "percentage": "Porcentaje"
+      },
+      "trends": {
+        "title": "Tendencias de Gasto",
+        "subtitle": "Últimos 6 meses",
+        "noData": "No hay suficientes datos para mostrar tendencias",
+        "month": "Mes",
+        "spending": "Gasto"
+      },
+      "topStores": {
+        "title": "Comercios Frecuentes",
+        "subtitle": "Tus tiendas más visitadas",
+        "noData": "No hay datos de comercios aún",
+        "store": "Comercio",
+        "visits": "Visitas",
+        "total": "Total gastado"
+      },
+      "loading": "Cargando estadísticas...",
+      "error": "Error al cargar las estadísticas",
+      "retry": "Reintentar",
+      "noTickets": "Aún no tienes tickets registrados",
+      "uploadFirst": "Sube tu primer ticket para ver estadísticas"
     },
     "ai": {
       "title": "Recomendaciones con IA",

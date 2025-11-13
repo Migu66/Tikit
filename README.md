@@ -11,5 +11,6 @@ Web app moderna para gestionar tickets de compra digitalmente con OCR, análisis
 -   **Autenticación**: NextAuth
 -   **OCR**: Tesseract.js
 -   **Almacenamiento**: Cloudinary
--   **Gráficos**: Tremor
+-   **Gráficos**: Recharts
+-   **Utilidades**: date-fns
 -   **Animaciones**: GSAP

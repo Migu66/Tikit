@@ -224,7 +224,74 @@
     },
     "stats": {
       "title": "Statistics",
-      "subtitle": "Analyze your expenses"
+      "subtitle": "Analyze your expenses",
+      "filters": {
+        "title": "Filter by period",
+        "period": {
+          "label": "Period",
+          "allTime": "All time",
+          "currentMonth": "Current month",
+          "currentYear": "Current year",
+          "custom": "Custom"
+        },
+        "year": {
+          "label": "Year",
+          "placeholder": "Select year"
+        },
+        "month": {
+          "label": "Month",
+          "placeholder": "Select month",
+          "january": "January",
+          "february": "February",
+          "march": "March",
+          "april": "April",
+          "may": "May",
+          "june": "June",
+          "july": "July",
+          "august": "August",
+          "september": "September",
+          "october": "October",
+          "november": "November",
+          "december": "December"
+        },
+        "apply": "Apply filters",
+        "reset": "Reset"
+      },
+      "overview": {
+        "title": "Monthly Overview",
+        "totalSpent": "Total Spent",
+        "ticketsCount": "Tickets Registered",
+        "averageTicket": "Average Spending",
+        "monthComparison": "vs. previous month"
+      },
+      "byCategory": {
+        "title": "Spending by Category",
+        "subtitle": "Distribution of your expenses",
+        "noData": "No category data yet",
+        "category": "Category",
+        "amount": "Amount",
+        "percentage": "Percentage"
+      },
+      "trends": {
+        "title": "Spending Trends",
+        "subtitle": "Last 6 months",
+        "noData": "Not enough data to show trends",
+        "month": "Month",
+        "spending": "Spending"
+      },
+      "topStores": {
+        "title": "Frequent Stores",
+        "subtitle": "Your most visited stores",
+        "noData": "No store data yet",
+        "store": "Store",
+        "visits": "Visits",
+        "total": "Total spent"
+      },
+      "loading": "Loading statistics...",
+      "error": "Error loading statistics",
+      "retry": "Retry",
+      "noTickets": "You don't have any tickets yet",
+      "uploadFirst": "Upload your first ticket to see statistics"
     },
     "ai": {
       "title": "AI Recommendations",
