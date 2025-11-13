@@ -4,20 +4,53 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { formatCurrency } from '@/lib/utils';
+
+interface DashboardStats {
+  totalSpent: number;
+  ticketsCount: number;
+  monthTicketsCount: number;
+  averagePerTicket: number;
+}
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations('dashboard');
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loadingStats, setLoadingStats] = useState(true);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push(`/${locale}/login`);
     }
   }, [status, router, locale]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (status === 'authenticated') {
+        try {
+          const response = await fetch('/api/dashboard/stats');
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Stats received from API:', data);
+            setStats(data);
+          } else {
+            console.error('Failed to fetch stats:', response.status);
+          }
+        } catch (error) {
+          console.error('Error fetching stats:', error);
+        } finally {
+          setLoadingStats(false);
+        }
+      }
+    };
+
+    fetchStats();
+  }, [status]);
 
   if (status === 'loading') {
     return (
@@ -47,24 +80,48 @@ export default function DashboardPage() {
           <h3 className="text-sm font-medium text-gray-500 mb-2">
             {t('totalSpent')}
           </h3>
-          <p className="text-3xl font-bold text-blue-600">$0.00</p>
-          <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">
-            {t('ticketsCount')}
-          </h3>
-          <p className="text-3xl font-bold text-purple-600">0</p>
-          <p className="mt-2 text-sm text-gray-500">Total de tickets</p>
+          {loadingStats ? (
+            <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+          ) : (
+            <>
+              <p className="text-3xl font-bold text-blue-600">
+                ${formatCurrency(stats?.totalSpent)}
+              </p>
+              <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
+            </>
+          )}
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
           <h3 className="text-sm font-medium text-gray-500 mb-2">
-            Promedio por ticket
+            {t('averagePerTicket')}
           </h3>
-          <p className="text-3xl font-bold text-green-600">$0.00</p>
-          <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
+          {loadingStats ? (
+            <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+          ) : (
+            <>
+              <p className="text-3xl font-bold text-green-600">
+                ${formatCurrency(stats?.averagePerTicket)}
+              </p>
+              <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
+            </>
+          )}
+        </div>
+		
+		<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">
+            {t('ticketsCount')}
+          </h3>
+          {loadingStats ? (
+            <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+          ) : (
+            <>
+              <p className="text-3xl font-bold text-purple-600">
+                {stats?.ticketsCount || 0}
+              </p>
+              <p className="mt-2 text-sm text-gray-500">{t('totalTickets')}</p>
+            </>
+          )}
         </div>
       </div>
 
