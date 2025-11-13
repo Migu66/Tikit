@@ -90,10 +90,20 @@ export default function Sidebar() {
             {/* Avatar con link al perfil */}
             <button
               onClick={() => router.push(`/${locale}/profile`)}
-              className="w-10 h-10 rounded-full bg-linear-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium hover:shadow-lg transition-shadow cursor-pointer"
+              className="w-10 h-10 rounded-full hover:shadow-lg transition-shadow cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               aria-label="Ir al perfil"
             >
-              {session?.user?.name?.charAt(0).toUpperCase() || 'U'}
+              {session?.user?.image ? (
+                <img
+                  src={session.user.image}
+                  alt={session.user.name || 'Usuario'}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-linear-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
+                  {session?.user?.name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+              )}
             </button>
           </div>
         </div>
