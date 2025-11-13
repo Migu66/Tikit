@@ -31,7 +31,7 @@ export default function AIRecommendationsPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8">
+    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-12 md:mt-12">
       <div className="mb-6 lg:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('title')}</h1>
         <p className="mt-2 text-sm sm:text-base text-gray-600">{t('subtitle')}</p>

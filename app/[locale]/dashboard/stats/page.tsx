@@ -201,7 +201,7 @@ export default function StatsPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-12">
+    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-12 md:mt-12">
       {/* Header con filtros */}
       <div className="mb-6 lg:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
