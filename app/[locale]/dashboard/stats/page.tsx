@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -47,7 +48,7 @@ interface StatsData {
   };
 }
 
-export default function StatsPage() {
+function StatsContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -238,5 +239,13 @@ export default function StatsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function StatsPage() {
+  return (
+    <Suspense fallback={<StatsSkeleton />}>
+      <StatsContent />
+    </Suspense>
   );
 }

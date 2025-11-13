@@ -4,6 +4,7 @@
 
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/lib/utils';
 import {
   TrendingUpIcon,
@@ -33,6 +34,8 @@ export function RecommendationCard({
   amount,
   createdAt,
 }: RecommendationCardProps) {
+  const tCategories = useTranslations('categories');
+
   // Determinar icono según el tipo
   const getIcon = () => {
     switch (type) {
@@ -76,19 +79,6 @@ export function RecommendationCard({
 
   const styles = getSeverityStyles();
 
-  // Formatear categoría para mostrar
-  const getCategoryLabel = (cat: string) => {
-    const labels: Record<string, string> = {
-      alimentacion: 'Alimentación',
-      ocio: 'Ocio',
-      transporte: 'Transporte',
-      salud: 'Salud',
-      hogar: 'Hogar',
-      otros: 'Otros',
-    };
-    return labels[cat] || cat;
-  };
-
   return (
     <div
       className={`${styles.bg} border rounded-lg p-4 sm:p-5 transition-all duration-200 hover:shadow-md`}
@@ -106,7 +96,7 @@ export function RecommendationCard({
           <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600">
             {category && (
               <span className={`${styles.badge} px-2 py-0.5 rounded-full font-medium`}>
-                {getCategoryLabel(category)}
+                {tCategories(category)}
               </span>
             )}
 

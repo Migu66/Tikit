@@ -100,7 +100,10 @@
       "title": "Ready to take control of your expenses?",
       "subtitle": "Start your free trial today",
       "description": "Join thousands of users who are already optimizing their finances",
-      "button": "Sign up free"
+      "button": "Sign up free",
+      "trustIndicator1": "Free forever",
+      "trustIndicator2": "No credit card required",
+      "trustIndicator3": "Setup in 2 minutes"
     }
   },
   "notFound": {
@@ -147,6 +150,14 @@
     "getStarted": "Get started",
     "uploadFirstTicket": "Upload your first ticket to start analyzing your expenses",
     "uploadTicket": "Upload ticket",
+    "steps": {
+      "step1Title": "Upload your ticket",
+      "step1Description": "Capture or select an image of your purchase ticket",
+      "step2Title": "Automatic extraction",
+      "step2Description": "AI automatically extracts all relevant information",
+      "step3Title": "Analyze and save",
+      "step3Description": "Get insights about your expenses and personalized recommendations"
+    },
     "sidebar": {
       "home": "Home",
       "tickets": "My tickets",

@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { extractTicketDataFromImage } from '@/lib/services/gemini-vision';
+import type { Prisma } from '@prisma/client';
 import { classifyTicket } from '@/lib/services/ai';
 import { uploadToCloudinary } from '@/lib/services/cloudinary';
 import { ticketDataSchema } from '@/lib/validations/ticket';
@@ -241,7 +242,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Actualizar ticket y productos en una transacción
-    const updatedTicket = await prisma.$transaction(async (tx) => {
+    const updatedTicket = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Eliminar productos antiguos
       await tx.ticketItem.deleteMany({
         where: { ticketId },

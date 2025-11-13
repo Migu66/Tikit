@@ -31,6 +31,7 @@ interface TicketListProps {
 
 export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
   const t = useTranslations('dashboard.tickets');
+  const tCategories = useTranslations('categories');
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -274,7 +275,7 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
                       ticket.category
                     )}`}
                   >
-                    {ticket.category}
+                    {tCategories(ticket.category)}
                   </span>
                 </div>
               )}

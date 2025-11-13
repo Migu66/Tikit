@@ -158,10 +158,10 @@ export default function DashboardPage() {
                 <div className="shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                   <span className="text-blue-600 font-bold">1</span>
                 </div>
-                <h3 className="font-semibold text-gray-900">Sube tu ticket</h3>
+                <h3 className="font-semibold text-gray-900">{t('steps.step1Title')}</h3>
               </div>
               <p className="text-sm text-gray-600 ml-11">
-                Captura o selecciona una imagen de tu ticket de compra
+                {t('steps.step1Description')}
               </p>
             </div>
             
@@ -170,10 +170,10 @@ export default function DashboardPage() {
                 <div className="shrink-0 w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                   <span className="text-purple-600 font-bold">2</span>
                 </div>
-                <h3 className="font-semibold text-gray-900">Extracción automática</h3>
+                <h3 className="font-semibold text-gray-900">{t('steps.step2Title')}</h3>
               </div>
               <p className="text-sm text-gray-600 ml-11">
-                La IA extrae automáticamente toda la información relevante
+                {t('steps.step2Description')}
               </p>
             </div>
             
@@ -182,10 +182,10 @@ export default function DashboardPage() {
                 <div className="shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                   <span className="text-green-600 font-bold">3</span>
                 </div>
-                <h3 className="font-semibold text-gray-900">Analiza y ahorra</h3>
+                <h3 className="font-semibold text-gray-900">{t('steps.step3Title')}</h3>
               </div>
               <p className="text-sm text-gray-600 ml-11">
-                Obtén insights sobre tus gastos y recomendaciones personalizadas
+                {t('steps.step3Description')}
               </p>
             </div>
           </div>

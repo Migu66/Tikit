@@ -40,7 +40,7 @@ export async function PUT(request: Request) {
 
     // Verificar si el usuario tiene cuenta de Google
     const hasGoogleAccount = currentUser.accounts.some(
-      (account) => account.provider === 'google'
+      (account: { provider: string }) => account.provider === 'google'
     );
 
     // Si el usuario tiene cuenta de Google, no permitir cambio de email

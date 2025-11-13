@@ -100,7 +100,10 @@
       "title": "¿Listo para tomar el control de tus gastos?",
       "subtitle": "Comienza tu prueba gratuita hoy",
       "description": "Únete a miles de usuarios que ya están optimizando sus finanzas",
-      "button": "Regístrate gratis"
+      "button": "Regístrate gratis",
+      "trustIndicator1": "Gratis para siempre",
+      "trustIndicator2": "Sin tarjeta de crédito",
+      "trustIndicator3": "Configuración en 2 minutos"
     }
   },
   "notFound": {
@@ -147,6 +150,14 @@
     "getStarted": "Comienza ahora",
     "uploadFirstTicket": "Sube tu primer ticket para comenzar a analizar tus gastos",
     "uploadTicket": "Subir ticket",
+    "steps": {
+      "step1Title": "Sube tu ticket",
+      "step1Description": "Captura o selecciona una imagen de tu ticket de compra",
+      "step2Title": "Extracción automática",
+      "step2Description": "La IA extrae automáticamente toda la información relevante",
+      "step3Title": "Analiza y ahorra",
+      "step3Description": "Obtén insights sobre tus gastos y recomendaciones personalizadas"
+    },
     "sidebar": {
       "home": "Home",
       "tickets": "Mis tickets",

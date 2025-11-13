@@ -86,11 +86,11 @@ export async function analyzeSpendingPatterns(userId: string): Promise<SpendingA
   });
 
   // Calcular totales y por categoría del mes actual
-  const currentTotal = currentMonthTickets.reduce((sum, t) => sum + Number(t.totalAmount), 0);
+  const currentTotal = currentMonthTickets.reduce((sum: number, t: { totalAmount: any }) => sum + Number(t.totalAmount), 0);
   const currentByCategory: Record<string, number> = {};
   const storeData: Record<string, { amount: number; visits: number }> = {};
 
-  currentMonthTickets.forEach((ticket) => {
+  currentMonthTickets.forEach((ticket: { category: string | null; storeName: string; totalAmount: any }) => {
     const category = ticket.category || 'otros';
     currentByCategory[category] = (currentByCategory[category] || 0) + Number(ticket.totalAmount);
 
@@ -103,10 +103,10 @@ export async function analyzeSpendingPatterns(userId: string): Promise<SpendingA
   });
 
   // Calcular totales del mes anterior
-  const previousTotal = previousMonthTickets.reduce((sum, t) => sum + Number(t.totalAmount), 0);
+  const previousTotal = previousMonthTickets.reduce((sum: number, t: { totalAmount: any }) => sum + Number(t.totalAmount), 0);
   const previousByCategory: Record<string, number> = {};
 
-  previousMonthTickets.forEach((ticket) => {
+  previousMonthTickets.forEach((ticket: { category: string | null; totalAmount: any }) => {
     const category = ticket.category || 'otros';
     previousByCategory[category] = (previousByCategory[category] || 0) + Number(ticket.totalAmount);
   });
@@ -309,7 +309,7 @@ function generateBasicRecommendations(analysis: SpendingAnalysis): Recommendatio
   }
 
   // Cambios significativos por categoría
-  analysis.changes.categoryChanges.slice(0, 3).forEach((change) => {
+  analysis.changes.categoryChanges.slice(0, 3).forEach((change: { changePercentage: number; category: string; change: number }) => {
     if (Math.abs(change.changePercentage) > 15) {
       const isIncrease = change.changePercentage > 0;
       const categoryName =

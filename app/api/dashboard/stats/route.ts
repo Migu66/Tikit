@@ -87,7 +87,7 @@ export async function GET(request: Request) {
     });
 
     // Calcular gasto total del período
-    const totalSpent = periodTickets.reduce((sum, ticket) => {
+    const totalSpent = periodTickets.reduce((sum: number, ticket: { totalAmount: any; category: string | null }) => {
       return sum + Number(ticket.totalAmount);
     }, 0);
 
@@ -105,7 +105,7 @@ export async function GET(request: Request) {
 
     // === GASTOS POR CATEGORÍA ===
     const categoryData: Record<string, number> = {};
-    periodTickets.forEach(ticket => {
+    periodTickets.forEach((ticket: { totalAmount: any; category: string | null }) => {
       const category = ticket.category || 'otros';
       categoryData[category] = (categoryData[category] || 0) + Number(ticket.totalAmount);
     });
@@ -142,7 +142,7 @@ export async function GET(request: Request) {
         },
       });
 
-      const monthTotal = tickets.reduce((sum, t) => sum + Number(t.totalAmount), 0);
+      const monthTotal = tickets.reduce((sum: number, t: { totalAmount: any }) => sum + Number(t.totalAmount), 0);
 
       monthlyTrends.push({
         month: format(monthDate, 'MMM yyyy'),
@@ -186,7 +186,7 @@ export async function GET(request: Request) {
       originalNames: Set<string>;
     }>();
 
-    storeTickets.forEach(ticket => {
+    storeTickets.forEach((ticket: { storeName: string; totalAmount: any }) => {
       const normalized = normalizeStoreName(ticket.storeName);
       
       if (!storeMap.has(normalized)) {
@@ -235,7 +235,7 @@ export async function GET(request: Request) {
     });
 
     const yearsSet = new Set<number>();
-    allTickets.forEach(ticket => {
+    allTickets.forEach((ticket: { purchaseDate: Date }) => {
       yearsSet.add(new Date(ticket.purchaseDate).getFullYear());
     });
     const availableYears = Array.from(yearsSet).sort((a, b) => b - a);

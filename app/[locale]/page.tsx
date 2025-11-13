@@ -88,6 +88,9 @@ export default function Home() {
           title={t('cta.title')}
           subtitle={t('cta.subtitle')}
           buttonText={t('cta.button')}
+          trustIndicator1={t('cta.trustIndicator1')}
+          trustIndicator2={t('cta.trustIndicator2')}
+          trustIndicator3={t('cta.trustIndicator3')}
           onButtonClick={handleGetStarted}
         />
       </main>

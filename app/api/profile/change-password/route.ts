@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
     // Verificar que el usuario tenga una cuenta con contraseña (no OAuth)
     const hasOAuthAccount = user.accounts.some(
-      (account) => account.provider !== 'credentials'
+      (account: { provider: string }) => account.provider !== 'credentials'
     );
     
     if (hasOAuthAccount && !user.password) {
