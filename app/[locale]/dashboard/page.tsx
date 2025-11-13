@@ -7,20 +7,14 @@ import { useLocale } from 'next-intl';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
-
-interface DashboardStats {
-  totalSpent: number;
-  ticketsCount: number;
-  monthTicketsCount: number;
-  averagePerTicket: number;
-}
+import type { StatsResponse } from '@/types/stats';
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations('dashboard');
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [stats, setStats] = useState<StatsResponse | null>(null);
   const [loadingStats, setLoadingStats] = useState(true);
 
   useEffect(() => {
@@ -35,7 +29,7 @@ export default function DashboardPage() {
         try {
           const response = await fetch('/api/dashboard/stats');
           if (response.ok) {
-            const data = await response.json();
+            const data: StatsResponse = await response.json();
             console.log('Stats received from API:', data);
             setStats(data);
           } else {
@@ -85,7 +79,7 @@ export default function DashboardPage() {
           ) : (
             <>
               <p className="text-3xl font-bold text-blue-600">
-                ${formatCurrency(stats?.totalSpent)}
+                ${formatCurrency(stats?.overview.totalSpent, locale)}
               </p>
               <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
             </>
@@ -101,7 +95,7 @@ export default function DashboardPage() {
           ) : (
             <>
               <p className="text-3xl font-bold text-green-600">
-                ${formatCurrency(stats?.averagePerTicket)}
+                ${formatCurrency(stats?.overview.averagePerTicket, locale)}
               </p>
               <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
             </>
@@ -117,7 +111,7 @@ export default function DashboardPage() {
           ) : (
             <>
               <p className="text-3xl font-bold text-purple-600">
-                {stats?.ticketsCount || 0}
+                {stats?.overview.ticketsCount ?? 0}
               </p>
               <p className="mt-2 text-sm text-gray-500">{t('totalTickets')}</p>
             </>
