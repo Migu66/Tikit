@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useTranslations } from 'next-intl';
 import { Scan, Brain, BarChart3, Globe } from 'lucide-react';
@@ -7,13 +7,26 @@ import { FeatureCard } from '@/components/landing/feature-card';
 import { ShowcaseSection } from '@/components/landing/showcase-section';
 import { FinalCTASection } from '@/components/landing/final-cta-section';
 import { Footer } from '@/components/footer';
+import { useSession } from 'next-auth/react';
+import { useRouter, useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
   const t = useTranslations('home');
+  const { status } = useSession();
+  const router = useRouter();
+  const params = useParams();
+  const locale = typeof params?.locale === 'string' ? params.locale : 'es';
+
+  // Redirigir al dashboard si el usuario ya está autenticado
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace(`/${locale}/dashboard`);
+    }
+  }, [status, router, locale]);
 
   const handleGetStarted = () => {
-    // TODO: Navigate to signup/login page
-    console.log('Get started clicked');
+    router.push(`/${locale}/login`);
   };
 
   return (
