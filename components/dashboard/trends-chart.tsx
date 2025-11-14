@@ -29,11 +29,10 @@ export function TrendsChart({ data }: TrendsChartProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 ">
       <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('title')}</h3>
-      <p className="text-sm text-gray-600 mb-6">{t('subtitle')}</p>
       
-      <div className="h-80">
+      <div className="h-120">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
