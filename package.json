@@ -36,6 +36,8 @@
     "form-data": "^4.0.4",
     "groq-sdk": "^0.34.0",
     "gsap": "^3.13.0",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.552.0",
     "next": "^16.0.1",
     "next-auth": "^5.0.0-beta.30",

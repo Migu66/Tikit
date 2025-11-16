@@ -1,399 +1,416 @@
 {
-  "common": {
-    "login": "Sign In",
-    "register": "Sign Up",
-    "logout": "Sign Out",
-    "dashboard": "Go to Dashboard",
-    "language": "Language",
-    "profile": "View profile",
-    "signOut": "Sign out"
-  },
-  "auth": {
-    "register": {
-      "title": "Create account",
-      "subtitle": "Start managing your tickets intelligently",
-      "email": "Email address",
-      "emailPlaceholder": "you@email.com",
-      "password": "Password",
-      "passwordPlaceholder": "Minimum 8 characters",
-      "confirmPassword": "Confirm password",
-      "confirmPasswordPlaceholder": "Repeat your password",
-      "name": "Full name",
-      "namePlaceholder": "John Doe",
-      "button": "Create account",
-      "buttonLoading": "Creating account...",
-      "or": "Or continue with",
-      "googleButton": "Continue with Google",
-      "hasAccount": "Already have an account?",
-      "loginLink": "Sign in",
-      "terms": "By signing up you agree to our",
-      "termsLink": "Terms of Service",
-      "and": "and",
-      "privacyLink": "Privacy Policy",
-      "errors": {
-        "emailRequired": "Email is required",
-        "emailInvalid": "Invalid email address",
-        "passwordRequired": "Password is required",
-        "passwordMin": "Password must be at least 8 characters",
-        "passwordMatch": "Passwords do not match",
-        "nameRequired": "Name is required",
-        "nameMin": "Name must be at least 2 characters",
-        "emailExists": "This email is already registered",
-        "serverError": "Error creating account. Please try again."
-      },
-      "success": "Account created successfully. Redirecting..."
+    "common": {
+        "login": "Sign In",
+        "register": "Sign Up",
+        "logout": "Sign Out",
+        "dashboard": "Go to Dashboard",
+        "language": "Language",
+        "profile": "View profile",
+        "signOut": "Sign out"
     },
-    "login": {
-      "title": "Sign in",
-      "subtitle": "Access your account",
-      "email": "Email address",
-      "emailPlaceholder": "you@email.com",
-      "password": "Password",
-      "passwordPlaceholder": "Your password",
-      "button": "Sign in",
-      "buttonLoading": "Signing in...",
-      "googleButton": "Continue with Google",
-      "noAccount": "Don't have an account?",
-      "registerLink": "Sign up",
-      "errors": {
-        "invalidCredentials": "Invalid email or password",
-        "serverError": "Error signing in. Please try again."
-      }
-    }
-  },
-  "home": {
-    "hero": {
-      "title": "Manage your tickets with intelligence",
-      "subtitle": "Digitize, analyze and organize your expenses automatically with AI",
-      "description": "The simplest way to keep your personal finances under control. Advanced OCR technology, smart classification and real-time analysis.",
-      "cta": "Get started"
-    },
-    "features": {
-      "title": "Everything you need",
-      "subtitle": "Smart tools to manage your expenses",
-      "ocr": {
-        "title": "Automatic OCR",
-        "description": "Extract information from your tickets instantly with advanced optical recognition technology"
-      },
-      "classification": {
-        "title": "Smart Classification",
-        "description": "AI automatically organizes your expenses by categories for better tracking"
-      },
-      "dashboard": {
-        "title": "Interactive Dashboard",
-        "description": "Visualize your expenses with elegant charts and get personalized insights"
-      },
-      "multilang": {
-        "title": "Multi-language",
-        "description": "Available in Spanish and English with support for more languages coming soon"
-      }
-    },
-    "showcase": {
-      "title": "Visualize your expenses intelligently",
-      "subtitle": "Interactive dashboard with real-time charts",
-      "description": "Analyze trends, identify spending patterns and make better financial decisions with our intuitive control panel.",
-      "feature1": "Interactive charts",
-      "feature2": "Trend analysis",
-      "feature3": "Exportable reports"
-    },
-    "cta": {
-      "title": "Ready to take control of your expenses?",
-      "subtitle": "Start your free trial today",
-      "description": "Join thousands of users who are already optimizing their finances",
-      "button": "Sign up free",
-      "trustIndicator1": "Free forever",
-      "trustIndicator2": "No credit card required",
-      "trustIndicator3": "Setup in 2 minutes"
-    }
-  },
-  "notFound": {
-    "title": "Page not found",
-    "description": "Sorry, the page you're looking for doesn't exist or has been moved. Go back to the home page or try again.",
-    "homePage": "Go to home",
-    "goBack": "Go back"
-  },
-  "footer": {
-    "description": "Manage your shopping receipts with intelligence. Automatic analysis, smart classification and real-time statistics.",
-    "product": {
-      "title": "Product",
-      "features": "Features",
-      "pricing": "Pricing",
-      "security": "Security",
-      "roadmap": "Roadmap"
-    },
-    "company": {
-      "title": "Company",
-      "about": "About",
-      "blog": "Blog",
-      "careers": "Careers",
-      "contact": "Contact"
-    },
-    "legal": {
-      "title": "Legal",
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "cookies": "Cookie Policy",
-      "disclaimer": "Legal Disclaimer"
-    },
-    "rights": "All rights reserved.",
-    "madeWith": "Made with ❤️ by the Tikit team"
-  },
-  "dashboard": {
-    "welcome": "Welcome",
-    "logout": "Sign out",
-    "totalSpent": "Total spent",
-    "ticketsCount": "Tickets",
-    "averagePerTicket": "Average per ticket",
-    "totalTickets": "Total tickets",
-    "allTime": "All time",
-    "thisMonth": "This month",
-    "getStarted": "Get started",
-    "uploadFirstTicket": "Upload your first ticket to start analyzing your expenses",
-    "uploadTicket": "Upload ticket",
-    "steps": {
-      "step1Title": "Upload your ticket",
-      "step1Description": "Capture or select an image of your purchase ticket",
-      "step2Title": "Automatic extraction",
-      "step2Description": "AI automatically extracts all relevant information",
-      "step3Title": "Analyze and save",
-      "step3Description": "Get insights about your expenses and personalized recommendations"
-    },
-    "sidebar": {
-      "home": "Home",
-      "tickets": "My tickets",
-      "stats": "Statistics",
-      "recommendations": "AI Recommendations"
+    "auth": {
+        "register": {
+            "title": "Create account",
+            "subtitle": "Start managing your tickets intelligently",
+            "email": "Email address",
+            "emailPlaceholder": "you@email.com",
+            "password": "Password",
+            "passwordPlaceholder": "Minimum 8 characters",
+            "confirmPassword": "Confirm password",
+            "confirmPasswordPlaceholder": "Repeat your password",
+            "name": "Full name",
+            "namePlaceholder": "John Doe",
+            "button": "Create account",
+            "buttonLoading": "Creating account...",
+            "or": "Or continue with",
+            "googleButton": "Continue with Google",
+            "hasAccount": "Already have an account?",
+            "loginLink": "Sign in",
+            "terms": "By signing up you agree to our",
+            "termsLink": "Terms of Service",
+            "and": "and",
+            "privacyLink": "Privacy Policy",
+            "errors": {
+                "emailRequired": "Email is required",
+                "emailInvalid": "Invalid email address",
+                "passwordRequired": "Password is required",
+                "passwordMin": "Password must be at least 8 characters",
+                "passwordMatch": "Passwords do not match",
+                "nameRequired": "Name is required",
+                "nameMin": "Name must be at least 2 characters",
+                "emailExists": "This email is already registered",
+                "serverError": "Error creating account. Please try again."
+            },
+            "success": "Account created successfully. Redirecting..."
+        },
+        "login": {
+            "title": "Sign in",
+            "subtitle": "Access your account",
+            "email": "Email address",
+            "emailPlaceholder": "you@email.com",
+            "password": "Password",
+            "passwordPlaceholder": "Your password",
+            "button": "Sign in",
+            "buttonLoading": "Signing in...",
+            "googleButton": "Continue with Google",
+            "noAccount": "Don't have an account?",
+            "registerLink": "Sign up",
+            "errors": {
+                "invalidCredentials": "Invalid email or password",
+                "serverError": "Error signing in. Please try again."
+            }
+        }
     },
     "home": {
-      "title": "Home",
-      "subtitle": "Upload your purchase tickets",
-      "uploadButton": "Upload ticket"
+        "hero": {
+            "title": "Manage your tickets with intelligence",
+            "subtitle": "Digitize, analyze and organize your expenses automatically with AI",
+            "description": "The simplest way to keep your personal finances under control. Advanced OCR technology, smart classification and real-time analysis.",
+            "cta": "Get started"
+        },
+        "features": {
+            "title": "Everything you need",
+            "subtitle": "Smart tools to manage your expenses",
+            "ocr": {
+                "title": "Automatic OCR",
+                "description": "Extract information from your tickets instantly with advanced optical recognition technology"
+            },
+            "classification": {
+                "title": "Smart Classification",
+                "description": "AI automatically organizes your expenses by categories for better tracking"
+            },
+            "dashboard": {
+                "title": "Interactive Dashboard",
+                "description": "Visualize your expenses with elegant charts and get personalized insights"
+            },
+            "multilang": {
+                "title": "Multi-language",
+                "description": "Available in Spanish and English with support for more languages coming soon"
+            }
+        },
+        "showcase": {
+            "title": "Visualize your expenses intelligently",
+            "subtitle": "Interactive dashboard with real-time charts",
+            "description": "Analyze trends, identify spending patterns and make better financial decisions with our intuitive control panel.",
+            "feature1": "Interactive charts",
+            "feature2": "Trend analysis",
+            "feature3": "Exportable reports"
+        },
+        "cta": {
+            "title": "Ready to take control of your expenses?",
+            "subtitle": "Start your free trial today",
+            "description": "Join thousands of users who are already optimizing their finances",
+            "button": "Sign up free",
+            "trustIndicator1": "Free forever",
+            "trustIndicator2": "No credit card required",
+            "trustIndicator3": "Setup in 2 minutes"
+        }
     },
-    "tickets": {
-      "title": "My tickets",
-      "subtitle": "Manage all your tickets",
-      "empty": "You don't have any tickets yet",
-      "emptyDescription": "Upload your first ticket to start analyzing your expenses",
-      "upload": {
-        "title": "Upload new ticket",
-        "dragDrop": "Drag your ticket here",
-        "or": "or",
-        "selectFile": "Select file",
-        "supportedFormats": "Supported formats: JPEG, PNG, WebP, PDF (max. 10MB)",
-        "process": "Process ticket",
-        "cancel": "Cancel"
-      },
-      "list": {
-        "title": "Your tickets",
-        "view": "View details",
-        "edit": "Edit",
-        "delete": "Delete",
-        "expandImage": "Expand image",
-        "closeImage": "Click outside the image to close"
-      },
-      "uploading": {
-        "processing": "Processing...",
-        "ocr": "Extracting text from ticket...",
-        "saving": "Saving ticket..."
-      },
-      "confirm": {
-        "title": "Confirm ticket data",
-        "subtitle": "Review and edit the extracted data before saving",
-        "storeName": "Store name",
-        "storeNamePlaceholder": "E.g: Walmart, Target...",
-        "category": "Category",
-        "purchaseDate": "Purchase date",
-        "tax": "Tax",
-        "products": "Products",
-        "addProduct": "Add product",
-        "productName": "Product name",
-        "quantity": "Qty.",
-        "unitPrice": "Unit price",
-        "totalPrice": "Total",
-        "removeProduct": "Remove product",
-        "noProducts": "No products. Add at least one.",
-        "totalAmount": "Total amount",
-        "productsTotal": "Products total",
-        "totalMismatch": "Total doesn't match the sum of products",
+    "notFound": {
+        "title": "Page not found",
+        "description": "Sorry, the page you're looking for doesn't exist or has been moved. Go back to the home page or try again.",
+        "homePage": "Go to home",
+        "goBack": "Go back"
+    },
+    "footer": {
+        "description": "Manage your shopping receipts with intelligence. Automatic analysis, smart classification and real-time statistics.",
+        "product": {
+            "title": "Product",
+            "features": "Features",
+            "pricing": "Pricing",
+            "security": "Security",
+            "roadmap": "Roadmap"
+        },
+        "company": {
+            "title": "Company",
+            "about": "About",
+            "blog": "Blog",
+            "careers": "Careers",
+            "contact": "Contact"
+        },
+        "legal": {
+            "title": "Legal",
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service",
+            "cookies": "Cookie Policy",
+            "disclaimer": "Legal Disclaimer"
+        },
+        "rights": "All rights reserved.",
+        "madeWith": "Made with ❤️ by the Tikit team"
+    },
+    "dashboard": {
+        "welcome": "Welcome",
+        "logout": "Sign out",
+        "totalSpent": "Total spent",
+        "ticketsCount": "Tickets",
+        "averagePerTicket": "Average per ticket",
+        "totalTickets": "Total tickets",
+        "allTime": "All time",
+        "thisMonth": "This month",
+        "getStarted": "Get started",
+        "uploadFirstTicket": "Upload your first ticket to start analyzing your expenses",
+        "uploadTicket": "Upload ticket",
+        "steps": {
+            "step1Title": "Upload your ticket",
+            "step1Description": "Capture or select an image of your purchase ticket",
+            "step2Title": "Automatic extraction",
+            "step2Description": "AI automatically extracts all relevant information",
+            "step3Title": "Analyze and save",
+            "step3Description": "Get insights about your expenses and personalized recommendations"
+        },
+        "sidebar": {
+            "home": "Home",
+            "tickets": "My tickets",
+            "stats": "Statistics",
+            "recommendations": "AI Recommendations"
+        },
+        "home": {
+            "title": "Home",
+            "subtitle": "Upload your purchase tickets",
+            "uploadButton": "Upload ticket"
+        },
+        "tickets": {
+            "title": "My tickets",
+            "subtitle": "Manage all your tickets",
+            "empty": "You don't have any tickets yet",
+            "emptyDescription": "Upload your first ticket to start analyzing your expenses",
+            "upload": {
+                "title": "Upload new ticket",
+                "dragDrop": "Drag your ticket here",
+                "or": "or",
+                "selectFile": "Select file",
+                "supportedFormats": "Supported formats: JPEG, PNG, WebP, PDF (max. 10MB)",
+                "process": "Process ticket",
+                "cancel": "Cancel"
+            },
+            "list": {
+                "title": "Your tickets",
+                "view": "View details",
+                "edit": "Edit",
+                "delete": "Delete",
+                "expandImage": "Expand image",
+                "closeImage": "Click outside the image to close"
+            },
+            "uploading": {
+                "processing": "Processing...",
+                "ocr": "Extracting text from ticket...",
+                "saving": "Saving ticket..."
+            },
+            "confirm": {
+                "title": "Confirm ticket data",
+                "subtitle": "Review and edit the extracted data before saving",
+                "storeName": "Store name",
+                "storeNamePlaceholder": "E.g: Walmart, Target...",
+                "category": "Category",
+                "purchaseDate": "Purchase date",
+                "tax": "Tax",
+                "products": "Products",
+                "addProduct": "Add product",
+                "productName": "Product name",
+                "quantity": "Qty.",
+                "unitPrice": "Unit price",
+                "totalPrice": "Total",
+                "removeProduct": "Remove product",
+                "noProducts": "No products. Add at least one.",
+                "totalAmount": "Total amount",
+                "productsTotal": "Products total",
+                "totalMismatch": "Total doesn't match the sum of products",
+                "cancel": "Cancel",
+                "confirm": "Confirm and save",
+                "saving": "Saving..."
+            },
+            "errors": {
+                "invalidType": "Invalid file type. Use JPEG, PNG, WebP or PDF",
+                "fileTooLarge": "File is too large. Maximum 10MB",
+                "uploadFailed": "Error uploading ticket. Please try again"
+            },
+            "delete": {
+                "title": "Delete ticket?",
+                "description": "You are about to delete the ticket from:",
+                "warning": "This action cannot be undone. The ticket and all its associated products will be permanently deleted.",
+                "cancel": "Cancel",
+                "confirm": "Delete",
+                "deleting": "Deleting..."
+            }
+        },
+        "stats": {
+            "title": "Statistics",
+            "subtitle": "Analyze your expenses",
+            "filters": {
+                "title": "Filter by period",
+                "period": {
+                    "label": "Period",
+                    "allTime": "All time",
+                    "currentMonth": "Current month",
+                    "currentYear": "Current year",
+                    "custom": "Custom"
+                },
+                "year": {
+                    "label": "Year",
+                    "placeholder": "Select year"
+                },
+                "month": {
+                    "label": "Month",
+                    "placeholder": "Select month",
+                    "january": "January",
+                    "february": "February",
+                    "march": "March",
+                    "april": "April",
+                    "may": "May",
+                    "june": "June",
+                    "july": "July",
+                    "august": "August",
+                    "september": "September",
+                    "october": "October",
+                    "november": "November",
+                    "december": "December"
+                },
+                "apply": "Apply filters",
+                "reset": "Reset"
+            },
+            "overview": {
+                "title": "Monthly Overview",
+                "totalSpent": "Total Spent",
+                "ticketsCount": "Tickets Registered",
+                "averageTicket": "Average Spending",
+                "monthComparison": "vs. previous month"
+            },
+            "byCategory": {
+                "title": "Spending by Category",
+                "subtitle": "Distribution of your expenses",
+                "noData": "No category data yet",
+                "category": "Category",
+                "amount": "Amount",
+                "percentage": "Percentage"
+            },
+            "trends": {
+                "title": "Spending Trends",
+                "subtitle": "Last 6 months",
+                "noData": "Not enough data to show trends",
+                "month": "Month",
+                "spending": "Spending"
+            },
+            "topStores": {
+                "title": "Frequent Stores",
+                "subtitle": "Your most visited stores",
+                "noData": "No store data yet",
+                "store": "Store",
+                "visits": "Visits",
+                "total": "Total spent"
+            },
+            "export": {
+                "period": "Period",
+                "tickets": "Tickets",
+                "pdf": "Export PDF",
+                "pdfTooltip": "Download statistics with ticket details in PDF",
+                "loading": "Generating...",
+                "ticketsDetail": {
+                    "title": "Period Ticket Details",
+                    "date": "Date",
+                    "store": "Store",
+                    "category": "Category",
+                    "total": "Total",
+                    "products": "Product",
+                    "quantity": "Qty.",
+                    "unitPrice": "Unit P.",
+                    "price": "Price"
+                }
+            },
+            "loading": "Loading statistics...",
+            "error": "Error loading statistics",
+            "retry": "Retry",
+            "noTickets": "You don't have any tickets yet",
+            "uploadFirst": "Upload your first ticket to see statistics"
+        },
+        "ai": {
+            "title": "AI Recommendations",
+            "subtitle": "Personalized insights about your spending",
+            "recommendations": "Your Recommendations",
+            "recommendationsSubtitle": "Personalized analysis based on your spending patterns",
+            "loading": "Loading recommendations...",
+            "error": "Error loading recommendations",
+            "retry": "Retry",
+            "noRecommendations": "No recommendations available",
+            "noData": "Upload more tickets to receive personalized recommendations",
+            "regenerate": "Refresh",
+            "regenerating": "Refreshing..."
+        }
+    },
+    "profile": {
+        "title": "My Profile",
+        "subtitle": "Manage your personal information",
+        "fullName": "Full Name",
+        "email": "Email Address",
+        "userId": "User ID",
+        "notSet": "Not set",
+        "editProfile": "Edit Profile",
+        "namePlaceholder": "Your full name",
+        "emailPlaceholder": "you@email.com",
+        "emailCannotBeChanged": "Email cannot be changed for Google accounts",
+        "profileImage": "Profile Picture",
+        "selectImage": "Select image",
+        "changeImage": "Change image",
+        "cancelSelection": "Cancel selection",
+        "imagePreview": "Profile picture preview",
+        "cropImage": "Crop image",
+        "cropInstructions": "Drag to adjust the area you want to use as your profile picture",
+        "confirm": "Confirm",
         "cancel": "Cancel",
-        "confirm": "Confirm and save",
-        "saving": "Saving..."
-      },
-      "errors": {
-        "invalidType": "Invalid file type. Use JPEG, PNG, WebP or PDF",
-        "fileTooLarge": "File is too large. Maximum 10MB",
-        "uploadFailed": "Error uploading ticket. Please try again"
-      },
-      "delete": {
-        "title": "Delete ticket?",
-        "description": "You are about to delete the ticket from:",
-        "warning": "This action cannot be undone. The ticket and all its associated products will be permanently deleted.",
-        "cancel": "Cancel",
-        "confirm": "Delete",
-        "deleting": "Deleting..."
-      }
+        "save": "Save",
+        "changePassword": {
+            "title": "Change Password",
+            "subtitle": "Update your login password",
+            "changeButton": "Change Password",
+            "currentPassword": "Current Password",
+            "currentPasswordPlaceholder": "Your current password",
+            "newPassword": "New Password",
+            "newPasswordPlaceholder": "Minimum 8 characters",
+            "confirmPassword": "Confirm New Password",
+            "confirmPasswordPlaceholder": "Repeat the new password",
+            "saveButton": "Update Password",
+            "cancelButton": "Cancel",
+            "saving": "Saving...",
+            "success": "Password updated successfully",
+            "errors": {
+                "currentPasswordRequired": "Current password is required",
+                "newPasswordRequired": "New password is required",
+                "passwordMin": "Password must be at least 8 characters",
+                "confirmPasswordRequired": "Confirm the new password",
+                "passwordMatch": "Passwords do not match",
+                "incorrectPassword": "Current password is incorrect",
+                "cannotChangeOAuth": "Cannot change password for OAuth accounts (Google)",
+                "serverError": "Error changing password. Please try again"
+            }
+        },
+        "deleteAccount": {
+            "title": "Delete Account",
+            "subtitle": "This action is permanent and cannot be undone. All your data will be deleted.",
+            "deleteButton": "Delete my account",
+            "modalTitle": "Are you sure?",
+            "modalWarning": "This action will permanently delete your account and all associated data. This action cannot be undone.",
+            "passwordLabel": "Confirm your password",
+            "passwordPlaceholder": "Your current password",
+            "confirmationLabel": "Type DELETE to confirm",
+            "confirmationPlaceholder": "DELETE",
+            "confirmationHint": "Type the word DELETE (in uppercase) or ELIMINAR to confirm",
+            "cancelButton": "Cancel",
+            "confirmButton": "Delete account",
+            "deleting": "Deleting...",
+            "permanentWarning": "This action is irreversible. Once deleted, you cannot recover your account.",
+            "errors": {
+                "passwordRequired": "Password is required",
+                "invalidConfirmation": "You must type DELETE or ELIMINAR to confirm",
+                "incorrectPassword": "Password is incorrect",
+                "serverError": "Error deleting account. Please try again"
+            }
+        }
     },
-    "stats": {
-      "title": "Statistics",
-      "subtitle": "Analyze your expenses",
-      "filters": {
-        "title": "Filter by period",
-        "period": {
-          "label": "Period",
-          "allTime": "All time",
-          "currentMonth": "Current month",
-          "currentYear": "Current year",
-          "custom": "Custom"
-        },
-        "year": {
-          "label": "Year",
-          "placeholder": "Select year"
-        },
-        "month": {
-          "label": "Month",
-          "placeholder": "Select month",
-          "january": "January",
-          "february": "February",
-          "march": "March",
-          "april": "April",
-          "may": "May",
-          "june": "June",
-          "july": "July",
-          "august": "August",
-          "september": "September",
-          "october": "October",
-          "november": "November",
-          "december": "December"
-        },
-        "apply": "Apply filters",
-        "reset": "Reset"
-      },
-      "overview": {
-        "title": "Monthly Overview",
-        "totalSpent": "Total Spent",
-        "ticketsCount": "Tickets Registered",
-        "averageTicket": "Average Spending",
-        "monthComparison": "vs. previous month"
-      },
-      "byCategory": {
-        "title": "Spending by Category",
-        "subtitle": "Distribution of your expenses",
-        "noData": "No category data yet",
-        "category": "Category",
-        "amount": "Amount",
-        "percentage": "Percentage"
-      },
-      "trends": {
-        "title": "Spending Trends",
-        "subtitle": "Last 6 months",
-        "noData": "Not enough data to show trends",
-        "month": "Month",
-        "spending": "Spending"
-      },
-      "topStores": {
-        "title": "Frequent Stores",
-        "subtitle": "Your most visited stores",
-        "noData": "No store data yet",
-        "store": "Store",
-        "visits": "Visits",
-        "total": "Total spent"
-      },
-      "loading": "Loading statistics...",
-      "error": "Error loading statistics",
-      "retry": "Retry",
-      "noTickets": "You don't have any tickets yet",
-      "uploadFirst": "Upload your first ticket to see statistics"
-    },
-    "ai": {
-      "title": "AI Recommendations",
-      "subtitle": "Personalized insights about your spending",
-      "recommendations": "Your Recommendations",
-      "recommendationsSubtitle": "Personalized analysis based on your spending patterns",
-      "loading": "Loading recommendations...",
-      "error": "Error loading recommendations",
-      "retry": "Retry",
-      "noRecommendations": "No recommendations available",
-      "noData": "Upload more tickets to receive personalized recommendations",
-      "regenerate": "Refresh",
-      "regenerating": "Refreshing..."
+    "categories": {
+        "alimentacion": "Food",
+        "ocio": "Entertainment",
+        "transporte": "Transport",
+        "salud": "Health",
+        "hogar": "Home",
+        "otros": "Other"
     }
-  },
-  "profile": {
-    "title": "My Profile",
-    "subtitle": "Manage your personal information",
-    "fullName": "Full Name",
-    "email": "Email Address",
-    "userId": "User ID",
-    "notSet": "Not set",
-    "editProfile": "Edit Profile",
-    "namePlaceholder": "Your full name",
-    "emailPlaceholder": "you@email.com",
-    "emailCannotBeChanged": "Email cannot be changed for Google accounts",
-    "profileImage": "Profile Picture",
-    "selectImage": "Select image",
-    "changeImage": "Change image",
-    "cancelSelection": "Cancel selection",
-    "imagePreview": "Profile picture preview",
-    "cropImage": "Crop image",
-    "cropInstructions": "Drag to adjust the area you want to use as your profile picture",
-    "confirm": "Confirm",
-    "cancel": "Cancel",
-    "save": "Save",
-    "changePassword": {
-      "title": "Change Password",
-      "subtitle": "Update your login password",
-      "changeButton": "Change Password",
-      "currentPassword": "Current Password",
-      "currentPasswordPlaceholder": "Your current password",
-      "newPassword": "New Password",
-      "newPasswordPlaceholder": "Minimum 8 characters",
-      "confirmPassword": "Confirm New Password",
-      "confirmPasswordPlaceholder": "Repeat the new password",
-      "saveButton": "Update Password",
-      "cancelButton": "Cancel",
-      "saving": "Saving...",
-      "success": "Password updated successfully",
-      "errors": {
-        "currentPasswordRequired": "Current password is required",
-        "newPasswordRequired": "New password is required",
-        "passwordMin": "Password must be at least 8 characters",
-        "confirmPasswordRequired": "Confirm the new password",
-        "passwordMatch": "Passwords do not match",
-        "incorrectPassword": "Current password is incorrect",
-        "cannotChangeOAuth": "Cannot change password for OAuth accounts (Google)",
-        "serverError": "Error changing password. Please try again"
-      }
-    },
-    "deleteAccount": {
-      "title": "Delete Account",
-      "subtitle": "This action is permanent and cannot be undone. All your data will be deleted.",
-      "deleteButton": "Delete my account",
-      "modalTitle": "Are you sure?",
-      "modalWarning": "This action will permanently delete your account and all associated data. This action cannot be undone.",
-      "passwordLabel": "Confirm your password",
-      "passwordPlaceholder": "Your current password",
-      "confirmationLabel": "Type DELETE to confirm",
-      "confirmationPlaceholder": "DELETE",
-      "confirmationHint": "Type the word DELETE (in uppercase) or ELIMINAR to confirm",
-      "cancelButton": "Cancel",
-      "confirmButton": "Delete account",
-      "deleting": "Deleting...",
-      "permanentWarning": "This action is irreversible. Once deleted, you cannot recover your account.",
-      "errors": {
-        "passwordRequired": "Password is required",
-        "invalidConfirmation": "You must type DELETE or ELIMINAR to confirm",
-        "incorrectPassword": "Password is incorrect",
-        "serverError": "Error deleting account. Please try again"
-      }
-    }
-  },
-  "categories": {
-    "alimentacion": "Food",
-    "ocio": "Entertainment",
-    "transporte": "Transport",
-    "salud": "Health",
-    "hogar": "Home",
-    "otros": "Other"
-  }
 }
-

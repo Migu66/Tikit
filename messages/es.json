@@ -1,398 +1,416 @@
 {
-  "common": {
-    "login": "Iniciar Sesión",
-    "register": "Registrarse",
-    "logout": "Cerrar Sesión",
-    "dashboard": "Ir al Dashboard",
-    "language": "Idioma",
-    "profile": "Ver perfil",
-    "signOut": "Cerrar sesión"
-  },
-  "auth": {
-    "register": {
-      "title": "Crear cuenta",
-      "subtitle": "Comienza a gestionar tus tickets de forma inteligente",
-      "email": "Correo electrónico",
-      "emailPlaceholder": "tu@email.com",
-      "password": "Contraseña",
-      "passwordPlaceholder": "Mínimo 8 caracteres",
-      "confirmPassword": "Confirmar contraseña",
-      "confirmPasswordPlaceholder": "Repite tu contraseña",
-      "name": "Nombre completo",
-      "namePlaceholder": "Juan Pérez",
-      "button": "Crear cuenta",
-      "buttonLoading": "Creando cuenta...",
-      "or": "O continuar con",
-      "googleButton": "Continuar con Google",
-      "hasAccount": "¿Ya tienes una cuenta?",
-      "loginLink": "Inicia sesión",
-      "terms": "Al registrarte aceptas nuestros",
-      "termsLink": "Términos de Servicio",
-      "and": "y",
-      "privacyLink": "Política de Privacidad",
-      "errors": {
-        "emailRequired": "El correo electrónico es obligatorio",
-        "emailInvalid": "Correo electrónico inválido",
-        "passwordRequired": "La contraseña es obligatoria",
-        "passwordMin": "La contraseña debe tener al menos 8 caracteres",
-        "passwordMatch": "Las contraseñas no coinciden",
-        "nameRequired": "El nombre es obligatorio",
-        "nameMin": "El nombre debe tener al menos 2 caracteres",
-        "emailExists": "Este correo electrónico ya está registrado",
-        "serverError": "Error al crear la cuenta. Intenta de nuevo."
-      },
-      "success": "Cuenta creada exitosamente. Redirigiendo..."
+    "common": {
+        "login": "Iniciar Sesión",
+        "register": "Registrarse",
+        "logout": "Cerrar Sesión",
+        "dashboard": "Ir al Dashboard",
+        "language": "Idioma",
+        "profile": "Ver perfil",
+        "signOut": "Cerrar sesión"
     },
-    "login": {
-      "title": "Iniciar sesión",
-      "subtitle": "Accede a tu cuenta",
-      "email": "Correo electrónico",
-      "emailPlaceholder": "tu@email.com",
-      "password": "Contraseña",
-      "passwordPlaceholder": "Tu contraseña",
-      "button": "Iniciar sesión",
-      "buttonLoading": "Iniciando sesión...",
-      "googleButton": "Continuar con Google",
-      "noAccount": "¿No tienes cuenta?",
-      "registerLink": "Regístrate",
-      "errors": {
-        "invalidCredentials": "Correo o contraseña incorrectos",
-        "serverError": "Error al iniciar sesión. Intenta de nuevo."
-      }
-    }
-  },
-  "home": {
-    "hero": {
-      "title": "Gestiona tus tickets con inteligencia",
-      "subtitle": "Digitaliza, analiza y organiza tus gastos de forma automática con IA",
-      "description": "La forma más sencilla de mantener tus finanzas personales bajo control. Tecnología OCR avanzada, clasificación inteligente y análisis en tiempo real.",
-      "cta": "Comenzar ahora"
-    },
-    "features": {
-      "title": "Todo lo que necesitas",
-      "subtitle": "Herramientas inteligentes para gestionar tus gastos",
-      "ocr": {
-        "title": "OCR Automático",
-        "description": "Extrae información de tus tickets al instante con tecnología de reconocimiento óptico avanzada"
-      },
-      "classification": {
-        "title": "Clasificación Inteligente",
-        "description": "La IA organiza automáticamente tus gastos por categorías para un mejor seguimiento"
-      },
-      "dashboard": {
-        "title": "Dashboard Interactivo",
-        "description": "Visualiza tus gastos con gráficos elegantes y obtén insights personalizados"
-      },
-      "multilang": {
-        "title": "Multi-idioma",
-        "description": "Disponible en español e inglés con soporte para más idiomas próximamente"
-      }
-    },
-    "showcase": {
-      "title": "Visualiza tus gastos de forma inteligente",
-      "subtitle": "Dashboard interactivo con gráficos en tiempo real",
-      "description": "Analiza tendencias, identifica patrones de gasto y toma mejores decisiones financieras con nuestro panel de control intuitivo.",
-      "feature1": "Gráficos interactivos",
-      "feature2": "Análisis de tendencias",
-      "feature3": "Reportes exportables"
-    },
-    "cta": {
-      "title": "¿Listo para tomar el control de tus gastos?",
-      "subtitle": "Comienza tu prueba gratuita hoy",
-      "description": "Únete a miles de usuarios que ya están optimizando sus finanzas",
-      "button": "Regístrate gratis",
-      "trustIndicator1": "Gratis para siempre",
-      "trustIndicator2": "Sin tarjeta de crédito",
-      "trustIndicator3": "Configuración en 2 minutos"
-    }
-  },
-  "notFound": {
-    "title": "Página no encontrada",
-    "description": "Lo sentimos, la página que buscas no existe o ha sido movida. Vuelve a la página principal o intenta nuevamente.",
-    "homePage": "Ir a inicio",
-    "goBack": "Volver atrás"
-  },
-  "footer": {
-    "description": "Gestiona tus tickets de compra con inteligencia. Análisis automático, clasificación inteligente y estadísticas en tiempo real.",
-    "product": {
-      "title": "Producto",
-      "features": "Características",
-      "pricing": "Precios",
-      "security": "Seguridad",
-      "roadmap": "Roadmap"
-    },
-    "company": {
-      "title": "Empresa",
-      "about": "Acerca de",
-      "blog": "Blog",
-      "careers": "Carreras",
-      "contact": "Contacto"
-    },
-    "legal": {
-      "title": "Legal",
-      "privacy": "Privacidad",
-      "terms": "Términos de Servicio",
-      "cookies": "Política de Cookies",
-      "disclaimer": "Aviso Legal"
-    },
-    "rights": "Todos los derechos reservados.",
-    "madeWith": "Hecho con ❤️ por el equipo de Tikit"
-  },
-  "dashboard": {
-    "welcome": "Bienvenido",
-    "logout": "Cerrar sesión",
-    "totalSpent": "Gasto total",
-    "ticketsCount": "Tickets",
-    "averagePerTicket": "Promedio por ticket",
-    "totalTickets": "Total de tickets",
-    "allTime": "Todos los tiempos",
-    "thisMonth": "Este mes",
-    "getStarted": "Comienza ahora",
-    "uploadFirstTicket": "Sube tu primer ticket para comenzar a analizar tus gastos",
-    "uploadTicket": "Subir ticket",
-    "steps": {
-      "step1Title": "Sube tu ticket",
-      "step1Description": "Captura o selecciona una imagen de tu ticket de compra",
-      "step2Title": "Extracción automática",
-      "step2Description": "La IA extrae automáticamente toda la información relevante",
-      "step3Title": "Analiza y ahorra",
-      "step3Description": "Obtén insights sobre tus gastos y recomendaciones personalizadas"
-    },
-    "sidebar": {
-      "home": "Home",
-      "tickets": "Mis tickets",
-      "stats": "Estadísticas",
-      "recommendations": "Recomendaciones con IA"
+    "auth": {
+        "register": {
+            "title": "Crear cuenta",
+            "subtitle": "Comienza a gestionar tus tickets de forma inteligente",
+            "email": "Correo electrónico",
+            "emailPlaceholder": "tu@email.com",
+            "password": "Contraseña",
+            "passwordPlaceholder": "Mínimo 8 caracteres",
+            "confirmPassword": "Confirmar contraseña",
+            "confirmPasswordPlaceholder": "Repite tu contraseña",
+            "name": "Nombre completo",
+            "namePlaceholder": "Juan Pérez",
+            "button": "Crear cuenta",
+            "buttonLoading": "Creando cuenta...",
+            "or": "O continuar con",
+            "googleButton": "Continuar con Google",
+            "hasAccount": "¿Ya tienes una cuenta?",
+            "loginLink": "Inicia sesión",
+            "terms": "Al registrarte aceptas nuestros",
+            "termsLink": "Términos de Servicio",
+            "and": "y",
+            "privacyLink": "Política de Privacidad",
+            "errors": {
+                "emailRequired": "El correo electrónico es obligatorio",
+                "emailInvalid": "Correo electrónico inválido",
+                "passwordRequired": "La contraseña es obligatoria",
+                "passwordMin": "La contraseña debe tener al menos 8 caracteres",
+                "passwordMatch": "Las contraseñas no coinciden",
+                "nameRequired": "El nombre es obligatorio",
+                "nameMin": "El nombre debe tener al menos 2 caracteres",
+                "emailExists": "Este correo electrónico ya está registrado",
+                "serverError": "Error al crear la cuenta. Intenta de nuevo."
+            },
+            "success": "Cuenta creada exitosamente. Redirigiendo..."
+        },
+        "login": {
+            "title": "Iniciar sesión",
+            "subtitle": "Accede a tu cuenta",
+            "email": "Correo electrónico",
+            "emailPlaceholder": "tu@email.com",
+            "password": "Contraseña",
+            "passwordPlaceholder": "Tu contraseña",
+            "button": "Iniciar sesión",
+            "buttonLoading": "Iniciando sesión...",
+            "googleButton": "Continuar con Google",
+            "noAccount": "¿No tienes cuenta?",
+            "registerLink": "Regístrate",
+            "errors": {
+                "invalidCredentials": "Correo o contraseña incorrectos",
+                "serverError": "Error al iniciar sesión. Intenta de nuevo."
+            }
+        }
     },
     "home": {
-      "title": "Home",
-      "subtitle": "Sube tus tickets de compra",
-      "uploadButton": "Subir ticket"
+        "hero": {
+            "title": "Gestiona tus tickets con inteligencia",
+            "subtitle": "Digitaliza, analiza y organiza tus gastos de forma automática con IA",
+            "description": "La forma más sencilla de mantener tus finanzas personales bajo control. Tecnología OCR avanzada, clasificación inteligente y análisis en tiempo real.",
+            "cta": "Comenzar ahora"
+        },
+        "features": {
+            "title": "Todo lo que necesitas",
+            "subtitle": "Herramientas inteligentes para gestionar tus gastos",
+            "ocr": {
+                "title": "OCR Automático",
+                "description": "Extrae información de tus tickets al instante con tecnología de reconocimiento óptico avanzada"
+            },
+            "classification": {
+                "title": "Clasificación Inteligente",
+                "description": "La IA organiza automáticamente tus gastos por categorías para un mejor seguimiento"
+            },
+            "dashboard": {
+                "title": "Dashboard Interactivo",
+                "description": "Visualiza tus gastos con gráficos elegantes y obtén insights personalizados"
+            },
+            "multilang": {
+                "title": "Multi-idioma",
+                "description": "Disponible en español e inglés con soporte para más idiomas próximamente"
+            }
+        },
+        "showcase": {
+            "title": "Visualiza tus gastos de forma inteligente",
+            "subtitle": "Dashboard interactivo con gráficos en tiempo real",
+            "description": "Analiza tendencias, identifica patrones de gasto y toma mejores decisiones financieras con nuestro panel de control intuitivo.",
+            "feature1": "Gráficos interactivos",
+            "feature2": "Análisis de tendencias",
+            "feature3": "Reportes exportables"
+        },
+        "cta": {
+            "title": "¿Listo para tomar el control de tus gastos?",
+            "subtitle": "Comienza tu prueba gratuita hoy",
+            "description": "Únete a miles de usuarios que ya están optimizando sus finanzas",
+            "button": "Regístrate gratis",
+            "trustIndicator1": "Gratis para siempre",
+            "trustIndicator2": "Sin tarjeta de crédito",
+            "trustIndicator3": "Configuración en 2 minutos"
+        }
     },
-    "tickets": {
-      "title": "Mis tickets",
-      "subtitle": "Gestiona todos tus tickets",
-      "empty": "No tienes tickets todavía",
-      "emptyDescription": "Sube tu primer ticket para comenzar a analizar tus gastos",
-      "upload": {
-        "title": "Subir nuevo ticket",
-        "dragDrop": "Arrastra tu ticket aquí",
-        "or": "o",
-        "selectFile": "Seleccionar archivo",
-        "supportedFormats": "Formatos soportados: JPEG, PNG, WebP, PDF (máx. 10MB)",
-        "process": "Procesar ticket",
-        "cancel": "Cancelar"
-      },
-      "list": {
-        "title": "Tus tickets",
-        "view": "Ver detalles",
-        "edit": "Editar",
-        "delete": "Eliminar",
-        "expandImage": "Ampliar imagen",
-        "closeImage": "Haz clic fuera de la imagen para cerrar"
-      },
-      "uploading": {
-        "processing": "Procesando...",
-        "ocr": "Extrayendo texto del ticket...",
-        "saving": "Guardando ticket..."
-      },
-      "confirm": {
-        "title": "Confirmar datos del ticket",
-        "subtitle": "Revisa y edita los datos extraídos antes de guardar",
-        "storeName": "Nombre del comercio",
-        "storeNamePlaceholder": "Ej: Mercadona, Carrefour...",
-        "category": "Categoría",
-        "purchaseDate": "Fecha de compra",
-        "tax": "IVA",
-        "products": "Productos",
-        "addProduct": "Añadir producto",
-        "productName": "Nombre del producto",
-        "quantity": "Cant.",
-        "unitPrice": "Precio unit.",
-        "totalPrice": "Total",
-        "removeProduct": "Eliminar producto",
-        "noProducts": "No hay productos. Añade al menos uno.",
-        "totalAmount": "Importe total",
-        "productsTotal": "Total de productos",
-        "totalMismatch": "El total no coincide con la suma de productos",
+    "notFound": {
+        "title": "Página no encontrada",
+        "description": "Lo sentimos, la página que buscas no existe o ha sido movida. Vuelve a la página principal o intenta nuevamente.",
+        "homePage": "Ir a inicio",
+        "goBack": "Volver atrás"
+    },
+    "footer": {
+        "description": "Gestiona tus tickets de compra con inteligencia. Análisis automático, clasificación inteligente y estadísticas en tiempo real.",
+        "product": {
+            "title": "Producto",
+            "features": "Características",
+            "pricing": "Precios",
+            "security": "Seguridad",
+            "roadmap": "Roadmap"
+        },
+        "company": {
+            "title": "Empresa",
+            "about": "Acerca de",
+            "blog": "Blog",
+            "careers": "Carreras",
+            "contact": "Contacto"
+        },
+        "legal": {
+            "title": "Legal",
+            "privacy": "Privacidad",
+            "terms": "Términos de Servicio",
+            "cookies": "Política de Cookies",
+            "disclaimer": "Aviso Legal"
+        },
+        "rights": "Todos los derechos reservados.",
+        "madeWith": "Hecho con ❤️ por el equipo de Tikit"
+    },
+    "dashboard": {
+        "welcome": "Bienvenido",
+        "logout": "Cerrar sesión",
+        "totalSpent": "Gasto total",
+        "ticketsCount": "Tickets",
+        "averagePerTicket": "Promedio por ticket",
+        "totalTickets": "Total de tickets",
+        "allTime": "Todos los tiempos",
+        "thisMonth": "Este mes",
+        "getStarted": "Comienza ahora",
+        "uploadFirstTicket": "Sube tu primer ticket para comenzar a analizar tus gastos",
+        "uploadTicket": "Subir ticket",
+        "steps": {
+            "step1Title": "Sube tu ticket",
+            "step1Description": "Captura o selecciona una imagen de tu ticket de compra",
+            "step2Title": "Extracción automática",
+            "step2Description": "La IA extrae automáticamente toda la información relevante",
+            "step3Title": "Analiza y ahorra",
+            "step3Description": "Obtén insights sobre tus gastos y recomendaciones personalizadas"
+        },
+        "sidebar": {
+            "home": "Home",
+            "tickets": "Mis tickets",
+            "stats": "Estadísticas",
+            "recommendations": "Recomendaciones con IA"
+        },
+        "home": {
+            "title": "Home",
+            "subtitle": "Sube tus tickets de compra",
+            "uploadButton": "Subir ticket"
+        },
+        "tickets": {
+            "title": "Mis tickets",
+            "subtitle": "Gestiona todos tus tickets",
+            "empty": "No tienes tickets todavía",
+            "emptyDescription": "Sube tu primer ticket para comenzar a analizar tus gastos",
+            "upload": {
+                "title": "Subir nuevo ticket",
+                "dragDrop": "Arrastra tu ticket aquí",
+                "or": "o",
+                "selectFile": "Seleccionar archivo",
+                "supportedFormats": "Formatos soportados: JPEG, PNG, WebP, PDF (máx. 10MB)",
+                "process": "Procesar ticket",
+                "cancel": "Cancelar"
+            },
+            "list": {
+                "title": "Tus tickets",
+                "view": "Ver detalles",
+                "edit": "Editar",
+                "delete": "Eliminar",
+                "expandImage": "Ampliar imagen",
+                "closeImage": "Haz clic fuera de la imagen para cerrar"
+            },
+            "uploading": {
+                "processing": "Procesando...",
+                "ocr": "Extrayendo texto del ticket...",
+                "saving": "Guardando ticket..."
+            },
+            "confirm": {
+                "title": "Confirmar datos del ticket",
+                "subtitle": "Revisa y edita los datos extraídos antes de guardar",
+                "storeName": "Nombre del comercio",
+                "storeNamePlaceholder": "Ej: Mercadona, Carrefour...",
+                "category": "Categoría",
+                "purchaseDate": "Fecha de compra",
+                "tax": "IVA",
+                "products": "Productos",
+                "addProduct": "Añadir producto",
+                "productName": "Nombre del producto",
+                "quantity": "Cant.",
+                "unitPrice": "Precio unit.",
+                "totalPrice": "Total",
+                "removeProduct": "Eliminar producto",
+                "noProducts": "No hay productos. Añade al menos uno.",
+                "totalAmount": "Importe total",
+                "productsTotal": "Total de productos",
+                "totalMismatch": "El total no coincide con la suma de productos",
+                "cancel": "Cancelar",
+                "confirm": "Confirmar y guardar",
+                "saving": "Guardando..."
+            },
+            "errors": {
+                "invalidType": "Tipo de archivo no válido. Usa JPEG, PNG, WebP o PDF",
+                "fileTooLarge": "El archivo es demasiado grande. Máximo 10MB",
+                "uploadFailed": "Error al subir el ticket. Inténtalo de nuevo"
+            },
+            "delete": {
+                "title": "¿Eliminar ticket?",
+                "description": "Estás a punto de eliminar el ticket de:",
+                "warning": "Esta acción no se puede deshacer. El ticket y todos sus productos asociados se eliminarán permanentemente.",
+                "cancel": "Cancelar",
+                "confirm": "Eliminar",
+                "deleting": "Eliminando..."
+            }
+        },
+        "stats": {
+            "title": "Estadísticas",
+            "subtitle": "Analiza tus gastos",
+            "filters": {
+                "title": "Filtrar por período",
+                "period": {
+                    "label": "Período",
+                    "allTime": "Todo el tiempo",
+                    "currentMonth": "Mes actual",
+                    "currentYear": "Año actual",
+                    "custom": "Personalizado"
+                },
+                "year": {
+                    "label": "Año",
+                    "placeholder": "Seleccionar año"
+                },
+                "month": {
+                    "label": "Mes",
+                    "placeholder": "Seleccionar mes",
+                    "january": "Enero",
+                    "february": "Febrero",
+                    "march": "Marzo",
+                    "april": "Abril",
+                    "may": "Mayo",
+                    "june": "Junio",
+                    "july": "Julio",
+                    "august": "Agosto",
+                    "september": "Septiembre",
+                    "october": "Octubre",
+                    "november": "Noviembre",
+                    "december": "Diciembre"
+                },
+                "apply": "Aplicar filtros",
+                "reset": "Restablecer"
+            },
+            "overview": {
+                "title": "Resumen del Mes",
+                "totalSpent": "Gasto Total",
+                "ticketsCount": "Tickets Registrados",
+                "averageTicket": "Gasto Promedio",
+                "monthComparison": "vs. mes anterior"
+            },
+            "byCategory": {
+                "title": "Gastos por Categoría",
+                "subtitle": "Distribución de tus gastos",
+                "noData": "No hay datos de categorías aún",
+                "category": "Categoría",
+                "amount": "Monto",
+                "percentage": "Porcentaje"
+            },
+            "trends": {
+                "title": "Tendencias de Gasto",
+                "subtitle": "Últimos 6 meses",
+                "noData": "No hay suficientes datos para mostrar tendencias",
+                "month": "Mes",
+                "spending": "Gasto"
+            },
+            "topStores": {
+                "title": "Comercios Frecuentes",
+                "subtitle": "Tus tiendas más visitadas",
+                "noData": "No hay datos de comercios aún",
+                "store": "Comercio",
+                "visits": "Visitas",
+                "total": "Total gastado"
+            },
+            "export": {
+                "period": "Período",
+                "tickets": "Tickets",
+                "pdf": "Exportar PDF",
+                "pdfTooltip": "Descargar estadísticas con detalles de tickets en PDF",
+                "loading": "Generando...",
+                "ticketsDetail": {
+                    "title": "Detalle de Tickets del Período",
+                    "date": "Fecha",
+                    "store": "Comercio",
+                    "category": "Categoría",
+                    "total": "Total",
+                    "products": "Producto",
+                    "quantity": "Cant.",
+                    "unitPrice": "P. Unit.",
+                    "price": "Precio"
+                }
+            },
+            "loading": "Cargando estadísticas...",
+            "error": "Error al cargar las estadísticas",
+            "retry": "Reintentar",
+            "noTickets": "Aún no tienes tickets registrados",
+            "uploadFirst": "Sube tu primer ticket para ver estadísticas"
+        },
+        "ai": {
+            "title": "Recomendaciones con IA",
+            "subtitle": "Insights personalizados sobre tus gastos",
+            "recommendations": "Tus Recomendaciones",
+            "recommendationsSubtitle": "Análisis personalizado basado en tus patrones de gasto",
+            "loading": "Cargando recomendaciones...",
+            "error": "Error al cargar las recomendaciones",
+            "retry": "Reintentar",
+            "noRecommendations": "No hay recomendaciones disponibles",
+            "noData": "Sube más tickets para recibir recomendaciones personalizadas",
+            "regenerate": "Actualizar",
+            "regenerating": "Actualizando..."
+        }
+    },
+    "profile": {
+        "title": "Mi Perfil",
+        "subtitle": "Gestiona tu información personal",
+        "fullName": "Nombre Completo",
+        "email": "Correo Electrónico",
+        "userId": "ID de Usuario",
+        "notSet": "No configurado",
+        "editProfile": "Editar Perfil",
+        "namePlaceholder": "Tu nombre completo",
+        "emailPlaceholder": "tu@email.com",
+        "emailCannotBeChanged": "El correo no puede modificarse en cuentas de Google",
+        "profileImage": "Foto de Perfil",
+        "selectImage": "Seleccionar imagen",
+        "changeImage": "Cambiar imagen",
+        "cancelSelection": "Cancelar selección",
+        "imagePreview": "Vista previa de perfil",
+        "cropImage": "Recortar imagen",
+        "cropInstructions": "Arrastra para ajustar el área que deseas usar como foto de perfil",
+        "confirm": "Confirmar",
         "cancel": "Cancelar",
-        "confirm": "Confirmar y guardar",
-        "saving": "Guardando..."
-      },
-      "errors": {
-        "invalidType": "Tipo de archivo no válido. Usa JPEG, PNG, WebP o PDF",
-        "fileTooLarge": "El archivo es demasiado grande. Máximo 10MB",
-        "uploadFailed": "Error al subir el ticket. Inténtalo de nuevo"
-      },
-      "delete": {
-        "title": "¿Eliminar ticket?",
-        "description": "Estás a punto de eliminar el ticket de:",
-        "warning": "Esta acción no se puede deshacer. El ticket y todos sus productos asociados se eliminarán permanentemente.",
-        "cancel": "Cancelar",
-        "confirm": "Eliminar",
-        "deleting": "Eliminando..."
-      }
+        "save": "Guardar",
+        "changePassword": {
+            "title": "Cambiar Contraseña",
+            "subtitle": "Actualiza tu contraseña de acceso",
+            "changeButton": "Cambiar Contraseña",
+            "currentPassword": "Contraseña Actual",
+            "currentPasswordPlaceholder": "Tu contraseña actual",
+            "newPassword": "Nueva Contraseña",
+            "newPasswordPlaceholder": "Mínimo 8 caracteres",
+            "confirmPassword": "Confirmar Nueva Contraseña",
+            "confirmPasswordPlaceholder": "Repite la nueva contraseña",
+            "saveButton": "Actualizar Contraseña",
+            "cancelButton": "Cancelar",
+            "saving": "Guardando...",
+            "success": "Contraseña actualizada correctamente",
+            "errors": {
+                "currentPasswordRequired": "La contraseña actual es obligatoria",
+                "newPasswordRequired": "La nueva contraseña es obligatoria",
+                "passwordMin": "La contraseña debe tener al menos 8 caracteres",
+                "confirmPasswordRequired": "Confirma la nueva contraseña",
+                "passwordMatch": "Las contraseñas no coinciden",
+                "incorrectPassword": "La contraseña actual es incorrecta",
+                "cannotChangeOAuth": "No puedes cambiar la contraseña de una cuenta OAuth (Google)",
+                "serverError": "Error al cambiar la contraseña. Intenta de nuevo"
+            }
+        },
+        "deleteAccount": {
+            "title": "Eliminar Cuenta",
+            "subtitle": "Esta acción es permanente y no se puede deshacer. Se eliminarán todos tus datos.",
+            "deleteButton": "Eliminar mi cuenta",
+            "modalTitle": "¿Estás seguro?",
+            "modalWarning": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
+            "passwordLabel": "Confirma tu contraseña",
+            "passwordPlaceholder": "Tu contraseña actual",
+            "confirmationLabel": "Escribe ELIMINAR para confirmar",
+            "confirmationPlaceholder": "ELIMINAR",
+            "confirmationHint": "Escribe la palabra ELIMINAR (en mayúsculas) o DELETE para confirmar",
+            "cancelButton": "Cancelar",
+            "confirmButton": "Eliminar cuenta",
+            "deleting": "Eliminando...",
+            "permanentWarning": "Esta acción es irreversible. Una vez eliminada, no podrás recuperar tu cuenta.",
+            "errors": {
+                "passwordRequired": "La contraseña es obligatoria",
+                "invalidConfirmation": "Debes escribir ELIMINAR o DELETE para confirmar",
+                "incorrectPassword": "La contraseña es incorrecta",
+                "serverError": "Error al eliminar la cuenta. Intenta de nuevo"
+            }
+        }
     },
-    "stats": {
-      "title": "Estadísticas",
-      "subtitle": "Analiza tus gastos",
-      "filters": {
-        "title": "Filtrar por período",
-        "period": {
-          "label": "Período",
-          "allTime": "Todo el tiempo",
-          "currentMonth": "Mes actual",
-          "currentYear": "Año actual",
-          "custom": "Personalizado"
-        },
-        "year": {
-          "label": "Año",
-          "placeholder": "Seleccionar año"
-        },
-        "month": {
-          "label": "Mes",
-          "placeholder": "Seleccionar mes",
-          "january": "Enero",
-          "february": "Febrero",
-          "march": "Marzo",
-          "april": "Abril",
-          "may": "Mayo",
-          "june": "Junio",
-          "july": "Julio",
-          "august": "Agosto",
-          "september": "Septiembre",
-          "october": "Octubre",
-          "november": "Noviembre",
-          "december": "Diciembre"
-        },
-        "apply": "Aplicar filtros",
-        "reset": "Restablecer"
-      },
-      "overview": {
-        "title": "Resumen del Mes",
-        "totalSpent": "Gasto Total",
-        "ticketsCount": "Tickets Registrados",
-        "averageTicket": "Gasto Promedio",
-        "monthComparison": "vs. mes anterior"
-      },
-      "byCategory": {
-        "title": "Gastos por Categoría",
-        "subtitle": "Distribución de tus gastos",
-        "noData": "No hay datos de categorías aún",
-        "category": "Categoría",
-        "amount": "Monto",
-        "percentage": "Porcentaje"
-      },
-      "trends": {
-        "title": "Tendencias de Gasto",
-        "subtitle": "Últimos 6 meses",
-        "noData": "No hay suficientes datos para mostrar tendencias",
-        "month": "Mes",
-        "spending": "Gasto"
-      },
-      "topStores": {
-        "title": "Comercios Frecuentes",
-        "subtitle": "Tus tiendas más visitadas",
-        "noData": "No hay datos de comercios aún",
-        "store": "Comercio",
-        "visits": "Visitas",
-        "total": "Total gastado"
-      },
-      "loading": "Cargando estadísticas...",
-      "error": "Error al cargar las estadísticas",
-      "retry": "Reintentar",
-      "noTickets": "Aún no tienes tickets registrados",
-      "uploadFirst": "Sube tu primer ticket para ver estadísticas"
-    },
-    "ai": {
-      "title": "Recomendaciones con IA",
-      "subtitle": "Insights personalizados sobre tus gastos",
-      "recommendations": "Tus Recomendaciones",
-      "recommendationsSubtitle": "Análisis personalizado basado en tus patrones de gasto",
-      "loading": "Cargando recomendaciones...",
-      "error": "Error al cargar las recomendaciones",
-      "retry": "Reintentar",
-      "noRecommendations": "No hay recomendaciones disponibles",
-      "noData": "Sube más tickets para recibir recomendaciones personalizadas",
-      "regenerate": "Actualizar",
-      "regenerating": "Actualizando..."
+    "categories": {
+        "alimentacion": "Alimentación",
+        "ocio": "Ocio",
+        "transporte": "Transporte",
+        "salud": "Salud",
+        "hogar": "Hogar",
+        "otros": "Otros"
     }
-  },
-  "profile": {
-    "title": "Mi Perfil",
-    "subtitle": "Gestiona tu información personal",
-    "fullName": "Nombre Completo",
-    "email": "Correo Electrónico",
-    "userId": "ID de Usuario",
-    "notSet": "No configurado",
-    "editProfile": "Editar Perfil",
-    "namePlaceholder": "Tu nombre completo",
-    "emailPlaceholder": "tu@email.com",
-    "emailCannotBeChanged": "El correo no puede modificarse en cuentas de Google",
-    "profileImage": "Foto de Perfil",
-    "selectImage": "Seleccionar imagen",
-    "changeImage": "Cambiar imagen",
-    "cancelSelection": "Cancelar selección",
-    "imagePreview": "Vista previa de perfil",
-    "cropImage": "Recortar imagen",
-    "cropInstructions": "Arrastra para ajustar el área que deseas usar como foto de perfil",
-    "confirm": "Confirmar",
-    "cancel": "Cancelar",
-    "save": "Guardar",
-    "changePassword": {
-      "title": "Cambiar Contraseña",
-      "subtitle": "Actualiza tu contraseña de acceso",
-      "changeButton": "Cambiar Contraseña",
-      "currentPassword": "Contraseña Actual",
-      "currentPasswordPlaceholder": "Tu contraseña actual",
-      "newPassword": "Nueva Contraseña",
-      "newPasswordPlaceholder": "Mínimo 8 caracteres",
-      "confirmPassword": "Confirmar Nueva Contraseña",
-      "confirmPasswordPlaceholder": "Repite la nueva contraseña",
-      "saveButton": "Actualizar Contraseña",
-      "cancelButton": "Cancelar",
-      "saving": "Guardando...",
-      "success": "Contraseña actualizada correctamente",
-      "errors": {
-        "currentPasswordRequired": "La contraseña actual es obligatoria",
-        "newPasswordRequired": "La nueva contraseña es obligatoria",
-        "passwordMin": "La contraseña debe tener al menos 8 caracteres",
-        "confirmPasswordRequired": "Confirma la nueva contraseña",
-        "passwordMatch": "Las contraseñas no coinciden",
-        "incorrectPassword": "La contraseña actual es incorrecta",
-        "cannotChangeOAuth": "No puedes cambiar la contraseña de una cuenta OAuth (Google)",
-        "serverError": "Error al cambiar la contraseña. Intenta de nuevo"
-      }
-    },
-    "deleteAccount": {
-      "title": "Eliminar Cuenta",
-      "subtitle": "Esta acción es permanente y no se puede deshacer. Se eliminarán todos tus datos.",
-      "deleteButton": "Eliminar mi cuenta",
-      "modalTitle": "¿Estás seguro?",
-      "modalWarning": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
-      "passwordLabel": "Confirma tu contraseña",
-      "passwordPlaceholder": "Tu contraseña actual",
-      "confirmationLabel": "Escribe ELIMINAR para confirmar",
-      "confirmationPlaceholder": "ELIMINAR",
-      "confirmationHint": "Escribe la palabra ELIMINAR (en mayúsculas) o DELETE para confirmar",
-      "cancelButton": "Cancelar",
-      "confirmButton": "Eliminar cuenta",
-      "deleting": "Eliminando...",
-      "permanentWarning": "Esta acción es irreversible. Una vez eliminada, no podrás recuperar tu cuenta.",
-      "errors": {
-        "passwordRequired": "La contraseña es obligatoria",
-        "invalidConfirmation": "Debes escribir ELIMINAR o DELETE para confirmar",
-        "incorrectPassword": "La contraseña es incorrecta",
-        "serverError": "Error al eliminar la cuenta. Intenta de nuevo"
-      }
-    }
-  },
-  "categories": {
-    "alimentacion": "Alimentación",
-    "ocio": "Ocio",
-    "transporte": "Transporte",
-    "salud": "Salud",
-    "hogar": "Hogar",
-    "otros": "Otros"
-  }
 }
