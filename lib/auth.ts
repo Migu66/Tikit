@@ -6,11 +6,32 @@ import { prisma } from '@/lib/prisma'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     trustHost: true, // Necesario para Vercel y otras plataformas
+    secret: process.env.AUTH_SECRET,
+    cookies: {
+        sessionToken: {
+            name: `${
+                process.env.NODE_ENV === 'production' ? '__Secure-' : ''
+            }next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+            },
+        },
+    },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
             allowDangerousEmailAccountLinking: true,
+            authorization: {
+                params: {
+                    prompt: 'consent',
+                    access_type: 'offline',
+                    response_type: 'code',
+                },
+            },
             profile(profile) {
                 return {
                     id: profile.sub,
