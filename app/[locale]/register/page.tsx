@@ -172,9 +172,7 @@ export default function RegisterPage() {
 
       // Registration successful - redirect to login
       console.log('Registration successful, redirecting to login');
-      setTimeout(() => {
-        router.push(`/${locale}/login`);
-      }, 1000);
+      router.replace(`/${locale}/login?registered=true`);
     } catch (error: any) {
       if (error.errors) {
         // Zod validation errors
