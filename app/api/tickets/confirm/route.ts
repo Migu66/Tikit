@@ -99,6 +99,16 @@ export async function POST(request: NextRequest) {
             imageUrl,
         } = body
 
+        console.log('[Ticket Confirm] Datos recibidos:', {
+            storeName,
+            totalAmount,
+            tax,
+            category,
+            purchaseDate,
+            productsCount: products?.length,
+            imageUrl: imageUrl ? 'present' : 'missing',
+        })
+
         // Validar datos requeridos
         if (!storeName || !totalAmount || !purchaseDate || !imageUrl) {
             return NextResponse.json(
@@ -121,6 +131,14 @@ export async function POST(request: NextRequest) {
 
         // Convertir purchaseDate string a Date
         const purchaseDateObj = new Date(purchaseDate)
+
+        // Validar que la fecha sea válida
+        if (isNaN(purchaseDateObj.getTime())) {
+            return NextResponse.json(
+                { error: 'Fecha de compra inválida' },
+                { status: 400 }
+            )
+        }
 
         // Guardar en base de datos
         console.log(
@@ -145,6 +163,16 @@ export async function POST(request: NextRequest) {
                 })),
             },
         }
+
+        console.log('[Ticket Confirm] Datos a guardar:', {
+            userId: session.user.id,
+            storeName,
+            totalAmount,
+            tax,
+            category,
+            purchaseDate: purchaseDateObj.toISOString(),
+            productsCount: products.length,
+        })
 
         const ticket = await prisma.ticket.create({
             data: ticketData,
@@ -181,7 +209,27 @@ export async function POST(request: NextRequest) {
         console.error('[Ticket Confirm] Error al guardar ticket:', error)
 
         if (error instanceof Error) {
-            return NextResponse.json({ error: error.message }, { status: 500 })
+            // Errores de Prisma relacionados con la base de datos
+            if (
+                error.message.includes('Prisma') ||
+                error.message.includes('database')
+            ) {
+                return NextResponse.json(
+                    {
+                        error: 'Error al guardar en la base de datos',
+                        message: error.message,
+                    },
+                    { status: 500 }
+                )
+            }
+
+            return NextResponse.json(
+                {
+                    error: 'Error al guardar el ticket',
+                    message: error.message,
+                },
+                { status: 500 }
+            )
         }
 
         return NextResponse.json(

@@ -52,8 +52,19 @@ export function TicketConfirmModal({
 
     useEffect(() => {
         if (ticketData) {
+            // Asegurar que purchaseDate esté en formato ISO si no lo está
+            let purchaseDateISO = ticketData.purchaseDate
+
+            // Si la fecha no está en formato ISO, convertirla
+            if (!purchaseDateISO.includes('T')) {
+                purchaseDateISO = new Date(
+                    purchaseDateISO + 'T00:00:00'
+                ).toISOString()
+            }
+
             setEditedData({
                 ...ticketData,
+                purchaseDate: purchaseDateISO,
                 category: ticketData.category || 'otros',
             })
         }
@@ -103,6 +114,31 @@ export function TicketConfirmModal({
     }
 
     const handleConfirm = () => {
+        // Validar que todos los datos requeridos estén presentes
+        if (
+            !editedData.storeName ||
+            !editedData.totalAmount ||
+            !editedData.purchaseDate
+        ) {
+            console.error('Faltan datos requeridos:', editedData)
+            return
+        }
+
+        // Validar que haya al menos un producto
+        if (editedData.products.length === 0) {
+            console.error('Debe haber al menos un producto')
+            return
+        }
+
+        // Validar que todos los productos tengan nombre
+        const hasInvalidProducts = editedData.products.some(
+            (p) => !p.name || p.name.trim() === ''
+        )
+        if (hasInvalidProducts) {
+            console.error('Todos los productos deben tener un nombre')
+            return
+        }
+
         onConfirm(editedData)
     }
 
@@ -175,12 +211,21 @@ export function TicketConfirmModal({
                             <Input
                                 type="date"
                                 value={editedData.purchaseDate.split('T')[0]}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    // Convertir a ISO string con hora 00:00:00
+                                    const dateValue = e.target.value
+                                    const isoDate = dateValue
+                                        ? new Date(
+                                              dateValue + 'T00:00:00'
+                                          ).toISOString()
+                                        : dateValue
                                     setEditedData({
                                         ...editedData,
-                                        purchaseDate: e.target.value,
+                                        purchaseDate: isoDate,
                                     })
-                                }
+                                }}
                             />
                         </div>
 
