@@ -87,6 +87,29 @@ export async function POST(request: NextRequest) {
             )
         }
 
+        // Verificar que el usuario existe en la base de datos
+        const userExists = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { id: true },
+        })
+
+        if (!userExists) {
+            console.error(
+                '[Ticket Confirm] Usuario no encontrado en BD:',
+                session.user.id
+            )
+            return NextResponse.json(
+                {
+                    error: 'Usuario no encontrado',
+                    message:
+                        'Tu sesión parece ser inválida. Por favor, cierra sesión e inicia sesión nuevamente.',
+                },
+                { status: 403 }
+            )
+        }
+
+        console.log('[Ticket Confirm] Usuario verificado:', session.user.id)
+
         // Obtener los datos del ticket confirmado
         const body = await request.json()
         const {

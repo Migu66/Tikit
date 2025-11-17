@@ -121,8 +121,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.provider = account.provider
             }
 
-            // Para usuarios de OAuth, obtener el ID real de la base de datos
-            if (account?.provider === 'google' && token.email) {
+            // Para todos los usuarios, siempre verificar el ID de la base de datos
+            // Esto asegura que el token.sub sea el ID correcto de PostgreSQL
+            if (token.email && !user) {
                 try {
                     const dbUser = await prisma.user.findUnique({
                         where: { email: token.email as string },
@@ -131,6 +132,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     if (dbUser) {
                         token.sub = dbUser.id // Usar el ID de la base de datos
                         token.picture = dbUser.image // Usar la imagen de la base de datos
+                    } else {
+                        console.error(
+                            'Usuario no encontrado en BD para email:',
+                            token.email
+                        )
                     }
                 } catch (error) {
                     console.error('Error fetching user from DB:', error)
