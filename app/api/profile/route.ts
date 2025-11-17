@@ -1,122 +1,187 @@
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { z } from 'zod';
-import { NextResponse } from 'next/server';
+/**
+ * @swagger
+ * /api/profile:
+ *   put:
+ *     summary: Actualizar perfil de usuario
+ *     description: Permite actualizar nombre, email o imagen del perfil del usuario autenticado
+ *     tags: [Profile]
+ *     security:
+ *       - sessionAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 100
+ *                 description: Nuevo nombre del usuario
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Nuevo email (no permitido para cuentas de Google)
+ *               image:
+ *                 type: string
+ *                 format: uri
+ *                 description: URL de la nueva imagen de perfil
+ *     responses:
+ *       200:
+ *         description: Perfil actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Datos inválidos o email ya en uso
+ *       401:
+ *         description: No autorizado
+ *       404:
+ *         description: Usuario no encontrado
+ */
+
+import { auth } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
+import { z } from 'zod'
+import { NextResponse } from 'next/server'
 
 const updateProfileSchema = z.object({
-  name: z.string().min(2).max(100).optional(),
-  email: z.string().email().optional(),
-  image: z.string().url().optional(),
-});
+    name: z.string().min(2).max(100).optional(),
+    email: z.string().email().optional(),
+    image: z.string().url().optional(),
+})
 
 export async function PUT(request: Request) {
-  try {
-    const session = await auth();
+    try {
+        const session = await auth()
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'No autorizado' },
+                { status: 401 }
+            )
+        }
+
+        const body = await request.json()
+        console.log('Datos recibidos:', body)
+        console.log('ID de usuario de la sesión:', session.user.id)
+
+        // Validar datos
+        const data = updateProfileSchema.parse(body)
+        console.log('Datos validados:', data)
+
+        // Obtener información del usuario actual incluyendo sus cuentas
+        const currentUser = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            include: {
+                accounts: true,
+            },
+        })
+
+        if (!currentUser) {
+            console.error('Usuario no encontrado con ID:', session.user.id)
+            return NextResponse.json(
+                { error: 'Usuario no encontrado' },
+                { status: 404 }
+            )
+        }
+
+        // Verificar si el usuario tiene cuenta de Google
+        const hasGoogleAccount = currentUser.accounts.some(
+            (account: { provider: string }) => account.provider === 'google'
+        )
+
+        // Si el usuario tiene cuenta de Google, no permitir cambio de email
+        if (
+            hasGoogleAccount &&
+            data.email &&
+            data.email !== session.user.email
+        ) {
+            return NextResponse.json(
+                { error: 'No se puede cambiar el correo en cuentas de Google' },
+                { status: 400 }
+            )
+        }
+
+        // Preparar datos para actualizar
+        const updateData: { name?: string; email?: string; image?: string } = {}
+
+        if (data.name !== undefined && data.name !== '') {
+            updateData.name = data.name
+        }
+
+        if (
+            data.email !== undefined &&
+            data.email !== '' &&
+            !hasGoogleAccount
+        ) {
+            updateData.email = data.email
+
+            // Verificar si el nuevo email ya está en uso por otro usuario
+            const existingUser = await prisma.user.findUnique({
+                where: { email: data.email },
+            })
+
+            if (existingUser && existingUser.id !== session.user.id) {
+                return NextResponse.json(
+                    {
+                        error: 'Este correo electrónico ya está siendo utilizado por otro usuario',
+                    },
+                    { status: 409 }
+                )
+            }
+        }
+
+        if (data.image !== undefined && data.image !== '') {
+            updateData.image = data.image
+        }
+
+        // Verificar que hay algo que actualizar
+        if (Object.keys(updateData).length === 0) {
+            return NextResponse.json(
+                { error: 'No hay datos para actualizar' },
+                { status: 400 }
+            )
+        }
+
+        console.log('Actualizando con:', updateData)
+
+        // Actualizar usuario en la base de datos
+        const updatedUser = await prisma.user.update({
+            where: { email: session.user.email },
+            data: updateData,
+        })
+
+        return NextResponse.json({
+            success: true,
+            user: {
+                id: updatedUser.id,
+                email: updatedUser.email,
+                name: updatedUser.name,
+                image: updatedUser.image,
+            },
+        })
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            console.error('Error de validación:', error.issues)
+            return NextResponse.json(
+                { error: 'Datos inválidos', details: error.issues },
+                { status: 400 }
+            )
+        }
+
+        console.error('Error al actualizar perfil:', error)
+        const errorMessage =
+            error instanceof Error
+                ? error.message
+                : 'Error al actualizar perfil'
+        return NextResponse.json({ error: errorMessage }, { status: 500 })
     }
-
-    const body = await request.json();
-    console.log('Datos recibidos:', body);
-    console.log('ID de usuario de la sesión:', session.user.id);
-
-    // Validar datos
-    const data = updateProfileSchema.parse(body);
-    console.log('Datos validados:', data);
-
-    // Obtener información del usuario actual incluyendo sus cuentas
-    const currentUser = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      include: {
-        accounts: true,
-      },
-    });
-
-    if (!currentUser) {
-      console.error('Usuario no encontrado con ID:', session.user.id);
-      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
-    }
-
-    // Verificar si el usuario tiene cuenta de Google
-    const hasGoogleAccount = currentUser.accounts.some(
-      (account: { provider: string }) => account.provider === 'google'
-    );
-
-    // Si el usuario tiene cuenta de Google, no permitir cambio de email
-    if (hasGoogleAccount && data.email && data.email !== session.user.email) {
-      return NextResponse.json(
-        { error: 'No se puede cambiar el correo en cuentas de Google' },
-        { status: 400 }
-      );
-    }
-
-    // Preparar datos para actualizar
-    const updateData: { name?: string; email?: string; image?: string } = {};
-    
-    if (data.name !== undefined && data.name !== '') {
-      updateData.name = data.name;
-    }
-    
-    if (data.email !== undefined && data.email !== '' && !hasGoogleAccount) {
-      updateData.email = data.email;
-      
-      // Verificar si el nuevo email ya está en uso por otro usuario
-      const existingUser = await prisma.user.findUnique({
-        where: { email: data.email },
-      });
-      
-      if (existingUser && existingUser.id !== session.user.id) {
-        return NextResponse.json(
-          { error: 'Este correo electrónico ya está siendo utilizado por otro usuario' },
-          { status: 409 }
-        );
-      }
-    }
-
-    if (data.image !== undefined && data.image !== '') {
-      updateData.image = data.image;
-    }
-
-    // Verificar que hay algo que actualizar
-    if (Object.keys(updateData).length === 0) {
-      return NextResponse.json(
-        { error: 'No hay datos para actualizar' },
-        { status: 400 }
-      );
-    }
-
-    console.log('Actualizando con:', updateData);
-
-    // Actualizar usuario en la base de datos
-    const updatedUser = await prisma.user.update({
-      where: { email: session.user.email },
-      data: updateData,
-    });
-
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        name: updatedUser.name,
-        image: updatedUser.image,
-      },
-    });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error('Error de validación:', error.issues);
-      return NextResponse.json(
-        { error: 'Datos inválidos', details: error.issues },
-        { status: 400 }
-      );
-    }
-    
-    console.error('Error al actualizar perfil:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Error al actualizar perfil';
-    return NextResponse.json(
-      { error: errorMessage },
-      { status: 500 }
-    );
-  }
 }

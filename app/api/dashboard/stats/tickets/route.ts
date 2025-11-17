@@ -1,3 +1,46 @@
+/**
+ * @swagger
+ * /api/dashboard/stats/tickets:
+ *   get:
+ *     summary: Obtener tickets del período seleccionado
+ *     description: Recupera todos los tickets del usuario dentro de un rango de fechas específico
+ *     tags: [Dashboard]
+ *     security:
+ *       - sessionAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: periodType
+ *         schema:
+ *           type: string
+ *           enum: [currentMonth, currentYear, allTime, custom]
+ *           default: currentMonth
+ *         description: Tipo de período
+ *       - in: query
+ *         name: year
+ *         schema:
+ *           type: integer
+ *         description: Año para período personalizado
+ *       - in: query
+ *         name: month
+ *         schema:
+ *           type: integer
+ *         description: Mes para período personalizado (0-11)
+ *     responses:
+ *       200:
+ *         description: Tickets del período
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tickets:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Ticket'
+ *       401:
+ *         description: No autorizado
+ */
+
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'

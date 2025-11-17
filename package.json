@@ -19,7 +19,8 @@
         "db:logs": "docker-compose logs -f postgres",
         "db:studio": "prisma studio",
         "db:push": "prisma db push",
-        "db:generate": "prisma generate"
+        "db:generate": "prisma generate",
+        "docs:check": "node scripts/check-api-docs.mjs"
     },
     "keywords": [],
     "author": "",
@@ -47,6 +48,7 @@
         "next-auth": "^5.0.0-beta.30",
         "next-cloudinary": "^6.17.3",
         "next-intl": "^4.4.0",
+        "next-swagger-doc": "^0.4.1",
         "openai": "^6.8.1",
         "prisma": "^6.19.0",
         "react": "^19.2.0",
@@ -54,6 +56,8 @@
         "react-image-crop": "^11.0.10",
         "recharts": "^3.4.1",
         "sharp": "^0.34.5",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-react": "^5.30.2",
         "tailwind-merge": "^3.3.1",
         "tesseract.js": "^6.0.1",
         "zod": "^4.1.12"
@@ -68,6 +72,8 @@
         "@types/node": "^24.10.0",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.2",
+        "@types/swagger-jsdoc": "^6.0.4",
+        "@types/swagger-ui-react": "^5.18.0",
         "@vitejs/plugin-react": "^5.1.1",
         "@vitest/coverage-v8": "^4.0.9",
         "autoprefixer": "^10.4.21",

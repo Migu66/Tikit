@@ -6,7 +6,8 @@
         "dashboard": "Ir al Dashboard",
         "language": "Idioma",
         "profile": "Ver perfil",
-        "signOut": "Cerrar sesión"
+        "signOut": "Cerrar sesión",
+        "apiDocs": "Documentación API"
     },
     "auth": {
         "register": {

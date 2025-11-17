@@ -1,357 +1,563 @@
 /**
- * API endpoint para gestión de tickets
- * POST /api/tickets - Subir y procesar nuevo ticket
- * GET /api/tickets - Obtener tickets del usuario
+ * @swagger
+ * /api/tickets:
+ *   post:
+ *     summary: Subir y procesar un nuevo ticket
+ *     description: Procesa una imagen/PDF de ticket usando OCR y Vision AI, clasifica automáticamente y almacena en Cloudinary
+ *     tags: [Tickets]
+ *     security:
+ *       - sessionAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Imagen del ticket (JPEG, PNG, WebP o PDF, máx 10MB)
+ *     responses:
+ *       200:
+ *         description: Ticket procesado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 extractedData:
+ *                   type: object
+ *                   properties:
+ *                     storeName:
+ *                       type: string
+ *                     totalAmount:
+ *                       type: number
+ *                     tax:
+ *                       type: number
+ *                     category:
+ *                       type: string
+ *                     purchaseDate:
+ *                       type: string
+ *                       format: date-time
+ *                     products:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                 imageUrl:
+ *                   type: string
+ *                   format: uri
+ *       400:
+ *         description: Error de validación
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: No autorizado
+ *       500:
+ *         description: Error del servidor
+ *   get:
+ *     summary: Obtener lista de tickets del usuario
+ *     description: Recupera todos los tickets del usuario autenticado con paginación y filtros
+ *     tags: [Tickets]
+ *     security:
+ *       - sessionAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 50
+ *         description: Número máximo de tickets a retornar
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: Número de tickets a saltar (paginación)
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *           enum: [all, FOOD, ENTERTAINMENT, TRANSPORT, HEALTH, HOME, OTHER]
+ *         description: Filtrar por categoría
+ *     responses:
+ *       200:
+ *         description: Lista de tickets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tickets:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Ticket'
+ *                 total:
+ *                   type: number
+ *                 limit:
+ *                   type: number
+ *                 offset:
+ *                   type: number
+ *       401:
+ *         description: No autorizado
+ *   put:
+ *     summary: Actualizar un ticket existente
+ *     description: Permite editar datos de un ticket ya guardado
+ *     tags: [Tickets]
+ *     security:
+ *       - sessionAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ticketId
+ *             properties:
+ *               ticketId:
+ *                 type: string
+ *               storeName:
+ *                 type: string
+ *               totalAmount:
+ *                 type: number
+ *               tax:
+ *                 type: number
+ *               category:
+ *                 type: string
+ *               purchaseDate:
+ *                 type: string
+ *                 format: date-time
+ *               products:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *     responses:
+ *       200:
+ *         description: Ticket actualizado
+ *       401:
+ *         description: No autorizado
+ *       404:
+ *         description: Ticket no encontrado
+ *   delete:
+ *     summary: Eliminar un ticket
+ *     description: Elimina permanentemente un ticket y sus productos asociados
+ *     tags: [Tickets]
+ *     security:
+ *       - sessionAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ticketId
+ *             properties:
+ *               ticketId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Ticket eliminado exitosamente
+ *       401:
+ *         description: No autorizado
+ *       404:
+ *         description: Ticket no encontrado
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { extractTicketDataFromImage } from '@/lib/services/gemini-vision';
-import type { Prisma } from '@prisma/client';
-import { classifyTicket } from '@/lib/services/ai';
-import { uploadToCloudinary } from '@/lib/services/cloudinary';
-import { ticketDataSchema } from '@/lib/validations/ticket';
-import { updateRecommendations } from '@/lib/services/recommendations';
+import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
+import { extractTicketDataFromImage } from '@/lib/services/gemini-vision'
+import type { Prisma } from '@prisma/client'
+import { classifyTicket } from '@/lib/services/ai'
+import { uploadToCloudinary } from '@/lib/services/cloudinary'
+import { ticketDataSchema } from '@/lib/validations/ticket'
+import { updateRecommendations } from '@/lib/services/recommendations'
 
 export async function POST(request: NextRequest) {
-  try {
-    // Verificar autenticación
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      );
-    }
+    try {
+        // Verificar autenticación
+        const session = await auth()
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'No autorizado' },
+                { status: 401 }
+            )
+        }
 
-    // Obtener el archivo del FormData
-    const formData = await request.formData();
-    const file = formData.get('file') as File;
+        // Obtener el archivo del FormData
+        const formData = await request.formData()
+        const file = formData.get('file') as File
 
-    if (!file) {
-      return NextResponse.json(
-        { error: 'No se proporcionó ningún archivo' },
-        { status: 400 }
-      );
-    }
+        if (!file) {
+            return NextResponse.json(
+                { error: 'No se proporcionó ningún archivo' },
+                { status: 400 }
+            )
+        }
 
-    // Validar tipo y tamaño del archivo
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
-    if (!validTypes.includes(file.type)) {
-      return NextResponse.json(
-        { error: 'Tipo de archivo no válido. Usa JPEG, PNG, WebP o PDF' },
-        { status: 400 }
-      );
-    }
+        // Validar tipo y tamaño del archivo
+        const validTypes = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/webp',
+            'application/pdf',
+        ]
+        if (!validTypes.includes(file.type)) {
+            return NextResponse.json(
+                {
+                    error: 'Tipo de archivo no válido. Usa JPEG, PNG, WebP o PDF',
+                },
+                { status: 400 }
+            )
+        }
 
-    if (file.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'El archivo es demasiado grande. Máximo 10MB' },
-        { status: 400 }
-      );
-    }
+        if (file.size > 10 * 1024 * 1024) {
+            return NextResponse.json(
+                { error: 'El archivo es demasiado grande. Máximo 10MB' },
+                { status: 400 }
+            )
+        }
 
-    // Convertir archivo a buffer
-    const bytes = await file.arrayBuffer();
-    const imageBuffer: Buffer = Buffer.from(bytes);
+        // Convertir archivo a buffer
+        const bytes = await file.arrayBuffer()
+        const imageBuffer: Buffer = Buffer.from(bytes)
 
-    // PASO 1: Extraer datos con OpenAI Vision (GPT-4o-mini)
-    console.log('[Ticket] Analizando imagen con OpenAI Vision...');
-    const ticketData = await extractTicketDataFromImage(imageBuffer);
+        // PASO 1: Extraer datos con OpenAI Vision (GPT-4o-mini)
+        console.log('[Ticket] Analizando imagen con OpenAI Vision...')
+        const ticketData = await extractTicketDataFromImage(imageBuffer)
 
-    // Validar datos estructurados
-    const validationResult = ticketDataSchema.safeParse(ticketData);
-    if (!validationResult.success) {
-      console.error('[Ticket] Error de validación:', validationResult.error);
-      return NextResponse.json(
-        { error: 'Error al validar los datos del ticket', details: validationResult.error.issues },
-        { status: 400 }
-      );
-    }
+        // Validar datos estructurados
+        const validationResult = ticketDataSchema.safeParse(ticketData)
+        if (!validationResult.success) {
+            console.error(
+                '[Ticket] Error de validación:',
+                validationResult.error
+            )
+            return NextResponse.json(
+                {
+                    error: 'Error al validar los datos del ticket',
+                    details: validationResult.error.issues,
+                },
+                { status: 400 }
+            )
+        }
 
-    // PASO 2: Clasificar ticket por categoría    // PASO 3: Clasificar ticket
-    console.log('[Ticket] Clasificando ticket...');
-    const category = await classifyTicket(
-      ticketData.storeName,
-      ticketData.products
-    );
+        // PASO 2: Clasificar ticket por categoría    // PASO 3: Clasificar ticket
+        console.log('[Ticket] Clasificando ticket...')
+        const category = await classifyTicket(
+            ticketData.storeName,
+            ticketData.products
+        )
 
-    // PASO 4: Subir imagen a Cloudinary
-    console.log('[Ticket] Subiendo imagen a Cloudinary...');
-    const imageUrl = await uploadToCloudinary(imageBuffer, session.user.id);
+        // PASO 4: Subir imagen a Cloudinary
+        console.log('[Ticket] Subiendo imagen a Cloudinary...')
+        const imageUrl = await uploadToCloudinary(imageBuffer, session.user.id)
 
-    // PASO 5: Devolver datos extraídos para confirmación
-    console.log('[Ticket] Datos extraídos exitosamente');
+        // PASO 5: Devolver datos extraídos para confirmación
+        console.log('[Ticket] Datos extraídos exitosamente')
 
-    return NextResponse.json({
-      success: true,
-      extractedData: {
-        storeName: ticketData.storeName,
-        totalAmount: ticketData.totalAmount,
-        tax: ticketData.tax,
-        category,
-        purchaseDate: ticketData.purchaseDate.toISOString(),
-        products: ticketData.products,
-      },
-      imageUrl,
-    });
-  } catch (error) {
-    console.error('[Ticket] Error al procesar ticket:', error);
-    
-    // Manejar errores específicos
-    if (error instanceof Error) {
-      // Error de API Key de OpenAI
-      if (error.message.includes('OPENAI_API_KEY') || error.message.includes('API key')) {
+        return NextResponse.json({
+            success: true,
+            extractedData: {
+                storeName: ticketData.storeName,
+                totalAmount: ticketData.totalAmount,
+                tax: ticketData.tax,
+                category,
+                purchaseDate: ticketData.purchaseDate.toISOString(),
+                products: ticketData.products,
+            },
+            imageUrl,
+        })
+    } catch (error) {
+        console.error('[Ticket] Error al procesar ticket:', error)
+
+        // Manejar errores específicos
+        if (error instanceof Error) {
+            // Error de API Key de OpenAI
+            if (
+                error.message.includes('OPENAI_API_KEY') ||
+                error.message.includes('API key')
+            ) {
+                return NextResponse.json(
+                    {
+                        error: 'Configuración incompleta',
+                        message:
+                            'La API Key de OpenAI no está configurada correctamente. Verifica tu archivo .env',
+                    },
+                    { status: 500 }
+                )
+            }
+
+            // Error de créditos agotados
+            if (
+                error.message.includes('insufficient_quota') ||
+                error.message.includes('Créditos')
+            ) {
+                return NextResponse.json(
+                    {
+                        error: 'Créditos agotados',
+                        message:
+                            'Los créditos de OpenAI se han agotado. Recarga en https://platform.openai.com/account/billing',
+                    },
+                    { status: 402 }
+                )
+            }
+
+            if (error.message.includes('imagen')) {
+                return NextResponse.json(
+                    {
+                        error: 'Error al procesar la imagen. Intenta con una imagen más clara del ticket.',
+                    },
+                    { status: 500 }
+                )
+            }
+
+            if (error.message.includes('Cloudinary')) {
+                return NextResponse.json(
+                    {
+                        error: 'Error al guardar la imagen. Inténtalo de nuevo.',
+                    },
+                    { status: 500 }
+                )
+            }
+
+            // Error genérico con mensaje específico
+            return NextResponse.json({ error: error.message }, { status: 500 })
+        }
+
         return NextResponse.json(
-          { 
-            error: 'Configuración incompleta',
-            message: 'La API Key de OpenAI no está configurada correctamente. Verifica tu archivo .env'
-          },
-          { status: 500 }
-        );
-      }
-      
-      // Error de créditos agotados
-      if (error.message.includes('insufficient_quota') || error.message.includes('Créditos')) {
-        return NextResponse.json(
-          { 
-            error: 'Créditos agotados',
-            message: 'Los créditos de OpenAI se han agotado. Recarga en https://platform.openai.com/account/billing'
-          },
-          { status: 402 }
-        );
-      }
-      
-      if (error.message.includes('imagen')) {
-        return NextResponse.json(
-          { error: 'Error al procesar la imagen. Intenta con una imagen más clara del ticket.' },
-          { status: 500 }
-        );
-      }
-      
-      if (error.message.includes('Cloudinary')) {
-        return NextResponse.json(
-          { error: 'Error al guardar la imagen. Inténtalo de nuevo.' },
-          { status: 500 }
-        );
-      }
-      
-      // Error genérico con mensaje específico
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+            { error: 'Error interno del servidor' },
+            { status: 500 }
+        )
     }
-
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
-  }
 }
 
 export async function GET(request: NextRequest) {
-  try {
-    // Verificar autenticación
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      );
+    try {
+        // Verificar autenticación
+        const session = await auth()
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'No autorizado' },
+                { status: 401 }
+            )
+        }
+
+        // Obtener parámetros de búsqueda
+        const { searchParams } = new URL(request.url)
+        const limit = parseInt(searchParams.get('limit') || '50')
+        const offset = parseInt(searchParams.get('offset') || '0')
+        const category = searchParams.get('category')
+
+        // Construir filtros
+        const where: any = {
+            userId: session.user.id,
+        }
+
+        if (category && category !== 'all') {
+            where.category = category
+        }
+
+        // Obtener tickets
+        const [tickets, total] = await Promise.all([
+            prisma.ticket.findMany({
+                where,
+                include: {
+                    products: true,
+                },
+                orderBy: {
+                    purchaseDate: 'desc',
+                },
+                take: limit,
+                skip: offset,
+            }),
+            prisma.ticket.count({ where }),
+        ])
+
+        return NextResponse.json({
+            tickets,
+            total,
+            limit,
+            offset,
+        })
+    } catch (error) {
+        console.error('[Ticket] Error al obtener tickets:', error)
+        return NextResponse.json(
+            { error: 'Error interno del servidor' },
+            { status: 500 }
+        )
     }
-
-    // Obtener parámetros de búsqueda
-    const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '50');
-    const offset = parseInt(searchParams.get('offset') || '0');
-    const category = searchParams.get('category');
-
-    // Construir filtros
-    const where: any = {
-      userId: session.user.id,
-    };
-
-    if (category && category !== 'all') {
-      where.category = category;
-    }
-
-    // Obtener tickets
-    const [tickets, total] = await Promise.all([
-      prisma.ticket.findMany({
-        where,
-        include: {
-          products: true,
-        },
-        orderBy: {
-          purchaseDate: 'desc',
-        },
-        take: limit,
-        skip: offset,
-      }),
-      prisma.ticket.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      tickets,
-      total,
-      limit,
-      offset,
-    });
-  } catch (error) {
-    console.error('[Ticket] Error al obtener tickets:', error);
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
-  }
 }
 
 export async function PUT(request: NextRequest) {
-  try {
-    // Verificar autenticación
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      );
-    }
+    try {
+        // Verificar autenticación
+        const session = await auth()
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'No autorizado' },
+                { status: 401 }
+            )
+        }
 
-    const body = await request.json();
-    const { ticketId, storeName, totalAmount, tax, category, purchaseDate, products } = body;
-
-    if (!ticketId) {
-      return NextResponse.json(
-        { error: 'ID del ticket es requerido' },
-        { status: 400 }
-      );
-    }
-
-    // Verificar que el ticket pertenece al usuario
-    const existingTicket = await prisma.ticket.findUnique({
-      where: { id: ticketId },
-    });
-
-    if (!existingTicket || existingTicket.userId !== session.user.id) {
-      return NextResponse.json(
-        { error: 'Ticket no encontrado o no autorizado' },
-        { status: 404 }
-      );
-    }
-
-    // Actualizar ticket y productos en una transacción
-    const updatedTicket = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-      // Eliminar productos antiguos
-      await tx.ticketItem.deleteMany({
-        where: { ticketId },
-      });
-
-      // Actualizar ticket
-      const ticket = await tx.ticket.update({
-        where: { id: ticketId },
-        data: {
-          storeName,
-          totalAmount,
-          tax: tax || null,
-          category: category || null,
-          purchaseDate: new Date(purchaseDate),
-        },
-      });
-
-      // Crear nuevos productos
-      if (products && products.length > 0) {
-        await tx.ticketItem.createMany({
-          data: products.map((p: any) => ({
+        const body = await request.json()
+        const {
             ticketId,
-            name: p.name,
-            quantity: p.quantity,
-            unitPrice: p.unitPrice,
-            totalPrice: p.totalPrice,
-          })),
-        });
-      }
+            storeName,
+            totalAmount,
+            tax,
+            category,
+            purchaseDate,
+            products,
+        } = body
 
-      // Obtener ticket actualizado con productos
-      return await tx.ticket.findUnique({
-        where: { id: ticketId },
-        include: {
-          products: true,
-        },
-      });
-    });
+        if (!ticketId) {
+            return NextResponse.json(
+                { error: 'ID del ticket es requerido' },
+                { status: 400 }
+            )
+        }
 
-    // Regenerar recomendaciones de IA en background
-    updateRecommendations(session.user.id).catch((error) => {
-      console.error('[Ticket] Error al actualizar recomendaciones:', error);
-    });
+        // Verificar que el ticket pertenece al usuario
+        const existingTicket = await prisma.ticket.findUnique({
+            where: { id: ticketId },
+        })
 
-    return NextResponse.json({
-      success: true,
-      ticket: updatedTicket,
-    });
-  } catch (error) {
-    console.error('[Ticket] Error al actualizar ticket:', error);
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
-  }
+        if (!existingTicket || existingTicket.userId !== session.user.id) {
+            return NextResponse.json(
+                { error: 'Ticket no encontrado o no autorizado' },
+                { status: 404 }
+            )
+        }
+
+        // Actualizar ticket y productos en una transacción
+        const updatedTicket = await prisma.$transaction(
+            async (tx: Prisma.TransactionClient) => {
+                // Eliminar productos antiguos
+                await tx.ticketItem.deleteMany({
+                    where: { ticketId },
+                })
+
+                // Actualizar ticket
+                const ticket = await tx.ticket.update({
+                    where: { id: ticketId },
+                    data: {
+                        storeName,
+                        totalAmount,
+                        tax: tax || null,
+                        category: category || null,
+                        purchaseDate: new Date(purchaseDate),
+                    },
+                })
+
+                // Crear nuevos productos
+                if (products && products.length > 0) {
+                    await tx.ticketItem.createMany({
+                        data: products.map((p: any) => ({
+                            ticketId,
+                            name: p.name,
+                            quantity: p.quantity,
+                            unitPrice: p.unitPrice,
+                            totalPrice: p.totalPrice,
+                        })),
+                    })
+                }
+
+                // Obtener ticket actualizado con productos
+                return await tx.ticket.findUnique({
+                    where: { id: ticketId },
+                    include: {
+                        products: true,
+                    },
+                })
+            }
+        )
+
+        // Regenerar recomendaciones de IA en background
+        updateRecommendations(session.user.id).catch((error) => {
+            console.error(
+                '[Ticket] Error al actualizar recomendaciones:',
+                error
+            )
+        })
+
+        return NextResponse.json({
+            success: true,
+            ticket: updatedTicket,
+        })
+    } catch (error) {
+        console.error('[Ticket] Error al actualizar ticket:', error)
+        return NextResponse.json(
+            { error: 'Error interno del servidor' },
+            { status: 500 }
+        )
+    }
 }
 
 export async function DELETE(request: NextRequest) {
-  try {
-    // Verificar autenticación
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      );
+    try {
+        // Verificar autenticación
+        const session = await auth()
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'No autorizado' },
+                { status: 401 }
+            )
+        }
+
+        const body = await request.json()
+        const { ticketId } = body
+
+        if (!ticketId) {
+            return NextResponse.json(
+                { error: 'ID del ticket es requerido' },
+                { status: 400 }
+            )
+        }
+
+        // Verificar que el ticket pertenece al usuario
+        const existingTicket = await prisma.ticket.findUnique({
+            where: { id: ticketId },
+        })
+
+        if (!existingTicket || existingTicket.userId !== session.user.id) {
+            return NextResponse.json(
+                { error: 'Ticket no encontrado o no autorizado' },
+                { status: 404 }
+            )
+        }
+
+        // Eliminar ticket (Prisma eliminará automáticamente los productos relacionados por la cascada)
+        await prisma.ticket.delete({
+            where: { id: ticketId },
+        })
+
+        // Regenerar recomendaciones de IA en background
+        updateRecommendations(session.user.id).catch((error) => {
+            console.error(
+                '[Ticket] Error al actualizar recomendaciones:',
+                error
+            )
+        })
+
+        return NextResponse.json({
+            success: true,
+            message: 'Ticket eliminado correctamente',
+        })
+    } catch (error) {
+        console.error('[Ticket] Error al eliminar ticket:', error)
+        return NextResponse.json(
+            { error: 'Error interno del servidor' },
+            { status: 500 }
+        )
     }
-
-    const body = await request.json();
-    const { ticketId } = body;
-
-    if (!ticketId) {
-      return NextResponse.json(
-        { error: 'ID del ticket es requerido' },
-        { status: 400 }
-      );
-    }
-
-    // Verificar que el ticket pertenece al usuario
-    const existingTicket = await prisma.ticket.findUnique({
-      where: { id: ticketId },
-    });
-
-    if (!existingTicket || existingTicket.userId !== session.user.id) {
-      return NextResponse.json(
-        { error: 'Ticket no encontrado o no autorizado' },
-        { status: 404 }
-      );
-    }
-
-    // Eliminar ticket (Prisma eliminará automáticamente los productos relacionados por la cascada)
-    await prisma.ticket.delete({
-      where: { id: ticketId },
-    });
-
-    // Regenerar recomendaciones de IA en background
-    updateRecommendations(session.user.id).catch((error) => {
-      console.error('[Ticket] Error al actualizar recomendaciones:', error);
-    });
-
-    return NextResponse.json({
-      success: true,
-      message: 'Ticket eliminado correctamente',
-    });
-  } catch (error) {
-    console.error('[Ticket] Error al eliminar ticket:', error);
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
-  }
 }
