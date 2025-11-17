@@ -152,14 +152,20 @@ export default function RegisterPage() {
       // Validate form data
       const validatedData = registerSchema.parse(formData);
 
-      // Call register API
+      // Call register API with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos timeout
+
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(validatedData),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const data = await response.json();
 
@@ -170,11 +176,15 @@ export default function RegisterPage() {
         return;
       }
 
-      // Registration successful - redirect to login
+      // Registration successful - redirect to login immediately
       console.log('Registration successful, redirecting to login');
       router.replace(`/${locale}/login?registered=true`);
     } catch (error: any) {
-      if (error.errors) {
+      console.error('Registration error:', error);
+      
+      if (error.name === 'AbortError') {
+        setServerError('auth.register.errors.timeout');
+      } else if (error.errors) {
         // Zod validation errors
         const fieldErrors: Partial<Record<keyof RegisterInput, string>> = {};
         error.errors.forEach((err: any) => {

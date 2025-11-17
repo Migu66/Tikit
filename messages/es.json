@@ -40,7 +40,8 @@
                 "nameRequired": "El nombre es obligatorio",
                 "nameMin": "El nombre debe tener al menos 2 caracteres",
                 "emailExists": "Este correo electrónico ya está registrado",
-                "serverError": "Error al crear la cuenta. Intenta de nuevo."
+                "serverError": "Error al crear la cuenta. Intenta de nuevo.",
+                "timeout": "La solicitud tardó demasiado. Por favor, verifica tu conexión e intenta de nuevo."
             },
             "success": "Cuenta creada exitosamente. Redirigiendo..."
         },

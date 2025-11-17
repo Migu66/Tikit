@@ -40,7 +40,8 @@
                 "nameRequired": "Name is required",
                 "nameMin": "Name must be at least 2 characters",
                 "emailExists": "This email is already registered",
-                "serverError": "Error creating account. Please try again."
+                "serverError": "Error creating account. Please try again.",
+                "timeout": "Request took too long. Please check your connection and try again."
             },
             "success": "Account created successfully. Redirecting..."
         },
