@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+    return twMerge(clsx(inputs))
 }
 
 /**
@@ -11,13 +11,18 @@ export function cn(...inputs: ClassValue[]) {
  * @param locale - Locale para el formato (default: 'es-ES')
  * @returns String formateado con 2 decimales
  */
-export function formatCurrency(amount: number | undefined | null, locale: string = 'es-ES'): string {
-  if (amount === null || amount === undefined || isNaN(amount)) {
-    return '0,00';
-  }
-  
-  return amount.toLocaleString(locale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+export function formatCurrency(
+    amount: number | undefined | null,
+    locale: string = 'es-ES'
+): string {
+    if (amount === null || amount === undefined || isNaN(amount)) {
+        return locale === 'es-ES' ? '0,00' : '0.00'
+    }
+
+    const formatted = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(amount)
+
+    return formatted
 }
