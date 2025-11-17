@@ -54,11 +54,34 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
       email: user.email || '',
     });
     setErrors({});
+    
+    // Limpiar preview anterior si era un blob URL
+    if (imagePreview && imagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    
     setImagePreview(user.image || null);
     setSelectedImage(null);
     setShowCropModal(false);
+    
+    // Limpiar temp image
+    if (tempImageSrc && tempImageSrc.startsWith('blob:')) {
+      URL.revokeObjectURL(tempImageSrc);
+    }
     setTempImageSrc('');
   }, [user, isOpen]);
+
+  // Limpiar URLs de blob cuando se desmonte el componente
+  useEffect(() => {
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      if (tempImageSrc && tempImageSrc.startsWith('blob:')) {
+        URL.revokeObjectURL(tempImageSrc);
+      }
+    };
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -117,12 +140,9 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
 
     setSelectedImage(croppedFile);
 
-    // Crear preview de la imagen recortada
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result as string);
-    };
-    reader.readAsDataURL(croppedBlob);
+    // Crear preview de la imagen recortada con URL.createObjectURL (más eficiente)
+    const previewUrl = URL.createObjectURL(croppedBlob);
+    setImagePreview(previewUrl);
 
     // Cerrar modal de crop
     setShowCropModal(false);
@@ -130,6 +150,11 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
   };
 
   const handleCancelCrop = () => {
+    // Limpiar el tempImageSrc si es un blob URL
+    if (tempImageSrc && tempImageSrc.startsWith('blob:')) {
+      URL.revokeObjectURL(tempImageSrc);
+    }
+    
     setShowCropModal(false);
     setTempImageSrc('');
     // Limpiar el input file
@@ -337,6 +362,11 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
                 <button
                   type="button"
                   onClick={() => {
+                    // Limpiar blob URL si existe
+                    if (imagePreview && imagePreview.startsWith('blob:')) {
+                      URL.revokeObjectURL(imagePreview);
+                    }
+                    
                     setSelectedImage(null);
                     setImagePreview(user.image || null);
                     if (fileInputRef.current) {

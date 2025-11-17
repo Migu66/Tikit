@@ -183,9 +183,36 @@ export async function POST(request: Request) {
                 url: cloudinaryResult.secure_url,
             })
 
+            // Primero verificar que el usuario existe en la base de datos
+            let dbUser = await prisma.user.findUnique({
+                where: { id: session.user.id },
+            })
+
+            // Si no se encuentra por ID, buscar por email (puede pasar con OAuth)
+            if (!dbUser && session.user.email) {
+                console.log('[User not found by ID, trying email]', {
+                    id: session.user.id,
+                    email: session.user.email,
+                })
+                dbUser = await prisma.user.findUnique({
+                    where: { email: session.user.email },
+                })
+            }
+
+            if (!dbUser) {
+                console.error('[User not found in database]', {
+                    sessionUserId: session.user.id,
+                    sessionUserEmail: session.user.email,
+                })
+                return NextResponse.json(
+                    { error: 'Usuario no encontrado en la base de datos' },
+                    { status: 404 }
+                )
+            }
+
             // Actualizar la imagen del usuario en la base de datos
             const updatedUser = await prisma.user.update({
-                where: { id: session.user.id },
+                where: { id: dbUser.id },
                 data: { image: cloudinaryResult.secure_url },
             })
 

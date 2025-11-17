@@ -121,6 +121,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.provider = account.provider
             }
 
+            // Para usuarios de OAuth, obtener el ID real de la base de datos
+            if (account?.provider === 'google' && token.email) {
+                try {
+                    const dbUser = await prisma.user.findUnique({
+                        where: { email: token.email as string },
+                        select: { id: true, image: true },
+                    })
+                    if (dbUser) {
+                        token.sub = dbUser.id // Usar el ID de la base de datos
+                        token.picture = dbUser.image // Usar la imagen de la base de datos
+                    }
+                } catch (error) {
+                    console.error('Error fetching user from DB:', error)
+                }
+            }
+
             // Manejar actualización de sesión
             if (trigger === 'update' && session) {
                 token.name = session.name ?? token.name
@@ -140,13 +156,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
                     if (!existingUser) {
                         // Crear nuevo usuario
-                        await prisma.user.create({
+                        const newUser = await prisma.user.create({
                             data: {
                                 email: profile.email,
                                 name: profile.name || null,
                                 image: null,
                             },
                         })
+                        // Actualizar el user.id con el ID real de la base de datos
+                        user.id = newUser.id
+                    } else {
+                        // Actualizar el user.id con el ID real de la base de datos
+                        user.id = existingUser.id
                     }
                 } catch (error) {
                     console.error('Error creating user:', error)

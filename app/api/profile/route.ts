@@ -78,15 +78,30 @@ export async function PUT(request: Request) {
         console.log('Datos validados:', data)
 
         // Obtener información del usuario actual incluyendo sus cuentas
-        const currentUser = await prisma.user.findUnique({
+        // Primero intentar por ID, luego por email (para OAuth)
+        let currentUser = await prisma.user.findUnique({
             where: { id: session.user.id },
             include: {
                 accounts: true,
             },
         })
 
+        // Si no se encuentra por ID, buscar por email
+        if (!currentUser && session.user.email) {
+            console.log('[User not found by ID, trying email]', {
+                id: session.user.id,
+                email: session.user.email,
+            })
+            currentUser = await prisma.user.findUnique({
+                where: { email: session.user.email },
+                include: {
+                    accounts: true,
+                },
+            })
+        }
+
         if (!currentUser) {
-            console.error('Usuario no encontrado con ID:', session.user.id)
+            console.error('Usuario no encontrado con ID:', session.user.id, 'ni email:', session.user.email)
             return NextResponse.json(
                 { error: 'Usuario no encontrado' },
                 { status: 404 }
@@ -129,7 +144,7 @@ export async function PUT(request: Request) {
                 where: { email: data.email },
             })
 
-            if (existingUser && existingUser.id !== session.user.id) {
+            if (existingUser && existingUser.id !== currentUser.id) {
                 return NextResponse.json(
                     {
                         error: 'Este correo electrónico ya está siendo utilizado por otro usuario',
@@ -153,9 +168,9 @@ export async function PUT(request: Request) {
 
         console.log('Actualizando con:', updateData)
 
-        // Actualizar usuario en la base de datos
+        // Actualizar usuario en la base de datos usando el ID correcto
         const updatedUser = await prisma.user.update({
-            where: { email: session.user.email },
+            where: { id: currentUser.id },
             data: updateData,
         })
 
