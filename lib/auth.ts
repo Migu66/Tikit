@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth'
-import { PrismaAdapter } from '@auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
@@ -66,7 +65,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
-    adapter: PrismaAdapter(prisma),
     pages: {
         signIn: '/es/login',
         newUser: '/es/register',
@@ -109,27 +107,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.picture = session.image ?? token.picture
             }
 
-            // Persistir el provider en el token incluso si no hay account
-            // Solo hacer esta búsqueda en el primer login (cuando hay user)
-            if (!token.provider && user) {
-                try {
-                    const userWithAccounts = await prisma.user.findUnique({
-                        where: { id: user.id },
-                        include: { accounts: true },
-                    })
-                    if (
-                        userWithAccounts &&
-                        userWithAccounts.accounts.length > 0
-                    ) {
-                        token.provider = userWithAccounts.accounts[0].provider
-                    }
-                } catch (error) {
-                    console.error('Error fetching user accounts:', error)
-                }
-            }
             return token
         },
-        async signIn({ user, account }) {
+        async signIn({ user, account, profile }) {
+            // Para OAuth providers (Google), crear o actualizar el usuario
+            if (account?.provider === 'google' && profile?.email) {
+                try {
+                    const existingUser = await prisma.user.findUnique({
+                        where: { email: profile.email },
+                    })
+
+                    if (!existingUser) {
+                        // Crear nuevo usuario
+                        await prisma.user.create({
+                            data: {
+                                email: profile.email,
+                                name: profile.name || null,
+                                image: null,
+                            },
+                        })
+                    }
+                } catch (error) {
+                    console.error('Error creating user:', error)
+                    return false
+                }
+            }
             return true
         },
     },
