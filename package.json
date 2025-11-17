@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "build": "prisma db push --accept-data-loss && next build",
         "start": "next start",
         "lint": "next lint",
         "test": "vitest",
@@ -20,6 +20,7 @@
         "db:studio": "prisma studio",
         "db:push": "prisma db push",
         "db:generate": "prisma generate",
+        "postinstall": "prisma generate",
         "docs:check": "node scripts/check-api-docs.mjs"
     },
     "keywords": [],
