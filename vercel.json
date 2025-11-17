@@ -3,3 +3,4 @@
     "installCommand": "npm ci",
     "framework": "nextjs"
 }
+
