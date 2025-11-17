@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth } from '@/lib/auth';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 
@@ -13,11 +12,15 @@ const protectedRoutes = ['/dashboard', '/tickets', '/stats', '/profile'];
 // Rutas de autenticación (no accesibles si ya estás autenticado)
 const authRoutes = ['/login', '/register'];
 
-export default async function middleware(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Obtener la sesión usando NextAuth v5
-  const session = await auth();
+  // Verificar si existe la cookie de sesión de NextAuth
+  const sessionToken = 
+    request.cookies.get('next-auth.session-token')?.value ||
+    request.cookies.get('__Secure-next-auth.session-token')?.value;
+
+  const hasSession = !!sessionToken;
 
   // Extraer la ruta sin el locale
   const pathnameWithoutLocale = pathname.replace(/^\/(es|en)/, '') || '/';
@@ -33,13 +36,13 @@ export default async function middleware(request: NextRequest) {
   );
 
   // Si es una ruta protegida y no hay sesión, redirigir a login
-  if (isProtectedRoute && !session) {
+  if (isProtectedRoute && !hasSession) {
     const locale = pathname.split('/')[1] || 'es';
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }
 
   // Si es una ruta de autenticación y hay sesión, redirigir a dashboard
-  if (isAuthRoute && session) {
+  if (isAuthRoute && hasSession) {
     const locale = pathname.split('/')[1] || 'es';
     return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
   }
