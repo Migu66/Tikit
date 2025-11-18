@@ -32,13 +32,13 @@
 
 Gestiona todos tus tickets de forma visual y organizada. Edita, visualiza o elimina tickets con una interfaz intuitiva.
 
-![Gestión de Tickets](image.png)
+![Gestión de Tickets](mis-tickets.png)
 
 ## Estadísticas
 
 Analiza tus patrones de gasto con gráficos interactivos y obtén insights sobre tu comportamiento financiero.
 
-![Dashboard de Estadísticas](image-1.png)
+![Dashboard de Estadísticas](estadisticas.png)
 
 ## Tecnologías
 
