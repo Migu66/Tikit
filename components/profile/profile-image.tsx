@@ -7,25 +7,11 @@ interface ProfileImageProps {
   name?: string | null;
 }
 
+/**
+ * Retrato de la ficha: cuadrado, con borde de tinta y sombra dura,
+ * como una foto grapada a un expediente.
+ */
 export function ProfileImage({ image, name }: ProfileImageProps) {
-  // Generar un color basado en el nombre del usuario
-  const backgroundColor = useMemo(() => {
-    if (!name) return 'bg-slate-400';
-
-    const colors = [
-      'bg-blue-500',
-      'bg-purple-500',
-      'bg-pink-500',
-      'bg-indigo-500',
-      'bg-cyan-500',
-      'bg-teal-500',
-      'bg-green-500',
-    ];
-
-    const hash = name.charCodeAt(0);
-    return colors[hash % colors.length];
-  }, [name]);
-
   const initials = useMemo(() => {
     if (!name) return '?';
     const parts = name.split(' ');
@@ -33,25 +19,30 @@ export function ProfileImage({ image, name }: ProfileImageProps) {
   }, [name]);
 
   return (
-    <div className="w-48 h-48">
+    <div className="relative h-48 w-48">
       {image ? (
-        <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-slate-200">
+        <div className="relative h-full w-full -rotate-2 overflow-hidden border-[3px] border-ink shadow-[8px_10px_0_0_rgba(20, 27, 24,0.2)] transition-transform duration-300 hover:rotate-0">
           <img
             src={image}
             alt={name || 'Usuario'}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         </div>
       ) : (
-        <div
-          className={`w-full h-full rounded-2xl ${backgroundColor} flex items-center justify-center border-4 border-slate-200 shadow-md`}
-        >
+        <div className="flex h-full w-full -rotate-2 items-center justify-center border-[3px] border-ink bg-ink shadow-[8px_10px_0_0_rgba(20, 27, 24,0.2)] transition-transform duration-300 hover:rotate-0">
           <div className="text-center">
-            <div className="text-5xl font-bold text-white mb-2">{initials}</div>
-            <div className="text-white text-sm opacity-80">{name}</div>
+            <div className="tk-display text-6xl text-paper">{initials}</div>
+            <div className="mt-2 font-mono text-[10px] tracking-[0.25em] text-ash">
+              {name?.toUpperCase()}
+            </div>
           </div>
         </div>
       )}
+      {/* Grapa decorativa */}
+      <span
+        aria-hidden="true"
+        className="absolute -top-2 left-1/2 h-3 w-10 -translate-x-1/2 rotate-3 border-2 border-ink bg-paper-2"
+      />
     </div>
   );
 }

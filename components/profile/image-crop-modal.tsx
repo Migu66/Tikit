@@ -101,32 +101,34 @@ export function ImageCropModal({ isOpen, onClose, imageSrc, onCropComplete }: Im
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-60 flex items-center justify-center backdrop-blur-sm bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden animate-fade-in max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-60 flex items-center justify-center bg-ink/60 backdrop-blur-[2px] p-4">
+      <div className="tk-card mx-4 flex max-h-[90vh] w-full max-w-3xl animate-fade-in flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200">
-          <h2 className="text-xl font-bold text-slate-900">
-            {t('cropImage') || 'Recortar imagen'}
-          </h2>
+        <div className="flex items-center justify-between border-b-2 border-ink p-6">
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.35em] text-ash">TIKIT — RETRATO</p>
+            <h2 className="tk-condensed mt-1 text-2xl">
+              {t('cropImage') || 'Recortar imagen'}
+            </h2>
+          </div>
           <button
             onClick={onClose}
             disabled={isProcessing}
-            className="text-slate-500 hover:text-slate-700 transition-colors disabled:opacity-50"
+            className="cursor-pointer border-2 border-ink p-1.5 transition-colors duration-300 hover:bg-ink hover:text-paper disabled:opacity-50"
             aria-label="Cerrar"
           >
-            <X className="w-6 h-6 cursor-pointer" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Crop Area */}
-        <div className="flex-1 overflow-auto p-6 flex flex-col">
-          <div className="flex justify-center items-center flex-1 min-h-0">
-            <div className="max-w-full max-h-full flex items-center justify-center">
+        <div className="flex flex-1 flex-col overflow-auto p-6">
+          <div className="flex min-h-0 flex-1 items-center justify-center">
+            <div className="flex max-h-full max-w-full items-center justify-center border-2 border-ink bg-paper-2 p-2">
               <ReactCrop
                 crop={crop}
                 onChange={(c) => setCrop(c)}
                 aspect={1}
-                circularCrop
                 className="max-w-full max-h-full"
               >
                 <img
@@ -140,18 +142,18 @@ export function ImageCropModal({ isOpen, onClose, imageSrc, onCropComplete }: Im
               </ReactCrop>
             </div>
           </div>
-          <p className="text-sm text-slate-600 text-center mt-4 shrink-0">
+          <p className="mt-4 shrink-0 text-center font-mono text-xs text-ash">
             {t('cropInstructions') || 'Arrastra para ajustar el área que deseas usar como foto de perfil'}
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 p-6 border-t border-slate-200">
+        <div className="flex gap-3 border-t-2 border-dashed border-ink/25 p-6">
           <button
             type="button"
             onClick={onClose}
             disabled={isProcessing}
-            className="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="tk-btn tk-btn-ghost flex-1"
           >
             {t('cancel')}
           </button>
@@ -159,10 +161,10 @@ export function ImageCropModal({ isOpen, onClose, imageSrc, onCropComplete }: Im
             type="button"
             onClick={handleConfirm}
             disabled={isProcessing || !crop}
-            className="flex-1 px-4 py-2.5 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+            className="tk-btn tk-btn-ink flex-1"
           >
-            {isProcessing && <Loader2 className="w-4 h-4 animate-spin" />}
-            {t('confirm') || 'Confirmar'}
+            {isProcessing && <Loader2 className="h-4 w-4 animate-spin" />}
+            {t('confirm') || 'Confirmar'} <span aria-hidden="true">✂</span>
           </button>
         </div>
       </div>

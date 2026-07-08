@@ -183,10 +183,27 @@ function StatsContent() {
         fetchStats(filter)
     }
 
+    const pageHeader = (
+        <header className="tk-rise mb-8">
+            <p className="font-mono text-[10px] tracking-[0.4em] text-ash">
+                TIKIT / PANEL — /03
+            </p>
+            <h1 className="tk-display mt-3 text-[clamp(2.4rem,6vw,5rem)]">
+                {t('title')}
+                <span className="text-thermal">.</span>
+            </h1>
+            <p className="mt-3 max-w-xl font-mono text-sm text-ink-2">
+                {t('subtitle')}
+            </p>
+        </header>
+    )
+
     if (status === 'loading') {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="flex min-h-screen items-center justify-center">
+                <p className="font-mono text-xs font-bold tracking-[0.4em]">
+                    ▮▮▮<span className="tk-blink text-thermal">▮</span>
+                </p>
             </div>
         )
     }
@@ -197,15 +214,8 @@ function StatsContent() {
 
     if (loading) {
         return (
-            <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 mt-12">
-                <div className="mb-6 lg:mb-8">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                        {t('title')}
-                    </h1>
-                    <p className="mt-2 text-sm sm:text-base text-gray-600">
-                        {t('subtitle')}
-                    </p>
-                </div>
+            <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
+                {pageHeader}
                 <StatsSkeleton />
             </div>
         )
@@ -213,25 +223,18 @@ function StatsContent() {
 
     if (error) {
         return (
-            <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 mt-12">
-                <div className="mb-6 lg:mb-8">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                        {t('title')}
-                    </h1>
-                    <p className="mt-2 text-sm sm:text-base text-gray-600">
-                        {t('subtitle')}
-                    </p>
-                </div>
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-                    <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                    <p className="text-red-800 font-medium mb-2">
+            <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
+                {pageHeader}
+                <div className="animate-shake border-[3px] border-danger p-8 text-center">
+                    <AlertCircle className="mx-auto mb-4 h-10 w-10 text-danger" />
+                    <p className="tk-condensed text-2xl text-danger">
                         {t('error')}
                     </p>
                     <button
                         onClick={() => fetchStats(currentFilter)}
-                        className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        className="tk-btn tk-btn-thermal mt-6"
                     >
-                        {t('retry')}
+                        ↻ {t('retry')}
                     </button>
                 </div>
             </div>
@@ -240,28 +243,23 @@ function StatsContent() {
 
     if (!stats || stats.overview.ticketsCount === 0) {
         return (
-            <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 mt-12">
-                <div className="mb-6 lg:mb-8">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                        {t('title')}
-                    </h1>
-                    <p className="mt-2 text-sm sm:text-base text-gray-600">
-                        {t('subtitle')}
-                    </p>
-                </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
-                    <Upload className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
+                {pageHeader}
+                <div className="border-[3px] border-dashed border-ink/30 p-10 text-center">
+                    <Upload className="mx-auto mb-4 h-12 w-12 text-ink/40" />
+                    <h3 className="tk-condensed text-2xl">
                         {t('noTickets')}
                     </h3>
-                    <p className="text-gray-600 mb-6">{t('uploadFirst')}</p>
+                    <p className="mx-auto mt-2 max-w-sm font-mono text-xs leading-relaxed text-ash">
+                        {t('uploadFirst')}
+                    </p>
                     <button
                         onClick={() =>
                             router.push(`/${locale}/dashboard/tickets`)
                         }
-                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        className="tk-btn tk-btn-ink mt-6"
                     >
-                        {t('uploadFirst')}
+                        {t('uploadFirst')} <span aria-hidden="true">→</span>
                     </button>
                 </div>
             </div>
@@ -269,59 +267,70 @@ function StatsContent() {
     }
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-12 md:mt-12">
+        <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
             {/* Header con filtros */}
-            <div className="mb-6 lg:mb-8">
+            <div className="mb-8">
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div>
-                            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                        <header className="tk-rise">
+                            <p className="font-mono text-[10px] tracking-[0.4em] text-ash">
+                                TIKIT / PANEL — /03
+                            </p>
+                            <h1 className="tk-display mt-3 text-[clamp(2.4rem,6vw,5rem)]">
                                 {t('title')}
+                                <span className="text-thermal">.</span>
                             </h1>
-                            <p className="mt-2 text-sm sm:text-base text-gray-600">
+                            <p className="mt-3 max-w-xl font-mono text-sm text-ink-2">
                                 {t('subtitle')}
                             </p>
-                        </div>
-                        <StatsPeriodFilter
-                            onFilterChange={handleFilterChange}
-                            availableYears={stats.availableYears}
-                            initialFilter={currentFilter}
-                        />
-                    </div>
+                        </header>
 
-                    {/* Botones de exportación */}
-                    <div className="flex justify-end">
-                        <ExportButtons
-                            stats={stats}
-                            periodLabel={getPeriodLabel(
-                                currentFilter,
-                                stats.periodInfo
-                            )}
-                            periodType={currentFilter.type}
-                            year={currentFilter.year}
-                            month={currentFilter.month}
-                        />
+                        <div className="flex shrink-0 flex-wrap items-center gap-3">
+                            <StatsPeriodFilter
+                                onFilterChange={handleFilterChange}
+                                availableYears={stats.availableYears}
+                                initialFilter={currentFilter}
+                            />
+                            <ExportButtons
+                                stats={stats}
+                                periodLabel={getPeriodLabel(
+                                    currentFilter,
+                                    stats.periodInfo
+                                )}
+                                periodType={currentFilter.type}
+                                year={currentFilter.year}
+                                month={currentFilter.month}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
                 {/* Overview Cards */}
-                <StatsOverview
-                    totalSpent={stats.overview.totalSpent}
-                    ticketsCount={stats.overview.ticketsCount}
-                    monthTicketsCount={stats.overview.periodTicketsCount}
-                    averagePerTicket={stats.overview.averagePerTicket}
-                />
+                <div className="tk-rise" style={{ animationDelay: '0.1s' }}>
+                    <StatsOverview
+                        totalSpent={stats.overview.totalSpent}
+                        ticketsCount={stats.overview.ticketsCount}
+                        monthTicketsCount={stats.overview.periodTicketsCount}
+                        averagePerTicket={stats.overview.averagePerTicket}
+                    />
+                </div>
 
                 {/* Charts Grid */}
-                <div className="grid gap-6 lg:grid-cols-2">
+                <div
+                    className="tk-rise grid gap-8 lg:grid-cols-2"
+                    style={{ animationDelay: '0.2s' }}
+                >
                     <CategoryChart data={stats.byCategory} />
                     <TrendsChart data={stats.monthlyTrends} />
                 </div>
 
                 {/* Top Stores Full Width */}
-                <div className="grid gap-6 lg:grid-cols-1">
+                <div
+                    className="tk-rise grid gap-8 lg:grid-cols-1"
+                    style={{ animationDelay: '0.3s' }}
+                >
                     <TopStoresChart data={stats.topStores} />
                 </div>
             </div>

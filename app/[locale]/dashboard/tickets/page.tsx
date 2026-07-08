@@ -22,8 +22,10 @@ export default function TicketsPage() {
 
   if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="font-mono text-xs font-bold tracking-[0.4em]">
+          ▮▮▮<span className="tk-blink text-thermal">▮</span>
+        </p>
       </div>
     );
   }
@@ -38,31 +40,48 @@ export default function TicketsPage() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-12 md:mt-12">
-      <div className="mb-6 lg:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+    <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
+      {/* Cabecera de documento */}
+      <header className="tk-rise">
+        <p className="font-mono text-[10px] tracking-[0.4em] text-ash">
+          TIKIT / PANEL — /02
+        </p>
+        <h1 className="tk-display mt-3 text-[clamp(2.4rem,6vw,5rem)]">
           {t('title')}
+          <span className="text-thermal">.</span>
         </h1>
-        <p className="mt-2 text-sm sm:text-base text-gray-600">
+        <p className="mt-3 max-w-xl font-mono text-sm text-ink-2">
           {t('subtitle')}
         </p>
-      </div>
+      </header>
 
-      {/* Componente de subida */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          {t('upload.title')}
-        </h2>
-        <TicketUpload onUploadSuccess={handleUploadSuccess} />
-      </div>
+      {/* Subida: bandeja de escaneo */}
+      <section className="tk-rise mt-10" style={{ animationDelay: '0.12s' }}>
+        <div className="tk-card">
+          <div className="flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-ink px-6 py-4">
+            <h2 className="tk-condensed text-2xl">{t('upload.title')}</h2>
+            <p className="font-mono text-[10px] tracking-[0.3em] text-ash">
+              SCAN — OCR — OK
+            </p>
+          </div>
+          <div className="p-4 sm:p-6">
+            <TicketUpload onUploadSuccess={handleUploadSuccess} />
+          </div>
+        </div>
+      </section>
 
-      {/* Lista de tickets */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          {t('list.title')}
-        </h2>
-        <TicketList refreshTrigger={refreshTrigger} />
-      </div>
+      {/* Archivo de tickets */}
+      <section className="tk-rise mt-10" style={{ animationDelay: '0.24s' }}>
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b-[3px] border-ink pb-3">
+          <h2 className="tk-condensed text-2xl">{t('list.title')}</h2>
+          <p className="font-mono text-[10px] tracking-[0.3em] text-ash">
+            ARCHIVO ▤
+          </p>
+        </div>
+        <div className="mt-6">
+          <TicketList refreshTrigger={refreshTrigger} />
+        </div>
+      </section>
     </div>
   );
 }

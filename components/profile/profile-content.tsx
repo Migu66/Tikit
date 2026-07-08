@@ -97,34 +97,37 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
   return (
     <>
-      <div className="max-w-5xl mx-auto space-y-8">
+      <div className="mx-auto max-w-5xl space-y-10">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900">{t('title')}</h1>
-          <p className="text-slate-600 mt-2">{t('subtitle')}</p>
-        </div>
+        <header className="tk-rise">
+          <p className="font-mono text-[10px] tracking-[0.4em] text-ash">
+            TIKIT / {new Date().getFullYear()} — FICHA DE CLIENTE
+          </p>
+          <h1 className="tk-display mt-3 text-[clamp(2.4rem,7vw,5.5rem)]">
+            {t('title')}
+            <span className="text-thermal">.</span>
+          </h1>
+          <p className="mt-3 max-w-xl font-mono text-sm text-ink-2">{t('subtitle')}</p>
+        </header>
 
         {/* Profile Card */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="tk-rise tk-card overflow-hidden" style={{ animationDelay: '0.1s' }}>
           <div className="flex flex-col md:flex-row">
             {/* Left Column - Image */}
-            <div className="shrink-0 md:w-1/3 p-8 bg-linear-to-br from-slate-50 to-slate-100 flex items-center justify-center md:border-r md:border-slate-200">
+            <div className="flex shrink-0 items-center justify-center border-b-2 border-ink bg-paper-2 p-8 md:w-1/3 md:border-b-0 md:border-r-2">
               <ProfileImage image={currentUser.image} name={currentUser.name} />
             </div>
 
-            {/* Divider Line */}
-            <div className="hidden md:block w-px bg-slate-200" />
-
             {/* Right Column - Info */}
-            <div className="grow md:w-2/3 p-8 relative">
+            <div className="relative grow p-8 md:w-2/3">
               {/* Edit Button */}
               <button
                 onClick={handleEditOpen}
-                className="absolute right-2 bottom-3 p-2 rounded-lg hover:bg-slate-100 transition-colors group cursor-pointer"
+                className="group absolute right-4 top-4 cursor-pointer border-2 border-ink bg-receipt p-2 transition-all duration-200 hover:bg-ink hover:shadow-[4px_4px_0_0_var(--color-thermal)]"
                 title="Editar perfil"
                 aria-label="Editar perfil"
               >
-                <Edit2 className="w-5 h-5 text-slate-600 group-hover:text-slate-900 transition-colors" />
+                <Edit2 className="h-4 w-4 text-ink transition-colors group-hover:text-paper" />
               </button>
 
               {/* Profile Info */}
@@ -134,10 +137,14 @@ export function ProfileContent({ user }: ProfileContentProps) {
         </div>
 
         {/* Change Password Card */}
-        <ChangePasswordCard />
+        <div className="tk-rise" style={{ animationDelay: '0.2s' }}>
+          <ChangePasswordCard />
+        </div>
 
         {/* Delete Account Card */}
-        <DeleteAccountCard />
+        <div className="tk-rise" style={{ animationDelay: '0.3s' }}>
+          <DeleteAccountCard />
+        </div>
       </div>
 
       {/* Edit Modal */}

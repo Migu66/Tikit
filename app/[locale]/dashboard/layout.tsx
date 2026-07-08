@@ -5,9 +5,9 @@ import { Sidebar } from '@/components/dashboard';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="tk-root flex min-h-screen bg-paper text-ink">
       <Sidebar />
-      <main className="flex-1 overflow-x-hidden">
+      <main className="tk-grain relative flex-1 overflow-x-hidden">
         {children}
       </main>
     </div>

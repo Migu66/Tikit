@@ -52,71 +52,44 @@ export function UserMenu({ userImage, userName }: UserMenuProps) {
   };
 
   return (
-    <div className="relative mt-1" ref={menuRef}>
-      {/* Botón de perfil/avatar */}
+    <div className="relative" ref={menuRef}>
+      {/* Avatar cuadrado, con borde de tinta y sombra dura al abrir */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        className={`block cursor-pointer border-2 border-ink transition-shadow duration-200 focus:outline-none focus-visible:shadow-[4px_4px_0_0_var(--color-thermal)] ${
+          isOpen ? 'shadow-[4px_4px_0_0_var(--color-thermal)]' : 'hover:shadow-[4px_4px_0_0_rgba(20, 27, 24,0.35)]'
+        }`}
       >
         {userImage ? (
-          <img
-            src={userImage}
-            alt="Profile"
-            className="w-11 h-11 rounded-full"
-          />
+          <img src={userImage} alt="Profile" className="h-10 w-10 object-cover" />
         ) : (
-          <div className="w-11 h-11 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+          <span className="flex h-10 w-10 items-center justify-center bg-ink font-mono text-sm font-bold text-paper">
             {getInitials(userName)}
-          </div>
+          </span>
         )}
       </button>
 
-      {/* Dropdown menu */}
+      {/* Desplegable: papel de recibo con borde de tinta */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
-          {/* Perfil */}
+        <div className="tk-card absolute right-0 z-50 mt-3 w-52 animate-fade-in p-1.5">
           <button
             onClick={handleProfile}
-            className="w-full px-4 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+            className="group flex w-full cursor-pointer items-center justify-between px-3 py-2.5 text-left font-mono text-xs font-bold uppercase tracking-[0.15em] text-ink transition-colors hover:bg-ink hover:text-paper"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
             {t('profile')}
+            <span aria-hidden="true" className="translate-x-0 transition-transform duration-300 group-hover:translate-x-1">→</span>
           </button>
 
-          {/* Divider */}
-          <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+          <div className="mx-3 my-1 border-t-2 border-dashed border-ink/25" />
 
-          {/* Cerrar sesión */}
           <button
             onClick={handleSignOut}
-            className="w-full px-4 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors flex items-center gap-2"
+            className="group flex w-full cursor-pointer items-center justify-between px-3 py-2.5 text-left font-mono text-xs font-bold uppercase tracking-[0.15em] text-thermal transition-colors hover:bg-thermal hover:text-paper"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
-            </svg>
             {t('signOut')}
+            <span aria-hidden="true" className="translate-x-0 transition-transform duration-300 group-hover:translate-x-1">↯</span>
           </button>
         </div>
       )}

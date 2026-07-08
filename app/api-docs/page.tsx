@@ -19,11 +19,13 @@ export default function ApiDocsPage() {
 
     if (!spec) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex min-h-screen items-center justify-center bg-paper">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">
-                        Cargando documentación de la API...
+                    <p className="font-mono text-xs font-bold tracking-[0.4em] text-ink">
+                        ▮▮▮<span className="tk-blink text-thermal">▮</span>
+                    </p>
+                    <p className="mt-4 font-mono text-xs tracking-[0.2em] text-ash">
+                        API DOCS
                     </p>
                 </div>
             </div>

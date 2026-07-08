@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import { X, Eye, EyeOff, Loader2 } from 'lucide-react';
 
@@ -119,34 +120,37 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
     return null;
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-fade-in max-h-[90vh] overflow-y-auto">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 backdrop-blur-[2px] p-4">
+      <div className="tk-card mx-4 max-h-[90vh] w-full max-w-md animate-fade-in overflow-hidden overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white">
-          <h2 className="text-xl font-bold text-slate-900">{t('title')}</h2>
+        <div className="sticky top-0 flex items-center justify-between border-b-2 border-ink bg-receipt p-6">
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.35em] text-ash">TIKIT — SEGURIDAD</p>
+            <h2 className="tk-condensed mt-1 text-2xl">{t('title')}</h2>
+          </div>
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="text-slate-500 hover:text-slate-700 transition-colors disabled:opacity-50"
+            className="cursor-pointer border-2 border-ink px-3 py-1.5 font-mono text-sm font-bold transition-colors duration-300 hover:bg-ink hover:text-paper disabled:opacity-50"
             aria-label="Cerrar"
           >
-            <X className="w-6 h-6 cursor-pointer" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
           {/* General Error */}
           {errors.general && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{errors.general}</p>
+            <div className="animate-shake border-2 border-danger px-3 py-2.5">
+              <p className="font-mono text-xs font-bold tracking-wide text-danger">▲ {errors.general}</p>
             </div>
           )}
 
           {/* Current Password */}
           <div className="space-y-2">
-            <label htmlFor="currentPassword" className="block text-sm font-semibold text-slate-700">
+            <label htmlFor="currentPassword" className="tk-label">
               {t('currentPassword')}
             </label>
             <div className="relative">
@@ -160,17 +164,17 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
                 }}
                 placeholder={t('currentPasswordPlaceholder')}
                 disabled={isLoading}
-                className={`w-full h-11 px-3 pr-12 py-2 text-sm border rounded-lg bg-white shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                className={`tk-input pr-12 ${
                   errors.currentPassword 
-                    ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-gray-300 focus:ring-blue-500'
+                    ? 'tk-input-error'
+                    : ''
                 }`}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                  className="cursor-pointer text-ash transition-colors hover:text-thermal focus:outline-none"
                   tabIndex={-1}
                   aria-label={showCurrentPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
@@ -183,13 +187,13 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
               </div>
             </div>
             {errors.currentPassword && (
-              <p className="text-sm text-red-600">{errors.currentPassword}</p>
+              <p className="font-mono text-xs font-bold text-danger">▲ {errors.currentPassword}</p>
             )}
           </div>
 
           {/* New Password */}
           <div className="space-y-2">
-            <label htmlFor="newPassword" className="block text-sm font-semibold text-slate-700">
+            <label htmlFor="newPassword" className="tk-label">
               {t('newPassword')}
             </label>
             <div className="relative">
@@ -203,17 +207,17 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
                 }}
                 placeholder={t('newPasswordPlaceholder')}
                 disabled={isLoading}
-                className={`w-full h-11 px-3 pr-12 py-2 text-sm border rounded-lg bg-white shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                className={`tk-input pr-12 ${
                   errors.newPassword 
-                    ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-gray-300 focus:ring-blue-500'
+                    ? 'tk-input-error'
+                    : ''
                 }`}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                  className="cursor-pointer text-ash transition-colors hover:text-thermal focus:outline-none"
                   tabIndex={-1}
                   aria-label={showNewPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
@@ -226,13 +230,13 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
               </div>
             </div>
             {errors.newPassword && (
-              <p className="text-sm text-red-600">{errors.newPassword}</p>
+              <p className="font-mono text-xs font-bold text-danger">▲ {errors.newPassword}</p>
             )}
           </div>
 
           {/* Confirm Password */}
           <div className="space-y-2">
-            <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700">
+            <label htmlFor="confirmPassword" className="tk-label">
               {t('confirmPassword')}
             </label>
             <div className="relative">
@@ -246,17 +250,17 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
                 }}
                 placeholder={t('confirmPasswordPlaceholder')}
                 disabled={isLoading}
-                className={`w-full h-11 px-3 pr-12 py-2 text-sm border rounded-lg bg-white shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                className={`tk-input pr-12 ${
                   errors.confirmPassword 
-                    ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-gray-300 focus:ring-blue-500'
+                    ? 'tk-input-error'
+                    : ''
                 }`}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                  className="cursor-pointer text-ash transition-colors hover:text-thermal focus:outline-none"
                   tabIndex={-1}
                   aria-label={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
@@ -269,37 +273,40 @@ export function ChangePasswordModal({ isOpen, onClose, onSuccess }: ChangePasswo
               </div>
             </div>
             {errors.confirmPassword && (
-              <p className="text-sm text-red-600">{errors.confirmPassword}</p>
+              <p className="font-mono text-xs font-bold text-danger">▲ {errors.confirmPassword}</p>
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
+          <div className="flex flex-col-reverse gap-3 border-t-2 border-dashed border-ink/25 pt-5 sm:flex-row">
             <button
               type="button"
               onClick={handleCancel}
               disabled={isLoading}
-              className="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="tk-btn tk-btn-ghost flex-1"
             >
               {t('cancelButton')}
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex-1 px-4 py-2.5 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+              className="tk-btn tk-btn-ink flex-1"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   {t('saving')}
                 </>
               ) : (
-                t('saveButton')
+                <>
+                  {t('saveButton')} <span aria-hidden="true">→</span>
+                </>
               )}
             </button>
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

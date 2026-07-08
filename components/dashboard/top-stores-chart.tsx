@@ -21,17 +21,23 @@ interface TopStoresChartProps {
     data: StoreData[]
 }
 
+const TOOLTIP_STYLE = {
+    backgroundColor: '#f1f4ee',
+    border: '2px solid #141b18',
+    borderRadius: 0,
+    fontFamily: 'var(--font-plex-mono), monospace',
+    fontSize: 12,
+} as const
+
 export function TopStoresChart({ data }: TopStoresChartProps) {
     const t = useTranslations('dashboard.stats.topStores')
 
     if (!data || data.length === 0) {
         return (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {t('title')}
-                </h3>
-                <p className="text-sm text-gray-600 mb-6">{t('subtitle')}</p>
-                <div className="flex items-center justify-center h-64 text-gray-400">
+            <div className="tk-card p-6">
+                <h3 className="tk-condensed text-2xl">{t('title')}</h3>
+                <p className="mt-1 font-mono text-xs text-ash">{t('subtitle')}</p>
+                <div className="mt-6 flex h-64 items-center justify-center border-2 border-dashed border-ink/25 font-mono text-xs tracking-[0.2em] text-ash">
                     <p>{t('noData')}</p>
                 </div>
             </div>
@@ -42,31 +48,35 @@ export function TopStoresChart({ data }: TopStoresChartProps) {
     const topFive = data.slice(0, 5)
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {t('title')}
-            </h3>
-            <p className="text-sm text-gray-600 mb-4 sm:mb-6">
-                {t('subtitle')}
-            </p>
+        <div className="tk-card p-4 sm:p-6">
+            <div className="flex items-baseline justify-between gap-2">
+                <h3 className="tk-condensed text-2xl">{t('title')}</h3>
+                <p className="font-mono text-[10px] tracking-[0.25em] text-ash">▮▮▮</p>
+            </div>
+            <p className="mt-1 font-mono text-xs text-ash">{t('subtitle')}</p>
 
-            <div className="h-64 sm:h-80 w-full">
+            <div className="mt-4 h-64 w-full sm:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={topFive} layout="vertical">
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                        <CartesianGrid
+                            strokeDasharray="2 4"
+                            stroke="rgba(20, 27, 24,0.18)"
+                        />
                         <XAxis
                             type="number"
-                            stroke="#6b7280"
+                            stroke="#74847a"
                             fontSize={11}
+                            fontFamily="var(--font-plex-mono), monospace"
                             tickLine={false}
-                            axisLine={false}
+                            axisLine={{ stroke: '#141b18', strokeWidth: 2 }}
                             tickFormatter={(value) => `€${value}`}
                         />
                         <YAxis
                             dataKey="store"
                             type="category"
-                            stroke="#6b7280"
+                            stroke="#74847a"
                             fontSize={11}
+                            fontFamily="var(--font-plex-mono), monospace"
                             tickLine={false}
                             axisLine={false}
                             width={70}
@@ -75,44 +85,44 @@ export function TopStoresChart({ data }: TopStoresChartProps) {
                             formatter={(value: number) =>
                                 `€${value.toFixed(2)}`
                             }
-                            contentStyle={{
-                                backgroundColor: 'white',
-                                border: '1px solid #e5e7eb',
-                                borderRadius: '0.5rem',
-                            }}
+                            cursor={{ fill: 'rgba(20, 27, 24,0.06)' }}
+                            contentStyle={TOOLTIP_STYLE}
                         />
                         <Bar
                             dataKey="total"
-                            fill="#10b981"
-                            radius={[0, 4, 4, 0]}
-                            barSize={50}
+                            fill="#141b18"
+                            stroke="#141b18"
+                            radius={0}
+                            barSize={26}
                         />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
 
-            <div className="mt-4 sm:mt-6 space-y-2">
+            {/* Ranking como conceptos de ticket */}
+            <div className="mt-4 space-y-2 border-t-2 border-dashed border-ink/25 pt-4 sm:mt-6">
                 {topFive.map((store, index) => (
                     <div
                         key={store.store}
-                        className="flex items-center justify-between text-xs sm:text-sm"
+                        className="flex items-baseline gap-2 font-mono text-xs sm:text-sm"
                     >
-                        <div className="flex items-center gap-1 sm:gap-2">
-                            <span className="text-gray-500 font-medium">
-                                #{index + 1}
-                            </span>
-                            <span className="text-gray-700 truncate">
-                                {store.store}
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-4">
-                            <span className="text-gray-500 hidden sm:inline">
-                                {store.visits} {t('visits')}
-                            </span>
-                            <span className="font-semibold text-gray-900">
-                                €{store.total.toFixed(2)}
-                            </span>
-                        </div>
+                        <span
+                            className={`font-bold tabular-nums ${
+                                index === 0 ? 'text-thermal' : 'text-ash'
+                            }`}
+                        >
+                            #{index + 1}
+                        </span>
+                        <span className="truncate text-ink-2">
+                            {store.store}
+                        </span>
+                        <span className="tk-dots-thin" aria-hidden="true" />
+                        <span className="hidden shrink-0 text-ash sm:inline">
+                            {store.visits} {t('visits')}
+                        </span>
+                        <span className="shrink-0 font-bold tabular-nums text-ink">
+                            €{store.total.toFixed(2)}
+                        </span>
                     </div>
                 ))}
             </div>

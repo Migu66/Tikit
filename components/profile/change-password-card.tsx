@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Lock, CheckCircle2 } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { ChangePasswordModal } from './change-password-modal';
 
 export function ChangePasswordCard() {
@@ -12,7 +12,7 @@ export function ChangePasswordCard() {
 
   const handleSuccess = () => {
     setSuccess(t('success'));
-    
+
     // Limpiar el mensaje de éxito después de 5 segundos
     setTimeout(() => {
       setSuccess(null);
@@ -21,36 +21,36 @@ export function ChangePasswordCard() {
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="p-8">
+      <div className="tk-card-flat">
+        <div className="flex flex-wrap items-center justify-between gap-4 p-6 sm:p-8">
           {/* Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Lock className="w-6 h-6 text-blue-600" />
-            </div>
+          <div className="flex items-center gap-4">
+            <span className="flex h-12 w-12 items-center justify-center border-2 border-ink bg-paper-2">
+              <Lock className="h-5 w-5 text-ink" />
+            </span>
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">{t('title')}</h2>
-              <p className="text-slate-600 text-sm">{t('subtitle')}</p>
+              <h2 className="tk-condensed text-2xl">{t('title')}</h2>
+              <p className="mt-0.5 font-mono text-xs text-ash">{t('subtitle')}</p>
             </div>
           </div>
-
-          {/* Success Message */}
-          {success && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-              <p className="text-green-800 text-sm">{success}</p>
-            </div>
-          )}
 
           {/* Change Password Button */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer"
+            className="tk-btn tk-btn-ink"
           >
-            <Lock className="w-5 h-5" />
-            {t('changeButton')}
+            {t('changeButton')} <span aria-hidden="true">→</span>
           </button>
         </div>
+
+        {/* Success Message */}
+        {success && (
+          <div className="animate-fade-in border-t-2 border-dashed border-ink/25 px-6 py-3 sm:px-8">
+            <p className="font-mono text-xs font-bold tracking-wide text-ink">
+              ✓ {success}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Change Password Modal */}

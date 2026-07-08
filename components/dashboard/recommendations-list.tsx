@@ -102,31 +102,17 @@ export function RecommendationsList({
 
     if (error) {
         return (
-            <div className="text-center py-12">
-                <div className="text-red-500 mb-4">
-                    <svg
-                        className="mx-auto h-12 w-12"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                </div>
-                <p className="text-gray-900 font-medium mb-2">
+            <div className="animate-shake border-[3px] border-danger p-8 text-center">
+                <p className="tk-display text-4xl text-danger">▲</p>
+                <p className="tk-condensed mt-3 text-2xl text-danger">
                     {translations.error}
                 </p>
-                <p className="text-gray-600 mb-4">{error}</p>
+                <p className="mt-2 font-mono text-xs text-ink-2">{error}</p>
                 <button
                     onClick={() => fetchRecommendations()}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                    className="tk-btn tk-btn-thermal mt-6"
                 >
-                    {translations.retry}
+                    ↻ {translations.retry}
                 </button>
             </div>
         )
@@ -134,24 +120,12 @@ export function RecommendationsList({
 
     if (recommendations.length === 0) {
         return (
-            <div className="text-center py-12">
-                <svg
-                    className="mx-auto h-24 w-24 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                    />
-                </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">
+            <div className="border-[3px] border-dashed border-ink/30 py-14 text-center">
+                <p className="tk-display text-5xl text-ink/15">✳</p>
+                <h3 className="tk-condensed mt-4 text-2xl">
                     {translations.noRecommendations}
                 </h3>
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mx-auto mt-2 max-w-sm font-mono text-xs leading-relaxed text-ash">
                     {translations.noData}
                 </p>
             </div>
@@ -160,12 +134,12 @@ export function RecommendationsList({
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b-2 border-dashed border-ink/25 pb-4">
                 <div>
-                    <h2 className="text-xl font-semibold text-gray-900">
+                    <h2 className="tk-condensed text-2xl">
                         {translations.title}
                     </h2>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="mt-1 font-mono text-xs text-ash">
                         {translations.subtitle}
                     </p>
                 </div>
@@ -173,10 +147,10 @@ export function RecommendationsList({
                 <button
                     onClick={handleRegenerate}
                     disabled={regenerating}
-                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="tk-btn tk-btn-ink"
                 >
                     <RefreshCwIcon
-                        className={`w-4 h-4 ${
+                        className={`h-3.5 w-3.5 ${
                             regenerating ? 'animate-spin' : ''
                         }`}
                     />
@@ -189,17 +163,22 @@ export function RecommendationsList({
             </div>
 
             <div className="space-y-3 sm:space-y-4">
-                {recommendations.map((rec) => (
-                    <RecommendationCard
+                {recommendations.map((rec, i) => (
+                    <div
                         key={rec.id}
-                        type={rec.type}
-                        category={rec.category}
-                        message={rec.message}
-                        severity={rec.severity}
-                        percentage={rec.percentage}
-                        amount={rec.amount}
-                        createdAt={new Date(rec.createdAt)}
-                    />
+                        className="tk-rise"
+                        style={{ animationDelay: `${i * 0.06}s` }}
+                    >
+                        <RecommendationCard
+                            type={rec.type}
+                            category={rec.category}
+                            message={rec.message}
+                            severity={rec.severity}
+                            percentage={rec.percentage}
+                            amount={rec.amount}
+                            createdAt={new Date(rec.createdAt)}
+                        />
+                    </div>
                 ))}
             </div>
         </div>

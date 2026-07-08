@@ -21,8 +21,10 @@ export default function AIRecommendationsPage() {
 
   if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="font-mono text-xs font-bold tracking-[0.4em]">
+          ▮▮▮<span className="tk-blink text-thermal">▮</span>
+        </p>
       </div>
     );
   }
@@ -32,13 +34,19 @@ export default function AIRecommendationsPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-12 md:mt-12">
-      <div className="mb-6 lg:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="mt-2 text-sm sm:text-base text-gray-600">{t('subtitle')}</p>
-      </div>
+    <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
+      <header className="tk-rise mb-8">
+        <p className="font-mono text-[10px] tracking-[0.4em] text-ash">
+          TIKIT / PANEL — /04 — AI
+        </p>
+        <h1 className="tk-display mt-3 text-[clamp(2.4rem,6vw,5rem)]">
+          {t('title')}
+          <span className="text-thermal">.</span>
+        </h1>
+        <p className="mt-3 max-w-xl font-mono text-sm text-ink-2">{t('subtitle')}</p>
+      </header>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8">
+      <div className="tk-rise tk-card p-4 sm:p-6 lg:p-8" style={{ animationDelay: '0.12s' }}>
         <RecommendationsList
           locale={locale}
           translations={{

@@ -92,17 +92,18 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
         }).format(amount)
     }
 
-    const getCategoryColor = (category?: string | null) => {
-        const colors: Record<string, string> = {
-            alimentacion: 'bg-green-100 text-green-800',
-            ocio: 'bg-purple-100 text-purple-800',
-            transporte: 'bg-blue-100 text-blue-800',
-            salud: 'bg-red-100 text-red-800',
-            hogar: 'bg-yellow-100 text-yellow-800',
-            otros: 'bg-gray-100 text-gray-800',
+    // Cada categoría lleva su marca tipográfica, como el código de sección de un ticket
+    const getCategoryMark = (category?: string | null) => {
+        const marks: Record<string, string> = {
+            alimentacion: '●',
+            ocio: '◆',
+            transporte: '▲',
+            salud: '✚',
+            hogar: '⌂',
+            otros: '◯',
         }
 
-        return colors[category || 'otros'] || colors.otros
+        return marks[category || 'otros'] || marks.otros
     }
 
     const handleViewTicket = (ticket: Ticket) => {
@@ -193,39 +194,29 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <p className="font-mono text-xs font-bold tracking-[0.4em]">
+                    ▮▮▮<span className="tk-blink text-thermal">▮</span>
+                </p>
             </div>
         )
     }
 
     if (error) {
         return (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                {error}
+            <div className="animate-shake border-2 border-danger px-4 py-3">
+                <p className="font-mono text-xs font-bold tracking-wide text-danger">
+                    ▲ {error}
+                </p>
             </div>
         )
     }
 
     if (tickets.length === 0) {
         return (
-            <div className="text-center py-12">
-                <svg
-                    className="mx-auto h-24 w-24 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">
-                    {t('empty')}
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">
+            <div className="border-[3px] border-dashed border-ink/30 py-14 text-center">
+                <p className="tk-display text-5xl text-ink/15">∅</p>
+                <h3 className="tk-condensed mt-4 text-2xl">{t('empty')}</h3>
+                <p className="mx-auto mt-2 max-w-sm font-mono text-xs leading-relaxed text-ash">
                     {t('emptyDescription')}
                 </p>
             </div>
@@ -234,96 +225,87 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
 
     return (
         <div className="space-y-4">
-            {tickets.map((ticket) => (
+            {tickets.map((ticket, index) => (
                 <div
                     key={ticket.id}
-                    className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
+                    className="tk-card-flat group p-4 transition-shadow duration-300 hover:shadow-[8px_10px_0_0_rgba(20, 27, 24,0.14)] sm:p-5"
                 >
-                    <div className="flex gap-4 items-start">
+                    <div className="flex items-start gap-4">
                         {/* Imagen del ticket */}
-                        <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border border-gray-200">
+                        <div className="relative hidden h-24 w-20 shrink-0 overflow-hidden border-2 border-ink sm:block">
                             <Image
                                 src={ticket.imageUrl}
                                 alt={ticket.storeName}
                                 fill
-                                className="object-cover"
+                                className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                         </div>
 
                         {/* Información del ticket y acciones */}
-                        <div className="flex-1 min-w-0 flex flex-col">
-                            <div className="flex items-start justify-between gap-2 w-full">
+                        <div className="flex min-w-0 flex-1 flex-col">
+                            <div className="flex w-full items-start justify-between gap-2">
                                 <div className="min-w-0">
-                                    <h3 className="font-semibold text-gray-900 truncate w-full block">
+                                    <p className="font-mono text-[9px] tracking-[0.3em] text-ash">
+                                        Nº {String(index + 1).padStart(4, '0')}
+                                    </p>
+                                    <h3 className="tk-condensed block w-full truncate text-xl sm:text-2xl">
                                         {ticket.storeName}
                                     </h3>
-                                    <p className="text-sm text-gray-500 mt-1">
+                                    <p className="mt-1 font-mono text-[10px] tracking-[0.2em] text-ash">
                                         {formatDate(ticket.purchaseDate)}
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col items-end shrink-0">
-                                    <p className="font-bold text-lg text-gray-900">
+                                <div className="flex shrink-0 flex-col items-end">
+                                    <p className="tk-display text-2xl tabular-nums sm:text-3xl">
                                         {formatCurrency(ticket.totalAmount)}
                                     </p>
                                     {ticket.tax && (
-                                        <p className="text-xs text-gray-500">
-                                            IVA: {formatCurrency(ticket.tax)}
+                                        <p className="mt-1 font-mono text-[10px] tracking-[0.15em] text-ash">
+                                            IVA {formatCurrency(ticket.tax)}
                                         </p>
                                     )}
-                                    {/* Botón de eliminar (X) solo en móvil arriba del precio, en desktop a la derecha */}
+                                    {/* Botón de eliminar (X) solo en móvil */}
                                     <button
                                         onClick={() =>
                                             handleDeleteTicket(ticket)
                                         }
-                                        className="mt-2 p-1.5 text-gray-400 bg-red-50 hover:text-red-600 hover:bg-red-100 rounded-lg transition-colors cursor-pointer block md:hidden"
+                                        className="mt-2 block cursor-pointer border-2 border-thermal px-2 py-0.5 font-mono text-xs font-bold text-thermal transition-colors hover:bg-thermal hover:text-paper md:hidden"
                                         title="Eliminar ticket"
                                     >
-                                        <svg
-                                            className="w-5 h-5"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
+                                        ✕
                                     </button>
                                 </div>
                             </div>
 
                             {/* Categoría */}
                             {ticket.category && (
-                                <div className="mt-2">
-                                    <span
-                                        className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getCategoryColor(
-                                            ticket.category
-                                        )}`}
-                                    >
+                                <div className="mt-3">
+                                    <span className="tk-chip text-ink">
+                                        <span aria-hidden="true" className="text-thermal">
+                                            {getCategoryMark(ticket.category)}
+                                        </span>
                                         {tCategories(ticket.category)}
                                     </span>
                                 </div>
                             )}
 
-                            {/* Productos */}
+                            {/* Productos, como los conceptos del recibo */}
                             {ticket.products && ticket.products.length > 0 && (
-                                <div className="mt-3 space-y-1">
+                                <div className="mt-3 space-y-1 border-t-2 border-dashed border-ink/15 pt-3">
                                     {ticket.products
                                         .slice(0, 3)
                                         .map((product) => (
                                             <div
                                                 key={product.id}
-                                                className="flex justify-between text-xs text-gray-600"
+                                                className="flex items-baseline gap-2 font-mono text-xs text-ink-2"
                                             >
                                                 <span className="truncate">
-                                                    {product.quantity}x{' '}
+                                                    {product.quantity}×{' '}
                                                     {product.name}
                                                 </span>
-                                                <span className="shrink-0 ml-2">
+                                                <span className="tk-dots-thin" aria-hidden="true" />
+                                                <span className="shrink-0 tabular-nums">
                                                     {formatCurrency(
                                                         product.totalPrice
                                                     )}
@@ -331,9 +313,8 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
                                             </div>
                                         ))}
                                     {ticket.products.length > 3 && (
-                                        <p className="text-xs text-gray-500 italic">
-                                            +{ticket.products.length - 3}{' '}
-                                            productos más
+                                        <p className="font-mono text-[10px] tracking-[0.2em] text-ash">
+                                            +{ticket.products.length - 3} ···
                                         </p>
                                     )}
                                 </div>
@@ -343,67 +324,23 @@ export function TicketList({ refreshTrigger = 0 }: TicketListProps) {
                             <div className="mt-4 flex gap-2">
                                 <button
                                     onClick={() => handleViewTicket(ticket)}
-                                    className="flex-1 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer"
+                                    className="tk-btn tk-btn-ghost flex-1 px-3! py-2! text-[11px]"
                                 >
-                                    <svg
-                                        className="w-4 h-4 inline-block mr-1"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                        />
-                                    </svg>
                                     {t('list.view')}
                                 </button>
                                 <button
                                     onClick={() => handleEditTicket(ticket)}
-                                    className="flex-1 px-4 py-2 text-sm font-medium text-green-600 bg-green-50 hover:bg-green-100 rounded-lg transition-colors cursor-pointer"
+                                    className="tk-btn tk-btn-ink flex-1 px-3! py-2! text-[11px]"
                                 >
-                                    <svg
-                                        className="w-4 h-4 inline-block mr-1"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                        />
-                                    </svg>
                                     {t('list.edit')}
                                 </button>
                                 {/* Botón de eliminar (X) en desktop */}
                                 <button
                                     onClick={() => handleDeleteTicket(ticket)}
-                                    className="shrink-0 p-1.5 text-gray-400 bg-red-50 hover:text-red-600 hover:bg-red-100 rounded-lg transition-colors cursor-pointer hidden md:block"
+                                    className="hidden shrink-0 cursor-pointer items-center border-2 border-thermal px-3 font-mono text-sm font-bold text-thermal transition-colors duration-300 hover:bg-thermal hover:text-paper md:flex"
                                     title="Eliminar ticket"
                                 >
-                                    <svg
-                                        className="w-5 h-5"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
+                                    ✕
                                 </button>
                             </div>
                         </div>

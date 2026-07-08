@@ -1,5 +1,10 @@
-export { HeroSection } from './hero-section';
-export { FeatureCard } from './feature-card';
-export { ShowcaseSection } from './showcase-section';
-export { FinalCTASection } from './final-cta-section';
+export { LandingHeader } from './landing-header';
+export { HeroPoster } from './hero-poster';
+export { ProcessLines } from './process-lines';
+export { FeaturesIndex } from './features-index';
+export { StatsGrid } from './stats-grid';
+export { TotalCta } from './total-cta';
+export { Marquee } from './marquee';
+export { CustomCursor } from './custom-cursor';
+export { ReceiptCard } from './receipt-card';
 export { Footer } from '../footer';

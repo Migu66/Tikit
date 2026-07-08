@@ -32,7 +32,7 @@ export default async function LocaleLayout({
     <div lang={locale} suppressHydrationWarning>
       <NextIntlClientProvider messages={messages}>
         <Navbar />
-        <main className="min-h-screen bg-white text-gray-900 transition-colors duration-300">
+        <main className="min-h-screen bg-paper text-ink">
           {children}
         </main>
       </NextIntlClientProvider>

@@ -101,10 +101,10 @@ export function ExportButtons({
             <button
                 onClick={handleExportPDF}
                 disabled={disabled || !stats || loading}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="tk-btn tk-btn-ink px-4! py-2.5! text-[11px]"
                 title={t('export.pdfTooltip')}
             >
-                <FileDown className="w-4 h-4" />
+                <FileDown className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">
                     {loading ? t('export.loading') : t('export.pdf')}
                 </span>

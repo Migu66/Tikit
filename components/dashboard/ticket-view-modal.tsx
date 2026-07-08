@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
@@ -54,32 +55,34 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
     }).format(amount);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 backdrop-blur-[2px] p-4">
+      <div className="tk-card flex max-h-[90vh] w-full max-w-4xl animate-fade-in flex-col overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">{ticket.storeName}</h2>
-            <p className="text-sm text-gray-600 mt-1">{formatDate(ticket.purchaseDate)}</p>
+        <div className="flex items-center justify-between border-b-2 border-ink px-6 py-4">
+          <div className="min-w-0">
+            <p className="font-mono text-[9px] tracking-[0.35em] text-ash">TIKIT — ARCHIVO</p>
+            <h2 className="tk-condensed mt-1 truncate text-3xl">{ticket.storeName}</h2>
+            <p className="mt-1 font-mono text-[10px] tracking-[0.2em] text-ash">
+              {formatDate(ticket.purchaseDate)}
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="shrink-0 cursor-pointer border-2 border-ink px-3 py-1.5 font-mono text-sm font-bold transition-colors duration-300 hover:bg-ink hover:text-paper"
+            aria-label="Cerrar"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            ✕
           </button>
         </div>
 
         {/* Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
+        <div className="flex-1 space-y-6 overflow-y-auto px-6 py-6">
           {/* Imagen del ticket - clickeable para ampliar */}
           <div className="relative">
             <button
               onClick={() => setIsImageExpanded(true)}
-              className="relative w-full h-96 rounded-lg overflow-hidden border border-gray-200 p-0 cursor-pointer hover:shadow-lg transition-shadow"
+              className="group relative h-96 w-full cursor-zoom-in overflow-hidden border-2 border-ink bg-paper-2 p-0 transition-shadow duration-300 hover:shadow-[8px_10px_0_0_rgba(20, 27, 24,0.14)]"
               title={tList('expandImage')}
               aria-label={tList('expandImage')}
             >
@@ -87,70 +90,63 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
                 src={ticket.imageUrl}
                 alt={ticket.storeName}
                 fill
-                className="object-contain"
+                className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
               />
+              <span className="absolute bottom-2 right-2 border-2 border-ink bg-receipt px-2 py-0.5 font-mono text-[9px] font-bold tracking-[0.2em]">
+                ⊕ {tList('expandImage').toUpperCase()}
+              </span>
             </button>
           </div>
 
           {/* Información básica */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('storeName')}
-              </label>
-              <p className="text-gray-900 font-semibold">{ticket.storeName}</p>
+              <label className="tk-label mb-1.5">{t('storeName')}</label>
+              <p className="tk-condensed text-xl">{ticket.storeName}</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('category')}
-              </label>
-              <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800">
+              <label className="tk-label mb-1.5">{t('category')}</label>
+              <span className="tk-chip text-ink">
+                <span aria-hidden="true" className="text-thermal">●</span>
                 {ticket.category ? tCategories(ticket.category) : tCategories('otros')}
               </span>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('purchaseDate')}
-              </label>
-              <p className="text-gray-900">{formatDate(ticket.purchaseDate)}</p>
+              <label className="tk-label mb-1.5">{t('purchaseDate')}</label>
+              <p className="font-mono text-sm text-ink">{formatDate(ticket.purchaseDate)}</p>
             </div>
 
             {ticket.tax && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {t('tax')}
-                </label>
-                <p className="text-gray-900">{formatCurrency(ticket.tax)}</p>
+                <label className="tk-label mb-1.5">{t('tax')}</label>
+                <p className="font-mono text-sm tabular-nums text-ink">{formatCurrency(ticket.tax)}</p>
               </div>
             )}
           </div>
 
-          {/* Productos */}
+          {/* Productos, como los conceptos del recibo */}
           {ticket.products && ticket.products.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">{t('products')}</h3>
-              <div className="space-y-2">
+              <h3 className="tk-condensed mb-3 border-t-2 border-dashed border-ink/25 pt-4 text-xl">
+                {t('products')}
+              </h3>
+              <div className="space-y-1.5">
                 {ticket.products.map((product) => (
                   <div
                     key={product.id}
-                    className="grid grid-cols-12 gap-2 p-3 bg-gray-50 rounded-lg"
+                    className="flex items-baseline gap-2 font-mono text-xs text-ink-2 sm:text-sm"
                   >
-                    <div className="col-span-6 md:col-span-6">
-                      <p className="text-sm font-medium text-gray-900">{product.name}</p>
-                    </div>
-                    <div className="col-span-2 md:col-span-2 text-center">
-                      <p className="text-sm text-gray-600">{product.quantity}x</p>
-                    </div>
-                    <div className="col-span-2 md:col-span-2 text-center">
-                      <p className="text-sm text-gray-600">{formatCurrency(product.unitPrice)}</p>
-                    </div>
-                    <div className="col-span-2 md:col-span-2 text-right">
-                      <p className="text-sm font-semibold text-gray-900">
-                        {formatCurrency(product.totalPrice)}
-                      </p>
-                    </div>
+                    <span className="tabular-nums text-ash">{product.quantity}×</span>
+                    <span className="truncate">{product.name}</span>
+                    <span className="hidden tabular-nums text-ash sm:inline">
+                      ({formatCurrency(product.unitPrice)})
+                    </span>
+                    <span className="tk-dots-thin" aria-hidden="true" />
+                    <span className="shrink-0 font-bold tabular-nums text-ink">
+                      {formatCurrency(product.totalPrice)}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -158,12 +154,12 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
           )}
 
           {/* Total */}
-          <div className="bg-blue-50 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <label className="text-lg font-semibold text-gray-900">
+          <div className="border-[3px] border-thermal p-4">
+            <div className="flex items-baseline justify-between">
+              <label className="tk-condensed text-xl text-thermal">
                 {t('totalAmount')}
               </label>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="tk-display text-3xl tabular-nums text-thermal">
                 {formatCurrency(ticket.totalAmount)}
               </p>
             </div>
@@ -171,11 +167,8 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 flex justify-end bg-gray-50">
-          <button
-            onClick={onClose}
-            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors cursor-pointer"
-          >
+        <div className="flex justify-end border-t-2 border-dashed border-ink/25 bg-paper px-6 py-4">
+          <button onClick={onClose} className="tk-btn tk-btn-ink">
             Cerrar
           </button>
         </div>
@@ -183,16 +176,17 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
 
       {/* Lightbox para imagen ampliada */}
       {isImageExpanded && (
-        <div 
-          className="fixed inset-0 bg-black/95 flex items-center justify-center p-4"
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-ink/95 p-4"
           style={{ zIndex: 100 }}
           onClick={() => setIsImageExpanded(false)}
         >
           <button
             onClick={() => setIsImageExpanded(false)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+            className="absolute top-4 right-4 z-10 cursor-pointer border-2 border-paper px-3 py-1.5 font-mono text-sm font-bold text-paper transition-colors hover:bg-paper hover:text-ink"
             aria-label={tList('expandImage')}
           >
+            ✕
           </button>
           <div className="relative w-full h-full max-w-7xl max-h-[95vh]">
             <Image
@@ -205,6 +199,7 @@ export function TicketViewModal({ isOpen, ticket, onClose }: TicketViewModalProp
           </div>
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }

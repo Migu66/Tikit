@@ -94,10 +94,16 @@ export function StatsPeriodFilter({ onFilterChange, availableYears, initialFilte
       {/* Botón de filtro */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm"
+        aria-expanded={isOpen}
+        className={`flex cursor-pointer items-center gap-2 border-2 border-ink bg-receipt px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.12em] transition-shadow duration-200 ${
+          isOpen
+            ? 'shadow-[4px_4px_0_0_var(--color-thermal)]'
+            : 'hover:shadow-[4px_4px_0_0_rgba(20, 27, 24,0.35)]'
+        }`}
       >
-        <Filter className="w-4 h-4 text-gray-600" />
-        <span className="text-sm font-medium text-gray-700">{getActiveFilterLabel()}</span>
+        <Filter className="h-3.5 w-3.5" />
+        <span>{getActiveFilterLabel()}</span>
+        <span aria-hidden="true" className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>▾</span>
       </button>
 
       {/* Panel de filtros */}
@@ -110,91 +116,76 @@ export function StatsPeriodFilter({ onFilterChange, availableYears, initialFilte
           />
 
           {/* Contenido del panel */}
-          <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+          <div className="tk-card absolute right-0 z-20 mt-3 w-80 animate-fade-in p-4">
+            <div className="mb-4 flex items-center justify-between border-b-2 border-dashed border-ink/25 pb-3">
+              <h3 className="tk-condensed flex items-center gap-2 text-lg">
+                <Calendar className="h-4 w-4" />
                 {t('title')}
               </h3>
             </div>
 
             {/* Tipo de período */}
-            <div className="space-y-3 mb-4">
-              <label className="block text-xs font-medium text-gray-700 mb-2">
+            <div className="mb-4 space-y-3">
+              <label className="tk-label mb-2">
                 {t('period.label')}
               </label>
-              
-              <div className="space-y-2">
-                <button
-                  onClick={() => {
-                    setPeriodType('currentMonth');
-                    onFilterChange({ type: 'currentMonth' });
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                    periodType === 'currentMonth'
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {t('period.currentMonth')}
-                </button>
 
-                <button
-                  onClick={() => {
-                    setPeriodType('currentYear');
-                    onFilterChange({ type: 'currentYear' });
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                    periodType === 'currentYear'
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {t('period.currentYear')}
-                </button>
-
-                <button
-                  onClick={() => {
-                    setPeriodType('allTime');
-                    onFilterChange({ type: 'allTime' });
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                    periodType === 'allTime'
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {t('period.allTime')}
-                </button>
+              <div className="space-y-1.5">
+                {(
+                  [
+                    ['currentMonth', t('period.currentMonth')],
+                    ['currentYear', t('period.currentYear')],
+                    ['allTime', t('period.allTime')],
+                  ] as const
+                ).map(([type, label]) => (
+                  <button
+                    key={type}
+                    onClick={() => {
+                      setPeriodType(type);
+                      onFilterChange({ type });
+                      setIsOpen(false);
+                    }}
+                    className={`flex w-full cursor-pointer items-center justify-between px-3 py-2 text-left font-mono text-xs font-bold uppercase tracking-widest transition-colors duration-200 ${
+                      periodType === type
+                        ? 'bg-ink text-paper'
+                        : 'text-ink-2 hover:bg-paper-2'
+                    }`}
+                  >
+                    {label}
+                    {periodType === type && (
+                      <span aria-hidden="true" className="text-thermal">●</span>
+                    )}
+                  </button>
+                ))}
 
                 <button
                   onClick={() => setPeriodType('custom')}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                  className={`flex w-full cursor-pointer items-center justify-between px-3 py-2 text-left font-mono text-xs font-bold uppercase tracking-widest transition-colors duration-200 ${
                     periodType === 'custom'
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      ? 'bg-ink text-paper'
+                      : 'text-ink-2 hover:bg-paper-2'
                   }`}
                 >
                   {t('period.custom')}
+                  {periodType === 'custom' && (
+                    <span aria-hidden="true" className="text-thermal">●</span>
+                  )}
                 </button>
               </div>
             </div>
 
             {/* Selectores personalizados */}
             {periodType === 'custom' && (
-              <div className="space-y-3 mb-4 pt-3 border-t border-gray-200">
+              <div className="mb-4 space-y-3 border-t-2 border-dashed border-ink/25 pt-3">
                 {/* Selector de año */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="tk-label mb-1.5">
                     {t('year.label')}
                   </label>
                   <select
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="tk-input"
                   >
                     {availableYears.map((year) => (
                       <option key={year} value={year}>
@@ -206,13 +197,13 @@ export function StatsPeriodFilter({ onFilterChange, availableYears, initialFilte
 
                 {/* Selector de mes */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="tk-label mb-1.5">
                     {t('month.label')}
                   </label>
                   <select
                     value={selectedMonth}
                     onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="tk-input"
                   >
                     {months.map((month) => (
                       <option key={month.value} value={month.value}>
@@ -225,17 +216,17 @@ export function StatsPeriodFilter({ onFilterChange, availableYears, initialFilte
             )}
 
             {/* Botones de acción */}
-            <div className="flex gap-2 pt-3 border-t border-gray-200">
+            <div className="flex gap-2 border-t-2 border-dashed border-ink/25 pt-3">
               <button
                 onClick={handleReset}
-                className="flex-1 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                className="tk-btn tk-btn-ghost flex-1 px-3! py-2! text-[11px]"
               >
                 {t('reset')}
               </button>
               {periodType === 'custom' && (
                 <button
                   onClick={handleApplyFilters}
-                  className="flex-1 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors"
+                  className="tk-btn tk-btn-thermal flex-1 px-3! py-2! text-[11px]"
                 >
                   {t('apply')}
                 </button>

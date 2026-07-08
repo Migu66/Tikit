@@ -30,7 +30,6 @@ export default function DashboardPage() {
           const response = await fetch('/api/dashboard/stats');
           if (response.ok) {
             const data: StatsResponse = await response.json();
-            console.log('Stats received from API:', data);
             setStats(data);
           } else {
             console.error('Failed to fetch stats:', response.status);
@@ -48,8 +47,10 @@ export default function DashboardPage() {
 
   if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="font-mono text-xs font-bold tracking-[0.4em]">
+          ▮▮▮<span className="tk-blink text-thermal">▮</span>
+        </p>
       </div>
     );
   }
@@ -58,140 +59,161 @@ export default function DashboardPage() {
     return null;
   }
 
+  const firstName = session.user?.name?.split(' ')[0] || '';
+  const today = new Date().toLocaleDateString(
+    locale === 'es' ? 'es-ES' : 'en-GB',
+    { day: '2-digit', month: '2-digit', year: 'numeric' }
+  );
+
+  const lines = [
+    {
+      label: t('totalSpent'),
+      value: `${formatCurrency(stats?.overview.totalSpent, locale)} €`,
+      note: t('thisMonth'),
+      accent: true,
+    },
+    {
+      label: t('averagePerTicket'),
+      value: `${formatCurrency(stats?.overview.averagePerTicket, locale)} €`,
+      note: t('thisMonth'),
+      accent: false,
+    },
+    {
+      label: t('ticketsCount'),
+      value: `${stats?.overview.ticketsCount ?? 0}`,
+      note: t('totalTickets'),
+      accent: false,
+    },
+  ];
+
+  const steps = [
+    { title: t('steps.step1Title'), desc: t('steps.step1Description') },
+    { title: t('steps.step2Title'), desc: t('steps.step2Description') },
+    { title: t('steps.step3Title'), desc: t('steps.step3Description') },
+  ];
+
   return (
-    <div className="p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 lg:mt-13 sm:mt-13 md:mt-12">
-      {/* Header */}
-      <div className="mb-6 lg:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-          {t('welcome')}, {session.user?.name}
+    <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10 lg:pt-10">
+      {/* Cabecera de documento */}
+      <header className="tk-rise">
+        <p className="font-mono text-[10px] tracking-[0.4em] text-ash">
+          TIKIT / PANEL — {today}
+        </p>
+        <h1 className="tk-display mt-3 text-[clamp(2.4rem,6vw,5rem)]">
+          {t('welcome')},{' '}
+          <span className="tk-outline">{firstName}</span>
+          <span className="text-thermal">.</span>
         </h1>
-        <p className="mt-2 text-sm sm:text-base text-gray-600">{t('home.subtitle')}</p>
-      </div>
+        <p className="mt-3 max-w-xl font-mono text-sm text-ink-2">
+          {t('home.subtitle')}
+        </p>
+      </header>
 
-      {/* Quick stats cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 lg:mb-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">
-            {t('totalSpent')}
-          </h3>
-          {loadingStats ? (
-            <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-          ) : (
-            <>
-              <p className="text-3xl font-bold text-blue-600">
-                ${formatCurrency(stats?.overview.totalSpent, locale)}
-              </p>
-              <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
-            </>
-          )}
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">
-            {t('averagePerTicket')}
-          </h3>
-          {loadingStats ? (
-            <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-          ) : (
-            <>
-              <p className="text-3xl font-bold text-green-600">
-                ${formatCurrency(stats?.overview.averagePerTicket, locale)}
-              </p>
-              <p className="mt-2 text-sm text-gray-500">{t('thisMonth')}</p>
-            </>
-          )}
-        </div>
-		
-		<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">
-            {t('ticketsCount')}
-          </h3>
-          {loadingStats ? (
-            <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-          ) : (
-            <>
-              <p className="text-3xl font-bold text-purple-600">
-                {stats?.overview.ticketsCount ?? 0}
-              </p>
-              <p className="mt-2 text-sm text-gray-500">{t('totalTickets')}</p>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Upload section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="mb-4 sm:mb-6">
-            <svg
-              className="mx-auto h-16 w-16 sm:h-20 sm:w-20 lg:h-24 lg:w-24 text-blue-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-              />
-            </svg>
-          </div>
-          
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
-            {t('getStarted')}
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
-            {t('uploadFirstTicket')}
+      {/* Resumen como líneas de recibo */}
+      <section
+        className="tk-rise mt-10 grid gap-6 lg:grid-cols-12"
+        style={{ animationDelay: '0.12s' }}
+      >
+        <div className="tk-card p-0 lg:col-span-8">
+          <p className="border-b-2 border-dashed border-ink/25 px-6 py-3 font-mono text-[10px] font-bold tracking-[0.35em] text-ash">
+            TIKIT — Nº {String(stats?.overview.ticketsCount ?? 0).padStart(4, '0')} — {today}
           </p>
-          
+
+          <ul>
+            {lines.map((line, i) => (
+              <li
+                key={line.label}
+                className={`flex flex-wrap items-baseline gap-x-4 gap-y-1 px-6 py-5 ${
+                  i > 0 ? 'border-t-2 border-dashed border-ink/15' : ''
+                }`}
+              >
+                <span className="font-mono text-[10px] tracking-[0.2em] text-ash">
+                  /0{i + 1}
+                </span>
+                <span className="tk-condensed text-lg sm:text-xl">
+                  {line.label}
+                </span>
+                <span className="tk-dots" aria-hidden="true" />
+                {loadingStats ? (
+                  <span className="h-8 w-28 animate-pulse bg-paper-2" />
+                ) : (
+                  <span
+                    className={`tk-display text-3xl tabular-nums sm:text-4xl ${
+                      line.accent ? 'text-thermal' : ''
+                    }`}
+                  >
+                    {line.value}
+                  </span>
+                )}
+                <span className="w-full pl-10 font-mono text-[10px] tracking-[0.25em] text-ash sm:w-auto sm:pl-0">
+                  {line.note.toUpperCase()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tarjeta CTA lateral */}
+        <div className="lg:col-span-4">
           <Link
             href={`/${locale}/dashboard/tickets?autoOpen=true`}
-            className="inline-block w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow-md cursor-pointer text-center"
+            className="group relative flex h-full min-h-52 flex-col justify-between overflow-hidden border-2 border-ink bg-ink p-6 text-paper shadow-[8px_10px_0_0_rgba(20, 27, 24,0.14)]"
           >
-            {t('uploadTicket')}
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 origin-bottom scale-y-0 bg-thermal transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-y-100"
+            />
+            <span className="relative z-10 font-mono text-[10px] tracking-[0.35em] text-ash transition-colors group-hover:text-paper">
+              {t('getStarted').toUpperCase()}
+            </span>
+            <span className="relative z-10">
+              <span className="tk-condensed block text-3xl leading-tight">
+                {t('uploadTicket')}
+              </span>
+              <span
+                aria-hidden="true"
+                className="mt-3 inline-block text-3xl transition-transform duration-500 group-hover:translate-x-3"
+              >
+                →
+              </span>
+            </span>
           </Link>
-          
-          <div className="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <span className="text-blue-600 font-bold">1</span>
-                </div>
-                <h3 className="font-semibold text-gray-900">{t('steps.step1Title')}</h3>
+        </div>
+      </section>
+
+      {/* Cómo funciona: índice numerado */}
+      <section
+        className="tk-rise mt-10"
+        style={{ animationDelay: '0.24s' }}
+      >
+        <div className="tk-card-flat">
+          <div className="flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-ink px-6 py-4">
+            <h2 className="tk-condensed text-2xl">{t('getStarted')}</h2>
+            <p className="font-mono text-[10px] tracking-[0.3em] text-ash">
+              {t('uploadFirstTicket').toUpperCase()}
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3">
+            {steps.map((step, i) => (
+              <div
+                key={i}
+                className={`group px-6 py-6 transition-colors duration-300 hover:bg-ink hover:text-paper ${
+                  i > 0 ? 'border-t-2 border-ink sm:border-l-2 sm:border-t-0' : ''
+                }`}
+              >
+                <p className="tk-display text-4xl text-thermal">
+                  0{i + 1}
+                </p>
+                <h3 className="tk-condensed mt-3 text-xl">{step.title}</h3>
+                <p className="mt-2 font-mono text-xs leading-relaxed text-ash transition-colors duration-300 group-hover:text-paper/70">
+                  {step.desc}
+                </p>
               </div>
-              <p className="text-sm text-gray-600 ml-11">
-                {t('steps.step1Description')}
-              </p>
-            </div>
-            
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="shrink-0 w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <span className="text-purple-600 font-bold">2</span>
-                </div>
-                <h3 className="font-semibold text-gray-900">{t('steps.step2Title')}</h3>
-              </div>
-              <p className="text-sm text-gray-600 ml-11">
-                {t('steps.step2Description')}
-              </p>
-            </div>
-            
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                  <span className="text-green-600 font-bold">3</span>
-                </div>
-                <h3 className="font-semibold text-gray-900">{t('steps.step3Title')}</h3>
-              </div>
-              <p className="text-sm text-gray-600 ml-11">
-                {t('steps.step3Description')}
-              </p>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
-

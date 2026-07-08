@@ -3,54 +3,29 @@
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { 
-  HomeIcon, 
-  TicketIcon, 
-  ChartBarIcon, 
-  SparklesIcon,
-  XMarkIcon,
-  Bars3Icon
-} from '@heroicons/react/24/outline';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { LanguageSelector } from '@/components/ui';
-import { useRouter } from 'next/navigation';
 
+/**
+ * Lomo de navegación del dashboard: una columna de tinta con el índice
+ * de secciones numerado como los conceptos de un recibo. En móvil se
+ * convierte en una cabecera de papel con menú desplegable de tinta.
+ */
 export default function Sidebar() {
   const t = useTranslations('dashboard.sidebar');
   const tCommon = useTranslations('common');
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
 
   const navigation = [
-    {
-      name: t('home'),
-      href: `/${locale}/dashboard`,
-      icon: HomeIcon,
-      exact: true
-    },
-    {
-      name: t('tickets'),
-      href: `/${locale}/dashboard/tickets`,
-      icon: TicketIcon,
-      exact: false
-    },
-    {
-      name: t('stats'),
-      href: `/${locale}/dashboard/stats`,
-      icon: ChartBarIcon,
-      exact: false
-    },
-    {
-      name: t('recommendations'),
-      href: `/${locale}/dashboard/ai`,
-      icon: SparklesIcon,
-      exact: false
-    }
+    { name: t('home'), href: `/${locale}/dashboard`, exact: true },
+    { name: t('tickets'), href: `/${locale}/dashboard/tickets`, exact: false },
+    { name: t('stats'), href: `/${locale}/dashboard/stats`, exact: false },
+    { name: t('recommendations'), href: `/${locale}/dashboard/ai`, exact: false },
   ];
 
   const isActive = (href: string, exact: boolean) => {
@@ -60,155 +35,232 @@ export default function Sidebar() {
     return pathname.startsWith(href);
   };
 
+  const changeLocale = (newLocale: string) => {
+    if (newLocale === locale) return;
+    const segments = pathname.split('/');
+    segments[1] = newLocale;
+    router.push(segments.join('/'));
+  };
+
+  const initials =
+    session?.user?.name
+      ?.split(' ')
+      .map((p) => p[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2) || 'U';
+
+  const navList = (onNavigate?: () => void) => (
+    <ul className="space-y-0">
+      {navigation.map((item, i) => {
+        const active = isActive(item.href, item.exact);
+        return (
+          <li key={item.name} className="border-b border-paper/10">
+            <Link
+              href={item.href}
+              onClick={onNavigate}
+              aria-current={active ? 'page' : undefined}
+              className={`tk-hover group flex items-baseline gap-3 px-5 py-4 transition-colors duration-300 ${
+                active ? 'bg-thermal text-paper' : 'text-paper hover:text-thermal'
+              }`}
+            >
+              <span
+                className={`font-mono text-[10px] tracking-[0.2em] ${
+                  active ? 'text-paper' : 'text-ash'
+                }`}
+              >
+                /0{i + 1}
+              </span>
+              <span className="tk-roll tk-condensed text-xl">
+                <span>{item.name}</span>
+                <span>{item.name}</span>
+              </span>
+              {active && (
+                <span aria-hidden="true" className="ml-auto font-mono text-sm">
+                  ←
+                </span>
+              )}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <>
-      {/* Mobile Header - Top Bar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="flex items-center justify-between h-16 px-4">
+      {/* ============ Cabecera móvil ============ */}
+      <div className="fixed top-0 left-0 right-0 z-50 border-b-2 border-ink bg-paper lg:hidden">
+        <div className="flex h-16 items-center justify-between px-4">
+          {/* Hamburguesa de tres barras de tinta */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px]"
             aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? (
-              <XMarkIcon className="h-6 w-6 text-gray-900" />
-            ) : (
-              <Bars3Icon className="h-6 w-6 text-gray-900" />
-            )}
+            <span
+              className={`h-[3px] w-6 bg-ink transition-transform duration-300 ${
+                isMobileMenuOpen ? 'translate-y-2 rotate-45' : ''
+              }`}
+            />
+            <span
+              className={`h-[3px] w-6 bg-ink transition-opacity duration-300 ${
+                isMobileMenuOpen ? 'opacity-0' : ''
+              }`}
+            />
+            <span
+              className={`h-[3px] w-6 bg-ink transition-transform duration-300 ${
+                isMobileMenuOpen ? '-translate-y-2 -rotate-45' : ''
+              }`}
+            />
           </button>
 
-          <Link href={`/${locale}/dashboard`} className="flex items-center">
-            <span className="text-xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Tikit
-            </span>
+          <Link href={`/${locale}/dashboard`} className="tk-display text-xl">
+            TIKIT<span className="align-super text-[0.45em] text-thermal">®</span>
           </Link>
 
-          <div className="flex items-center gap-3">
-            {/* Selector de idioma */}
-            <LanguageSelector />
-            
-            {/* Avatar con link al perfil */}
-            <button
-              onClick={() => router.push(`/${locale}/profile`)}
-              className="w-10 h-10 rounded-full hover:shadow-lg transition-shadow cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              aria-label="Ir al perfil"
-            >
-              {session?.user?.image ? (
-                <img
-                  src={session.user.image}
-                  alt={session.user.name || 'Usuario'}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-linear-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
-                  {session?.user?.name?.charAt(0).toUpperCase() || 'U'}
-                </div>
-              )}
-            </button>
-          </div>
+          {/* Avatar cuadrado con link al perfil */}
+          <button
+            onClick={() => router.push(`/${locale}/profile`)}
+            className="cursor-pointer border-2 border-ink transition-shadow hover:shadow-[3px_3px_0_0_var(--color-thermal)]"
+            aria-label="Ir al perfil"
+          >
+            {session?.user?.image ? (
+              <img
+                src={session.user.image}
+                alt={session.user.name || 'Usuario'}
+                className="h-9 w-9 object-cover"
+              />
+            ) : (
+              <span className="flex h-9 w-9 items-center justify-center bg-ink font-mono text-xs font-bold text-paper">
+                {initials}
+              </span>
+            )}
+          </button>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Menú desplegable móvil: panel de tinta */}
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop que empieza debajo del header */}
             <div
-              className="fixed top-16 left-0 right-0 bottom-0"
+              className="fixed top-16 left-0 right-0 bottom-0 bg-ink/40"
               onClick={() => setIsMobileMenuOpen(false)}
             />
-            
-            {/* Menú desplegable */}
-            <div className="absolute top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-10">
-              <nav className="px-4 py-4 space-y-2">
-                {navigation.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActive(item.href, item.exact);
-                  
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`
-                        flex items-center gap-3 px-4 py-3 rounded-lg
-                        transition-all duration-200
-                        ${
-                          active
-                            ? 'bg-blue-50 text-blue-600 font-medium'
-                            : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                        }
-                      `}
-                    >
-                      <Icon className={`h-5 w-5 ${active ? 'text-blue-600' : 'text-gray-500'}`} />
-                      <span>{item.name}</span>
-                    </Link>
-                  );
-                })}
+            <div className="absolute top-16 left-0 right-0 z-10 border-b-2 border-ink bg-ink">
+              <nav>
+                {navList(() => setIsMobileMenuOpen(false))}
 
-                {/* Logout button in mobile menu */}
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    signOut({ callbackUrl: `/${locale}` });
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-all duration-200"
-                >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  <span>{tCommon('logout')}</span>
-                </button>
+                <div className="flex items-center justify-between px-5 py-4">
+                  {/* Idioma */}
+                  <p className="font-mono text-xs">
+                    {(['es', 'en'] as const).map((l, i) => (
+                      <span key={l}>
+                        {i > 0 && <span className="text-ash"> / </span>}
+                        <button
+                          onClick={() => changeLocale(l)}
+                          className={
+                            l === locale
+                              ? 'font-bold text-paper underline decoration-thermal decoration-2 underline-offset-4'
+                              : 'cursor-pointer text-ash transition-colors hover:text-thermal'
+                          }
+                        >
+                          {l.toUpperCase()}
+                        </button>
+                      </span>
+                    ))}
+                  </p>
+
+                  {/* Salir */}
+                  <button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      signOut({ callbackUrl: `/${locale}` });
+                    }}
+                    className="cursor-pointer font-mono text-xs font-bold uppercase tracking-[0.2em] text-thermal transition-colors hover:text-paper"
+                  >
+                    {tCommon('logout')} ↯
+                  </button>
+                </div>
               </nav>
+              <div className="tk-teeth [--tk-teeth-color:var(--color-ink)] translate-y-full" aria-hidden="true" />
             </div>
           </>
         )}
       </div>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:sticky top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 shrink-0">
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-            <Link href={`/${locale}`} className="flex items-center">
-              <span className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Tikit
+      {/* ============ Lomo de escritorio ============ */}
+      <aside className="sticky top-0 left-0 hidden h-screen w-64 shrink-0 flex-col bg-ink text-paper lg:flex">
+        {/* Marca */}
+        <div className="border-b border-paper/10 px-5 py-6">
+          <Link href={`/${locale}`} className="tk-display text-3xl">
+            TIKIT<span className="align-super text-[0.45em] text-thermal">®</span>
+          </Link>
+          <p className="mt-2 font-mono text-[9px] tracking-[0.35em] text-ash">
+            PANEL — {new Date().getFullYear()}
+          </p>
+        </div>
+
+        {/* Índice de secciones */}
+        <nav className="flex-1 overflow-y-auto">{navList()}</nav>
+
+        {/* Pie: usuario, idioma y salida */}
+        <div className="border-t border-paper/10">
+          <Link
+            href={`/${locale}/profile`}
+            className="group flex items-center gap-3 px-5 py-4 transition-colors hover:bg-paper/5"
+          >
+            {session?.user?.image ? (
+              <img
+                src={session.user.image}
+                alt={session.user.name || 'Usuario'}
+                className="h-9 w-9 border-2 border-paper/40 object-cover"
+              />
+            ) : (
+              <span className="flex h-9 w-9 items-center justify-center border-2 border-paper/40 font-mono text-xs font-bold">
+                {initials}
               </span>
-            </Link>
-          </div>
+            )}
+            <span className="min-w-0">
+              <span className="block truncate font-mono text-xs font-bold tracking-wide">
+                {session?.user?.name || 'Usuario'}
+              </span>
+              <span className="block font-mono text-[9px] tracking-[0.25em] text-ash transition-colors group-hover:text-thermal">
+                {tCommon('profile').toUpperCase()} →
+              </span>
+            </span>
+          </Link>
 
-          {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.href, item.exact);
-              
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`
-                    flex items-center gap-3 px-4 py-3 rounded-lg
-                    transition-all duration-200
-                    ${
-                      active
-                        ? 'bg-blue-50 text-blue-600 font-medium shadow-sm'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+          <div className="flex items-center justify-between border-t border-paper/10 px-5 py-4">
+            <p className="font-mono text-xs">
+              {(['es', 'en'] as const).map((l, i) => (
+                <span key={l}>
+                  {i > 0 && <span className="text-ash"> / </span>}
+                  <button
+                    onClick={() => changeLocale(l)}
+                    className={
+                      l === locale
+                        ? 'font-bold text-paper underline decoration-thermal decoration-2 underline-offset-4'
+                        : 'cursor-pointer text-ash transition-colors hover:text-thermal'
                     }
-                  `}
-                >
-                  <Icon className={`h-5 w-5 ${active ? 'text-blue-600' : 'text-gray-500'}`} />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                </span>
+              ))}
+            </p>
 
-          {/* Footer */}
-          <div className="px-4 py-4 border-t border-gray-200">
-            <div className="px-4 py-2 text-xs text-gray-500">
-              © 2025 Tikit
-            </div>
+            <button
+              onClick={() => signOut({ callbackUrl: `/${locale}` })}
+              className="cursor-pointer font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-thermal transition-colors hover:text-paper"
+            >
+              {tCommon('logout')} ↯
+            </button>
           </div>
+
+          <p className="border-t border-paper/10 px-5 py-3 font-mono text-[9px] tracking-[0.3em] text-ash">
+            © {new Date().getFullYear()} TIKIT
+          </p>
         </div>
       </aside>
     </>

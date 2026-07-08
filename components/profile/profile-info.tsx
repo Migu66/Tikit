@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Mail } from 'lucide-react';
 
 interface User {
   id?: string;
@@ -14,6 +13,7 @@ interface ProfileInfoProps {
   user: User;
 }
 
+/** Datos del titular impresos como los conceptos de un recibo. */
 export function ProfileInfo({ user }: ProfileInfoProps) {
   const t = useTranslations('profile');
 
@@ -21,22 +21,25 @@ export function ProfileInfo({ user }: ProfileInfoProps) {
     <div className="space-y-8">
       {/* Name Section */}
       <div>
-        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">
-          {t('fullName')}
+        <p className="tk-label mb-2">{t('fullName')}</p>
+        <p className="tk-condensed text-3xl sm:text-4xl">
+          {user.name || t('notSet')}
         </p>
-        <p className="text-2xl font-bold text-slate-900">{user.name || t('notSet')}</p>
       </div>
 
+      <div className="border-t-2 border-dashed border-ink/25" />
+
       {/* Email Section */}
-      <div className="flex items-start gap-4">
-        <Mail className="w-5 h-5 text-slate-400 mt-1 shrink-0" />
-        <div>
-          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">
-            {t('email')}
-          </p>
-          <p className="text-lg text-slate-700 break-all">{user.email}</p>
-        </div>
+      <div>
+        <p className="tk-label mb-2">{t('email')}</p>
+        <p className="break-all font-mono text-sm text-ink-2 sm:text-base">
+          {user.email}
+        </p>
       </div>
+
+      <p className="font-mono text-[9px] tracking-[0.4em] text-ash" aria-hidden="true">
+        ★ TIKIT — {new Date().getFullYear()} ★
+      </p>
     </div>
   );
 }

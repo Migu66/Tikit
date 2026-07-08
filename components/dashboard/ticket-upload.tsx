@@ -284,17 +284,17 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
                 isProcessing={isSaving}
             />
 
-            {/* Zona de arrastre */}
+            {/* Zona de arrastre: bandeja del escáner */}
             <div
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 className={`
-          relative border-2 border-dashed rounded-lg p-8 text-center transition-colors
+          relative border-[3px] border-dashed p-8 text-center transition-colors duration-300 sm:p-12
           ${
               isDragging
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-thermal bg-thermal/5'
+                  : 'border-ink/40 hover:border-ink'
           }
           ${file ? 'hidden' : 'block'}
         `}
@@ -308,34 +308,39 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
                     disabled={uploading}
                 />
 
-                <svg
-                    className="mx-auto h-16 w-16 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                {/* Mini recibo dibujado con CSS */}
+                <div
+                    className={`mx-auto w-16 transition-transform duration-300 ${
+                        isDragging ? 'scale-110 -rotate-3' : ''
+                    }`}
+                    aria-hidden="true"
                 >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    />
-                </svg>
+                    <div className="tk-teeth tk-teeth-up [--tk-teeth-color:var(--color-ink)] h-2!" />
+                    <div className="space-y-1.5 bg-ink px-3 py-3">
+                        <div className="h-[3px] w-full bg-paper/70" />
+                        <div className="h-[3px] w-3/4 bg-paper/70" />
+                        <div className="h-[3px] w-full bg-paper/70" />
+                        <div className="h-[3px] w-1/2 bg-thermal" />
+                    </div>
+                    <div className="tk-teeth [--tk-teeth-color:var(--color-ink)] h-2!" />
+                </div>
 
-                <p className="mt-4 text-lg font-medium text-gray-700">
+                <p className="tk-condensed mt-6 text-2xl">
                     {t('upload.dragDrop')}
                 </p>
-                <p className="mt-1 text-sm text-gray-500">{t('upload.or')}</p>
+                <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-ash">
+                    {t('upload.or').toUpperCase()}
+                </p>
 
                 <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploading}
-                    className="w-full sm:w-auto px-6 py-3 mt-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow-md cursor-pointer"
+                    className="tk-btn tk-btn-ink mt-4 w-full sm:w-auto"
                 >
-                    {t('upload.selectFile')}
+                    {t('upload.selectFile')} <span aria-hidden="true">↑</span>
                 </button>
 
-                <p className="mt-4 text-xs text-gray-500">
+                <p className="mt-5 font-mono text-[10px] tracking-[0.2em] text-ash">
                     {t('upload.supportedFormats')}
                 </p>
             </div>
@@ -343,10 +348,10 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
             {/* Preview y acciones */}
             {file && (
                 <div className="space-y-4">
-                    <div className="bg-white rounded-lg border border-gray-200 p-4">
+                    <div className="tk-card-flat p-4">
                         <div className="flex items-start gap-4">
                             {preview && (
-                                <div className="relative w-32 h-32 shrink-0 rounded-lg overflow-hidden border border-gray-200">
+                                <div className="relative h-32 w-32 shrink-0 overflow-hidden border-2 border-ink">
                                     <Image
                                         src={preview}
                                         alt="Preview"
@@ -356,49 +361,48 @@ export function TicketUpload({ onUploadSuccess }: TicketUploadProps) {
                                 </div>
                             )}
 
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-gray-900 truncate">
+                            <div className="min-w-0 flex-1">
+                                <p className="truncate font-mono text-sm font-bold text-ink">
                                     {file.name}
                                 </p>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="mt-1 font-mono text-[10px] tracking-[0.2em] text-ash">
                                     {(file.size / 1024 / 1024).toFixed(2)} MB
                                 </p>
 
                                 {progress && (
-                                    <div className="mt-3">
-                                        <div className="flex items-center gap-2">
-                                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
-                                            <p className="text-sm text-blue-600">
-                                                {progress}
-                                            </p>
-                                        </div>
-                                    </div>
+                                    <p className="mt-3 font-mono text-xs font-bold tracking-wide text-thermal">
+                                        {progress}
+                                        <span className="tk-blink">_</span>
+                                    </p>
                                 )}
                             </div>
                         </div>
                     </div>
 
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                            {error}
+                        <div className="animate-shake border-2 border-danger px-4 py-3">
+                            <p className="font-mono text-xs font-bold tracking-wide text-danger">
+                                ▲ {error}
+                            </p>
                         </div>
                     )}
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-col gap-3 sm:flex-row">
                         <button
                             onClick={handleUpload}
                             disabled={uploading}
-                            className="flex-4 px-4 py-2.5 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                            className="tk-btn tk-btn-thermal flex-1"
                         >
                             {uploading
                                 ? t('uploading.processing')
-                                : t('upload.process')}
+                                : t('upload.process')}{' '}
+                            <span aria-hidden="true">→</span>
                         </button>
 
                         <button
                             onClick={handleCancel}
                             disabled={uploading}
-                            className="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            className="tk-btn tk-btn-ghost"
                         >
                             {t('upload.cancel')}
                         </button>

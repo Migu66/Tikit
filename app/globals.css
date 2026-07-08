@@ -1,55 +1,36 @@
 @import "tailwindcss";
 
-* {
-  transition-property: background-color, border-color, color;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
+/* ============================================================
+   TIKIT — sistema "Recibo Suizo"
+   Papel de libro de cuentas (piedra fría) + tinta + un acento de
+   verde de interventor — el color con el que un segundo revisor
+   validaba una cuenta ya comprobada en rojo. El rojo queda
+   reservado exclusivamente para alertas y acciones destructivas
+   (--color-danger), nunca como color de marca.
+   Este sistema viste TODA la aplicación: landing, auth,
+   dashboard, perfil y páginas de error.
+   ============================================================ */
+@theme {
+  --color-paper: #e3e6df;
+  --color-paper-2: #d3d8ce;
+  --color-receipt: #f1f4ee;
+  --color-ink: #141b18;
+  --color-ink-2: #2c3833;
+  --color-ash: #74847a;
+  --color-thermal: #1f6e4f;
+  --color-danger: #a3272c;
+  --font-display: var(--font-archivo), "Arial Black", sans-serif;
+  --font-mono: var(--font-plex-mono), "Courier New", monospace;
 }
 
-/* Animaciones suaves para botones */
-button,
-[role="button"],
-.btn-smooth {
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+/* Base: toda la app es papel + tinta */
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
-
-/* Efecto hover con elevación */
-button:hover,
-[role="button"]:hover,
-.btn-smooth:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Efecto click (presionado) */
-button:active,
-[role="button"]:active,
-.btn-smooth:active {
-  transform: scale(0.95);
-}
-
-/* Overlay suave en hover */
-button::after,
-[role="button"]::after,
-.btn-smooth::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  opacity: 0;
-  transition: opacity 300ms ease-in-out;
-  pointer-events: none;
-}
-
-button:hover::after,
-[role="button"]:hover::after,
-.btn-smooth:hover::after {
-  opacity: 0.1;
+::selection {
+  background: var(--color-thermal);
+  color: var(--color-paper);
 }
 
 @layer utilities {
@@ -85,6 +66,21 @@ button:hover::after,
   animation: fadeIn 0.4s ease-out;
 }
 
+/* Entrada de sección: sube desde abajo con opacidad (solo CSS) */
+@keyframes tkRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tk-rise {
+  animation: tkRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Animación de pulse suave */
 @keyframes pulse-soft {
   0%, 100% { opacity: 1; }
@@ -93,4 +89,405 @@ button:hover::after,
 
 .animate-pulse-soft {
   animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================================
+   Voces tipográficas
+   ============================================================ */
+
+.tk-root {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Voz display: Archivo expandida, negra, apretada */
+.tk-display {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+.tk-condensed {
+  font-family: var(--font-display);
+  font-stretch: 72%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* Titular hueco (solo contorno de tinta) */
+.tk-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-ink);
+}
+.tk-outline-paper {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-paper);
+}
+.tk-outline-thermal {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-thermal);
+}
+@media (max-width: 640px) {
+  .tk-outline,
+  .tk-outline-paper,
+  .tk-outline-thermal {
+    -webkit-text-stroke-width: 1.2px;
+  }
+}
+
+/* Texto vertical (lomos de sección) */
+.tk-vertical {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* ============================================================
+   Piezas de recibo
+   ============================================================ */
+
+/* Borde dentado de recibo (dientes hacia abajo, color de papel) */
+.tk-teeth {
+  height: 13px;
+  background:
+    linear-gradient(-45deg, var(--tk-teeth-color, var(--color-paper)) 9px, transparent 0),
+    linear-gradient(45deg, var(--tk-teeth-color, var(--color-paper)) 9px, transparent 0);
+  background-position: left top;
+  background-repeat: repeat-x;
+  background-size: 18px 18px;
+}
+.tk-teeth-up {
+  transform: scaleY(-1);
+}
+
+/* Puntos de guía entre concepto e importe, como en un ticket */
+.tk-dots {
+  flex: 1 1 auto;
+  min-width: 2rem;
+  border-bottom: 3px dotted currentColor;
+  transform: translateY(-0.35em);
+  opacity: 0.45;
+}
+.tk-dots-thin {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  border-bottom: 2px dotted currentColor;
+  transform: translateY(-0.3em);
+  opacity: 0.4;
+}
+
+/* Grano de papel (SVG inline, sin peticiones externas) */
+.tk-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Tarjeta de recibo: papel brillante, borde de tinta y sombra dura */
+.tk-card {
+  background: var(--color-receipt);
+  border: 2px solid var(--color-ink);
+  box-shadow: 8px 10px 0 0 rgba(20, 27, 24, 0.14);
+}
+.tk-card-flat {
+  background: var(--color-receipt);
+  border: 2px solid var(--color-ink);
+}
+
+/* Sello inclinado (VOID, OK…) */
+.tk-stamp {
+  display: inline-block;
+  border: 3px solid currentColor;
+  padding: 0.15em 0.55em;
+  transform: rotate(-7deg);
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ============================================================
+   Controles: inputs, selects y chips
+   ============================================================ */
+
+.tk-input {
+  width: 100%;
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+  background: var(--color-receipt);
+  padding: 0.65rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.tk-input::placeholder {
+  color: var(--color-ash);
+  letter-spacing: 0.04em;
+}
+.tk-input:focus,
+.tk-input:focus-visible {
+  outline: none;
+  border-color: var(--color-thermal);
+  box-shadow: 4px 4px 0 0 rgba(31, 110, 79, 0.22);
+}
+.tk-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.tk-input-error {
+  border-color: var(--color-danger);
+  box-shadow: 4px 4px 0 0 rgba(163, 39, 44, 0.22);
+}
+select.tk-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23141b18'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  padding-right: 2.2rem;
+}
+
+/* Etiqueta micro en mono, como los rótulos de un ticket */
+.tk-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+/* Chip de categoría: mono, borde duro, sin redondeos */
+.tk-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  border: 2px solid currentColor;
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Botones (composición: .tk-btn + variante)
+   ============================================================ */
+
+.tk-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0;
+  padding: 0.7rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+.tk-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--tk-fill-color, var(--color-ink));
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.tk-btn:hover:not(:disabled)::before,
+.tk-btn:focus-visible::before {
+  transform: scaleY(1);
+}
+.tk-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+}
+.tk-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Tinta sólida → sube lámina termal */
+.tk-btn-ink {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  --tk-fill-color: var(--color-thermal);
+}
+
+/* Termal sólido → sube lámina de tinta */
+.tk-btn-thermal {
+  background: var(--color-thermal);
+  color: var(--color-paper);
+  --tk-fill-color: var(--color-ink);
+}
+
+/* Fantasma: borde de tinta → se rellena de tinta */
+.tk-btn-ghost {
+  background: transparent;
+  border: 2px solid var(--color-ink);
+  color: var(--color-ink);
+  --tk-fill-color: var(--color-ink);
+}
+.tk-btn-ghost:hover:not(:disabled),
+.tk-btn-ghost:focus-visible {
+  color: var(--color-paper);
+}
+
+/* Peligro: borde rojo → se rellena de rojo (única variante que usa --color-danger) */
+.tk-btn-danger {
+  background: transparent;
+  border: 2px solid var(--color-danger);
+  color: var(--color-danger);
+  --tk-fill-color: var(--color-danger);
+}
+.tk-btn-danger:hover:not(:disabled),
+.tk-btn-danger:focus-visible {
+  color: var(--color-paper);
+}
+
+/* ============================================================
+   Movimiento
+   ============================================================ */
+
+/* Marquesina infinita (dos copias del contenido, translateX al 50%) */
+.tk-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tk-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: tk-marquee var(--tk-marquee-dur, 26s) linear infinite;
+}
+.tk-marquee-reverse .tk-marquee-track {
+  animation-direction: reverse;
+}
+@keyframes tk-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Giro continuo (sello del hero) */
+.tk-spin {
+  animation: tk-spin 16s linear infinite;
+  will-change: transform;
+}
+@keyframes tk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover de relleno: una lámina de tinta sube desde abajo */
+.tk-fill {
+  position: relative;
+  isolation: isolate;
+}
+.tk-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--tk-fill-color, var(--color-ink));
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.tk-fill:hover::before,
+.tk-fill:focus-visible::before {
+  transform: scaleY(1);
+}
+
+/* Hover de rodillo: el texto sale por arriba y entra una copia */
+.tk-roll {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: top;
+}
+.tk-roll > * {
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.tk-roll > *:last-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(105%);
+}
+.tk-hover:hover .tk-roll > *:first-child,
+.tk-hover:focus-visible .tk-roll > *:first-child {
+  transform: translateY(-105%);
+}
+.tk-hover:hover .tk-roll > *:last-child,
+.tk-hover:focus-visible .tk-roll > *:last-child {
+  transform: translateY(0);
+}
+
+/* Piezas de texto troceado para animación */
+.tk-clip {
+  display: block;
+  overflow: hidden;
+}
+.tk-word,
+.tk-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Parpadeo duro de terminal */
+.tk-blink {
+  animation: tk-blink 1.1s steps(2, start) infinite;
+}
+@keyframes tk-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* Cursor personalizado: solo se oculta el nativo si el custom está activo */
+html[data-tk-cursor] .tk-root,
+html[data-tk-cursor] .tk-root a,
+html[data-tk-cursor] .tk-root button {
+  cursor: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-marquee-track,
+  .tk-spin,
+  .tk-blink {
+    animation: none;
+  }
+  .tk-fill::before,
+  .tk-roll > *,
+  .tk-btn::before {
+    transition: none;
+  }
+  .tk-rise {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

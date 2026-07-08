@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface TicketDeleteModalProps {
   isOpen: boolean;
@@ -35,99 +36,79 @@ export function TicketDeleteModal({
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-ink/60 backdrop-blur-[2px]"
         onClick={!isDeleting ? onCancel : undefined}
       />
 
-      {/* Modal */}
-      <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
-        {/* Icono de advertencia */}
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 mb-4">
-          <svg
-            className="h-6 w-6 text-red-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-            />
-          </svg>
-        </div>
+      {/* Modal: un recibo a punto de ser anulado */}
+      <div className="relative w-full max-w-md animate-fade-in font-mono [box-shadow:14px_18px_0_0_rgba(20, 27, 24,0.3)]">
+        <div className="tk-teeth tk-teeth-up [--tk-teeth-color:var(--color-receipt)]" />
 
-        {/* Título */}
-        <h3 className="text-xl font-bold text-gray-900 text-center mb-2">
-          {t('title')}
-        </h3>
+        <div className="bg-receipt px-6 py-8">
+          {/* Sello VOID */}
+          <div className="mb-5 flex justify-center">
+            <span className="tk-stamp text-2xl text-danger">VOID</span>
+          </div>
 
-        {/* Descripción */}
-        <p className="text-sm text-gray-600 text-center mb-2">
-          {t('description')}
-        </p>
+          {/* Título */}
+          <h3 className="tk-condensed text-center text-2xl">
+            {t('title')}
+          </h3>
 
-        {/* Nombre del ticket */}
-        <p className="text-center mb-6">
-          <span className="font-semibold text-gray-900">{ticketStoreName}</span>
-        </p>
-
-        {/* Advertencia */}
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-6">
-          <p className="text-xs text-red-800 text-center">
-            {t('warning')}
+          {/* Descripción */}
+          <p className="mt-2 text-center text-xs leading-relaxed text-ink-2">
+            {t('description')}
           </p>
+
+          {/* Nombre del ticket */}
+          <div className="my-5 border-t-2 border-dashed border-ink/30" />
+          <p className="text-center">
+            <span className="tk-condensed text-xl line-through decoration-danger decoration-[3px]">
+              {ticketStoreName}
+            </span>
+          </p>
+          <div className="my-5 border-t-2 border-dashed border-ink/30" />
+
+          {/* Advertencia */}
+          <div className="mb-6 border-2 border-danger px-3 py-2.5">
+            <p className="text-center text-[11px] font-bold tracking-wide text-danger">
+              ▲ {t('warning')}
+            </p>
+          </div>
+
+          {/* Botones */}
+          <div className="flex gap-3">
+            <button
+              onClick={onCancel}
+              disabled={isDeleting}
+              className="tk-btn tk-btn-ghost flex-1"
+            >
+              {t('cancel')}
+            </button>
+            <button
+              onClick={onConfirm}
+              disabled={isDeleting}
+              className="tk-btn tk-btn-danger flex-1"
+            >
+              {isDeleting ? (
+                <span>
+                  {t('deleting')}
+                  <span className="tk-blink">_</span>
+                </span>
+              ) : (
+                <>✕ {t('confirm')}</>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Botones */}
-        <div className="flex gap-3">
-          <button
-            onClick={onCancel}
-            disabled={isDeleting}
-            className="flex-1 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {t('cancel')}
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={isDeleting}
-            className="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isDeleting ? (
-              <>
-                <svg
-                  className="animate-spin h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                {t('deleting')}
-              </>
-            ) : (
-              t('confirm')
-            )}
-          </button>
-        </div>
+        <div className="tk-teeth [--tk-teeth-color:var(--color-receipt)]" />
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

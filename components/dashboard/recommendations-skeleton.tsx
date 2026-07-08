@@ -6,12 +6,12 @@ export function RecommendationsSkeleton() {
     return (
         <div className="animate-pulse">
             {/* Header skeleton */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-6 flex items-end justify-between border-b-2 border-dashed border-ink/25 pb-4">
                 <div className="flex-1">
-                    <div className="h-6 bg-gray-200 rounded w-48 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-64"></div>
+                    <div className="mb-2 h-6 w-48 bg-paper-2" />
+                    <div className="h-3 w-64 bg-paper-2" />
                 </div>
-                <div className="h-10 bg-gray-200 rounded w-32"></div>
+                <div className="h-10 w-32 bg-paper-2" />
             </div>
 
             {/* Recommendation cards skeleton */}
@@ -19,30 +19,22 @@ export function RecommendationsSkeleton() {
                 {[1, 2, 3, 4].map((index) => (
                     <div
                         key={index}
-                        className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6"
+                        className="border-2 border-ink/20 border-l-[6px] border-l-ink/30 bg-receipt p-4 sm:p-5"
                     >
-                        <div className="flex items-start gap-3 sm:gap-4">
-                            {/* Icon skeleton */}
-                            <div className="shrink-0">
-                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full"></div>
-                            </div>
+                        <div className="flex items-start gap-4">
+                            {/* Marca skeleton */}
+                            <div className="h-8 w-8 shrink-0 bg-paper-2" />
 
                             {/* Content skeleton */}
-                            <div className="flex-1 min-w-0">
-                                {/* Category badge skeleton */}
-                                <div className="h-5 bg-gray-200 rounded-full w-24 mb-2"></div>
-
-                                {/* Message skeleton */}
-                                <div className="space-y-2 mb-3">
-                                    <div className="h-4 bg-gray-200 rounded w-full"></div>
-                                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                                    <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+                            <div className="min-w-0 flex-1">
+                                <div className="mb-3 space-y-2">
+                                    <div className="h-3.5 w-full bg-paper-2" />
+                                    <div className="h-3.5 w-5/6 bg-paper-2" />
                                 </div>
 
-                                {/* Metadata skeleton */}
-                                <div className="flex flex-wrap items-center gap-3 text-sm">
-                                    <div className="h-4 bg-gray-200 rounded w-20"></div>
-                                    <div className="h-4 bg-gray-200 rounded w-16"></div>
+                                <div className="flex flex-wrap items-center gap-3">
+                                    <div className="h-5 w-24 bg-paper-2" />
+                                    <div className="h-4 w-16 bg-paper-2" />
                                 </div>
                             </div>
                         </div>

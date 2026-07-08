@@ -10,7 +10,13 @@ export default function ProfilePage() {
   const locale = useLocale();
 
   if (status === 'loading') {
-    return <div className="flex items-center justify-center min-h-screen">Cargando...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-paper">
+        <p className="font-mono text-xs font-bold tracking-[0.4em] text-ink">
+          ▮▮▮<span className="tk-blink text-thermal">▮</span>
+        </p>
+      </div>
+    );
   }
 
   if (status === 'unauthenticated') {
@@ -18,8 +24,8 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
-      <div className="container mx-auto px-4 py-12 mt-15">
+    <div className="tk-root tk-grain relative min-h-screen overflow-x-clip">
+      <div className="mx-auto max-w-5xl px-4 pb-20 pt-28 sm:px-6">
         <ProfileContent user={session?.user} />
       </div>
     </div>

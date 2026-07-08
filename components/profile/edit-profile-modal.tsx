@@ -291,33 +291,36 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
       />
 
       {/* Main Edit Profile Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30 p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-fade-in max-h-[90vh] overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 backdrop-blur-[2px] p-4">
+        <div className="tk-card mx-4 max-h-[90vh] w-full max-w-md animate-fade-in overflow-hidden overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white">
-          <h2 className="text-xl font-bold text-slate-900">{t('editProfile')}</h2>
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b-2 border-ink bg-receipt p-6">
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.35em] text-ash">TIKIT — FICHA</p>
+            <h2 className="tk-condensed mt-1 text-2xl">{t('editProfile')}</h2>
+          </div>
           <button
             onClick={onClose}
             disabled={isSubmitting}
-            className="text-slate-500 hover:text-slate-700 transition-colors disabled:opacity-50"
+            className="cursor-pointer border-2 border-ink p-1.5 transition-colors duration-300 hover:bg-ink hover:text-paper disabled:opacity-50"
             aria-label="Cerrar"
           >
-            <X className="w-6 h-6 cursor-pointer" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
           {/* General Error */}
           {errors.general && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{errors.general}</p>
+            <div className="animate-shake border-2 border-danger px-3 py-2.5">
+              <p className="font-mono text-xs font-bold tracking-wide text-danger">▲ {errors.general}</p>
             </div>
           )}
 
           {/* Profile Image Upload */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-3">
+            <label className="tk-label mb-3">
               {t('profileImage') || 'Foto de Perfil'}
             </label>
             
@@ -334,15 +337,15 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
             {/* Image Preview and Upload Area */}
             <div className="flex flex-col gap-3">
               {imagePreview && (
-                <div className="relative w-full rounded-lg overflow-hidden bg-slate-100 flex items-center justify-center p-4">
+                <div className="relative flex w-full items-center justify-center border-2 border-ink bg-paper-2 p-4">
                   <img
                     src={imagePreview}
                     alt={t('imagePreview')}
-                    className="max-w-full max-h-64 object-contain"
+                    className="max-h-64 max-w-full border-2 border-ink object-contain"
                   />
                   {selectedImage && (
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                      {imageLoading && <Loader2 className="w-8 h-8 text-white animate-spin" />}
+                    <div className="absolute inset-0 flex items-center justify-center bg-ink/20">
+                      {imageLoading && <Loader2 className="h-8 w-8 animate-spin text-paper" />}
                     </div>
                   )}
                 </div>
@@ -352,9 +355,9 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isSubmitting}
-                className="px-4 py-2.5 rounded-lg border-2 border-dashed border-slate-300 text-slate-700 font-semibold hover:border-slate-400 hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                className="flex cursor-pointer items-center justify-center gap-2 border-2 border-dashed border-ink/40 px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-ink transition-colors duration-300 hover:border-ink hover:bg-paper-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <Upload className="w-4 h-4" />
+                <Upload className="h-4 w-4" />
                 {selectedImage ? t('changeImage') : t('selectImage')}
               </button>
 
@@ -379,74 +382,72 @@ export function EditProfileModal({ isOpen, onClose, onSave, user, isLoading }: E
                     });
                   }}
                   disabled={isSubmitting}
-                  className="px-4 py-2 rounded-lg text-slate-600 font-semibold hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="cursor-pointer px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-ash transition-colors hover:text-thermal disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {t('cancelSelection')}
+                  ✕ {t('cancelSelection')}
                 </button>
               )}
 
-              {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
+              {errors.image && (
+                <p className="font-mono text-xs font-bold text-danger">▲ {errors.image}</p>
+              )}
             </div>
           </div>
 
+          <div className="border-t-2 border-dashed border-ink/25" />
+
           {/* Name Field */}
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
-              {t('fullName')}
-            </label>
             <Input
               id="name"
               name="name"
               type="text"
+              label={t('fullName')}
               value={formData.name}
               onChange={handleInputChange}
               disabled={isSubmitting}
               placeholder={t('namePlaceholder')}
-              className={errors.name ? 'border-red-500' : ''}
+              error={errors.name}
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
-              {t('email')}
-            </label>
             <Input
               id="email"
               name="email"
               type="email"
+              label={t('email')}
               value={formData.email}
               onChange={handleInputChange}
               disabled={isSubmitting || isGoogleUser}
               placeholder={t('emailPlaceholder')}
-              className={errors.email ? 'border-red-500' : ''}
+              error={errors.email}
             />
             {isGoogleUser && (
-              <p className="text-slate-500 text-xs mt-1">
+              <p className="mt-1.5 font-mono text-[10px] tracking-wide text-ash">
                 {t('emailCannotBeChanged')}
               </p>
             )}
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-6">
+          <div className="flex gap-3 border-t-2 border-dashed border-ink/25 pt-5">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="tk-btn tk-btn-ghost flex-1"
             >
               {t('cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 px-4 py-2.5 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+              className="tk-btn tk-btn-ink flex-1"
             >
-              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              {t('save')}
+              {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+              {t('save')} <span aria-hidden="true">→</span>
             </button>
           </div>
         </form>

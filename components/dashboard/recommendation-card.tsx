@@ -6,14 +6,6 @@
 
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/lib/utils';
-import {
-  TrendingUpIcon,
-  TrendingDownIcon,
-  LightbulbIcon,
-  InfoIcon,
-  CheckCircleIcon,
-  AlertTriangleIcon,
-} from 'lucide-react';
 
 interface RecommendationCardProps {
   type: string;
@@ -25,6 +17,10 @@ interface RecommendationCardProps {
   createdAt: Date;
 }
 
+/**
+ * Cada recomendación es una nota impresa: marca tipográfica según el tipo,
+ * y el borde izquierdo dice la severidad (termal = aviso, tinta = ok).
+ */
 export function RecommendationCard({
   type,
   category,
@@ -36,44 +32,32 @@ export function RecommendationCard({
 }: RecommendationCardProps) {
   const tCategories = useTranslations('categories');
 
-  // Determinar icono según el tipo
-  const getIcon = () => {
+  // Marca tipográfica según el tipo de recomendación
+  const getMark = () => {
     switch (type) {
       case 'category_increase':
-        return <TrendingUpIcon className="w-6 h-6" />;
+        return '↑';
       case 'category_decrease':
-        return <TrendingDownIcon className="w-6 h-6" />;
+        return '↓';
       case 'saving_suggestion':
-        return <LightbulbIcon className="w-6 h-6" />;
+        return '✳';
       case 'monthly_comparison':
-        return <InfoIcon className="w-6 h-6" />;
+        return '≈';
       default:
-        return <InfoIcon className="w-6 h-6" />;
+        return 'ℹ';
     }
   };
 
-  // Determinar estilos según severidad
+  // Severidad → color del filo y del sello
   const getSeverityStyles = () => {
     switch (severity) {
       case 'success':
-        return {
-          bg: 'bg-green-50 border-green-200',
-          icon: 'text-green-600',
-          badge: 'bg-green-100 text-green-800',
-        };
+        return { edge: 'border-l-ink', mark: 'text-ink', stamp: 'OK' };
       case 'warning':
-        return {
-          bg: 'bg-amber-50 border-amber-200',
-          icon: 'text-amber-600',
-          badge: 'bg-amber-100 text-amber-800',
-        };
+        return { edge: 'border-l-thermal', mark: 'text-thermal', stamp: '!' };
       case 'info':
       default:
-        return {
-          bg: 'bg-blue-50 border-blue-200',
-          icon: 'text-blue-600',
-          badge: 'bg-blue-100 text-blue-800',
-        };
+        return { edge: 'border-l-ash', mark: 'text-ash', stamp: 'i' };
     }
   };
 
@@ -81,41 +65,43 @@ export function RecommendationCard({
 
   return (
     <div
-      className={`${styles.bg} border rounded-lg p-4 sm:p-5 transition-all duration-200 hover:shadow-md`}
+      className={`group border-2 border-ink border-l-[6px] bg-receipt p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[6px_8px_0_0_rgba(20, 27, 24,0.14)] sm:p-5 ${styles.edge}`}
     >
-      <div className="flex items-start gap-3">
-        <div className={`${styles.icon} shrink-0 mt-0.5`}>{getIcon()}</div>
+      <div className="flex items-start gap-4">
+        <span
+          aria-hidden="true"
+          className={`tk-display shrink-0 text-3xl leading-none transition-transform duration-300 group-hover:-rotate-6 ${styles.mark}`}
+        >
+          {getMark()}
+        </span>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <p className="text-sm sm:text-base font-medium text-gray-900 leading-snug">
-              {message}
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <p className="font-mono text-sm font-bold leading-snug text-ink">
+            {message}
+          </p>
 
-          <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600">
+          <div className="mt-3 flex flex-wrap items-center gap-3 font-mono text-xs text-ash">
             {category && (
-              <span className={`${styles.badge} px-2 py-0.5 rounded-full font-medium`}>
+              <span className="tk-chip text-ink">
                 {tCategories(category)}
               </span>
             )}
 
             {percentage !== null && percentage !== undefined && (
-              <span className="flex items-center gap-1">
-                {percentage > 0 ? (
-                  <TrendingUpIcon className="w-3 h-3" />
-                ) : (
-                  <TrendingDownIcon className="w-3 h-3" />
-                )}
-                <span className="font-medium">
-                  {percentage > 0 ? '+' : ''}
-                  {percentage.toFixed(1)}%
-                </span>
+              <span
+                className={`font-bold tabular-nums ${
+                  percentage > 0 ? 'text-thermal' : 'text-ink'
+                }`}
+              >
+                {percentage > 0 ? '▲ +' : '▼ '}
+                {percentage.toFixed(1)}%
               </span>
             )}
 
             {amount !== null && amount !== undefined && (
-              <span className="font-semibold">€{formatCurrency(amount)}</span>
+              <span className="font-bold tabular-nums text-ink">
+                €{formatCurrency(amount)}
+              </span>
             )}
           </div>
         </div>
